@@ -8,6 +8,7 @@ module.exports = function (app) {
 
   // static
   app.use("/static/", express.static(paths.build));
+  app.use("/static/vendor/", express.static(path.join(paths.client, "vendor")));
 
   // everthing else respond with index (angular will handle 404)
   app.use("*", angularApp);

@@ -1,1 +1,1 @@
-document.write("Hello from JavaScript!");
+var app = angular.module("my-site", []);

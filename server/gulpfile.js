@@ -8,6 +8,7 @@ var plugin = require("gulp-load-plugins")();
 var paths = require("./paths");
 
 
+var html = [path.join(paths.templates, "*.html"), path.join(paths.src, "*.html")]
 var scripts = [path.join(paths.src, "/**/*.js"), path.join(paths.src, "/*.js")];
 var styles = [path.join(paths.styles, "*.css"), path.join(paths.styles, "*.scss"), path.join(paths.styles, "*.sass")]
 
@@ -27,7 +28,7 @@ gulp.task("scripts", function () {
 });
 
 gulp.task("index", function () {
-  return gulp.src(path.join(paths.templates, "index.html"))
+  return gulp.src(path.join(paths.src, "index.html"))
     .pipe(gulp.dest(paths.index));
 });
 
@@ -55,5 +56,5 @@ gulp.task("daemon", ["watch"], function() {
 gulp.task("watch", function () {
   gulp.watch(scripts, ["scripts"]);
   gulp.watch(styles, ["styles"]);
-  gulp.watch(path.join(paths.templates, "*.html"), ["html"]);
+  gulp.watch(html, ["html"]);
 });
