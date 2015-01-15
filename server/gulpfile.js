@@ -9,7 +9,7 @@ var paths = require("./paths");
 
 
 var html = [path.join(paths.templates, "*.html"), path.join(paths.src, "*.html")]
-var scripts = [path.join(paths.src, "/**/*.js"), path.join(paths.src, "/*.js")];
+var scripts = [path.join(paths.src, "/index.js"), path.join(paths.src, "/**/*.js"), path.join(paths.src, "/*.js")];
 var styles = [path.join(paths.styles, "*.css"), path.join(paths.styles, "*.scss"), path.join(paths.styles, "*.sass")]
 
 gulp.task("default", ["daemon", "clean", "html", "scripts", "styles"]);
