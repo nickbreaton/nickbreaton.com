@@ -29,7 +29,12 @@ gulp.task("scripts", function () {
 
 gulp.task("index", function () {
   return gulp.src(path.join(paths.src, "index.html"))
-    .pipe(gulp.dest(paths.index));
+    .pipe(gulp.dest(paths.index))
+    .pipe(plugin.frep([{
+      pattern : /.js/g,
+      replacement : ".min.js"
+    }]))
+    .pipe(gulp.dest(path.join(paths.index, "min")));
 });
 
 gulp.task("html", ["index"], function () {

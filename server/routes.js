@@ -4,7 +4,13 @@ var path = require("path");
 var paths = require("./paths");
 
 module.exports = function (app) {
-  var angularApp = express.static(paths.index);
+  var angularApp;
+
+  if (app.get("development")) {
+    angularApp = express.static(paths.index);
+  } else {
+    angularApp = express.static(path.join(paths.index, "min"));
+  }
 
   // static
   app.use("/static/", express.static(paths.build));
