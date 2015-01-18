@@ -2,5 +2,12 @@
   padding:0px;
   margin:0px;
   box-sizing:border-box;
-
 }
+
+body {
+  background: rgb(35,35,35);
+}
+
+$color-main: #7c9b8b;
+
+@import 'header';

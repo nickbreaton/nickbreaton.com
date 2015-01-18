@@ -19,6 +19,10 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
 }]);
 
 // make sure nested views and includes loads
-app.run(['$route', function($route)  {
+app.run(['$route', "$rootScope", function($route, $rootScope)  {
   $route.reload();
+  
+  $rootScope.template = function (name) {
+    return "/static/templates/" + name + ".html";
+  }
 }]);

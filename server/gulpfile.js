@@ -1,6 +1,7 @@
 // local modules
 var del = require("del");
 var gulp = require("gulp");
+var gutil = require("gutil");
 var path = require("path");
 var plugin = require("gulp-load-plugins")();
 
@@ -45,6 +46,7 @@ gulp.task("html", ["index"], function () {
 gulp.task("styles", function () {
   return gulp.src(styles)
     .pipe(plugin.sass())
+    .on("error", error)
     .pipe(plugin.autoprefixer())
     .pipe(gulp.dest(paths.build));
 });
@@ -63,3 +65,13 @@ gulp.task("watch", function () {
   gulp.watch(styles, ["styles"]);
   gulp.watch(html, ["html"]);
 });
+
+function error (error) {
+  // make beep sound
+  process.stdout.write('\x07');
+
+  console.log("\n" + error.toString() + "\n");
+
+  // send continue to watch
+  this.emit("end");
+}

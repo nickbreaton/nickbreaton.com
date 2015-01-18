@@ -1,0 +1,49 @@
+$top-height: 2vh;
+$top-min-height: 50px;
+
+// .top-bar {
+//   height: $header-height;
+//   min-height: $header-min-height;
+//   width:100vw;
+//   background:$color-main;
+// }
+
+.eye-catch {
+  $height: 25vw;
+  $min-height: 20vh;
+
+  width: 100%;
+  min-height: $height;
+  height:$min-height;
+  background:$color-main;
+  position:relative;
+  overflow: hidden;
+
+  .clock {
+    $overscale: 1.2;
+    $size: $height * $overscale;
+    $min-size: $min-height * $overscale;
+
+    border: .4vw solid rgb(200,200,200);
+    position:absolute;
+    background:white;
+    border-radius:100vw;
+    width:$size ;
+    height:$size;
+    min-width:$min-size ;
+    min-height:$min-size;
+    top:-10%;
+    right:5vw;
+
+    .center-dot {
+      $dot-size: 10%;
+
+      background:rgb(40,40,40);
+      position:relative;
+      width:$dot-size;
+      height:$dot-size;
+      margin:(50% - ($dot-size / 2)) auto;
+      border-radius:100vw;
+    }
+  }
+}

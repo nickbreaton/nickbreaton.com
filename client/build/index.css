@@ -2,3 +2,32 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box; }
+
+body {
+  background: #232323; }
+
+.eye-catch {
+  width: 100%;
+  min-height: 25vw;
+  height: 20vh;
+  background: #7c9b8b;
+  position: relative;
+  overflow: hidden; }
+  .eye-catch .clock {
+    border: .4vw solid #c8c8c8;
+    position: absolute;
+    background: white;
+    border-radius: 100vw;
+    width: 30vw;
+    height: 30vw;
+    min-width: 24vh;
+    min-height: 24vh;
+    top: -10%;
+    right: 5vw; }
+    .eye-catch .clock .center-dot {
+      background: #282828;
+      position: relative;
+      width: 10%;
+      height: 10%;
+      margin: 45% auto;
+      border-radius: 100vw; }
