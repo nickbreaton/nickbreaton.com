@@ -9,12 +9,14 @@ $top-min-height: 50px;
 // }
 
 .eye-catch {
-  $height: 25vw;
-  $min-height: 20vh;
+  $height: 30vw;
+  $min-height: 25vh;
+  $max-height:50vh;
 
   width: 100%;
-  min-height: $height;
-  height:$min-height;
+  min-height: $min-height;
+  max-height: $max-height;
+  height:$height;
   background:$color-main;
   position:relative;
   overflow: hidden;
@@ -23,27 +25,59 @@ $top-min-height: 50px;
     $overscale: 1.2;
     $size: $height * $overscale;
     $min-size: $min-height * $overscale;
+    $max-size: $max-height * $overscale;
 
-    border: .4vw solid rgb(200,200,200);
+    border: .6vw solid;
     position:absolute;
-    background:white;
     border-radius:100vw;
     width:$size ;
     height:$size;
-    min-width:$min-size ;
+    min-width:$min-size;
+    max-width:$max-size;
     min-height:$min-size;
+    max-height:$max-size;
     top:-10%;
     right:5vw;
+    overflow:hidden;
 
-    .center-dot {
-      $dot-size: 10%;
+    background:white;
+    box-shadow: 0 0 1vw .2vw rgb(175,175,175) inset;
+    border-color:rgb(220,220,220);
 
-      background:rgb(40,40,40);
-      position:relative;
-      width:$dot-size;
-      height:$dot-size;
-      margin:(50% - ($dot-size / 2)) auto;
-      border-radius:100vw;
+    @mixin sleve($sleve-width) {
+      position:absolute;
+      width:$sleve-width;
+      height:100%;
+      left:50 - ($sleve-width / 2);
     }
+
+    .interval {
+      @include sleve(.4%);
+
+      .tick {
+        background-color:rgb(200,200,200);
+        position:absolute;
+        right:0;
+        left:0;
+        top:2%;
+      }
+
+      .normal {
+        @extend .tick;
+        bottom:95%;
+      }
+
+      .medium {
+        @extend .tick;
+        bottom:93%;
+      }
+
+      .large {
+        @extend .tick;
+        bottom: 91%;
+      }
+    }
+
+
   }
 }

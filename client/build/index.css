@@ -8,26 +8,42 @@ body {
 
 .eye-catch {
   width: 100%;
-  min-height: 25vw;
-  height: 20vh;
+  min-height: 25vh;
+  max-height: 50vh;
+  height: 30vw;
   background: #7c9b8b;
   position: relative;
   overflow: hidden; }
   .eye-catch .clock {
-    border: .4vw solid #c8c8c8;
+    border: .6vw solid;
     position: absolute;
-    background: white;
     border-radius: 100vw;
-    width: 30vw;
-    height: 30vw;
-    min-width: 24vh;
-    min-height: 24vh;
+    width: 36vw;
+    height: 36vw;
+    min-width: 30vh;
+    max-width: 60vh;
+    min-height: 30vh;
+    max-height: 60vh;
     top: -10%;
-    right: 5vw; }
-    .eye-catch .clock .center-dot {
-      background: #282828;
-      position: relative;
-      width: 10%;
-      height: 10%;
-      margin: 45% auto;
-      border-radius: 100vw; }
+    right: 5vw;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 0 1vw .2vw #afafaf inset;
+    border-color: gainsboro; }
+    .eye-catch .clock .interval {
+      position: absolute;
+      width: 0.4%;
+      height: 100%;
+      left: 49.8%; }
+      .eye-catch .clock .interval .tick, .eye-catch .clock .interval .normal, .eye-catch .clock .interval .medium, .eye-catch .clock .interval .large {
+        background-color: #c8c8c8;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 2%; }
+      .eye-catch .clock .interval .normal {
+        bottom: 95%; }
+      .eye-catch .clock .interval .medium {
+        bottom: 93%; }
+      .eye-catch .clock .interval .large {
+        bottom: 91%; }
