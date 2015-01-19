@@ -69,34 +69,65 @@
     }
 
     .hand-holder {
-      @include sleve(3%);
+      @include sleve(2%);
 
-      .hand {
+      @mixin hand ($width) {
+
         position:absolute;
-        right:0;
-        left:0;
+        right:50% - ($width / 2);
+        left:50% - ($width / 2);
       }
 
+      $second-bottom: 45%;
+      $other-bottom: 40%;
+
       .second {
-        @extend .hand;
+        @include hand(33%);
         background:red;
-        top:6%;
-        bottom:45%;
+        top:9%;
+        bottom:$second-bottom - 2%;
+      }
+
+      .second-base {
+        @extend .second;
+        @include hand(100%);
+        top:100% - $second-bottom;
+        height:10%;
       }
 
       .minute {
-        @extend .hand;
+        @include hand(100%);
         background:black;
         top:5%;
-        bottom:40%;
+        bottom:$other-bottom;
       }
 
       .hour {
-        @extend .hand;
+        @include hand(100%);
         background:black;
-        top:15%;
-        bottom:45%;
+        top:17%;
+        bottom:$other-bottom;
       }
     }
+
+    @mixin pin ($circum) {
+      width:$circum;
+      height:$circum;
+      border-radius:100vw;
+      position:absolute;
+      top: 50% - ($circum / 2);
+      left: 50% - ($circum / 2);
+    }
+
+    .base-pin {
+      @include pin(5%);
+      background-color:black;
+    }
+
+    .second-pin {
+      @include pin(3%);
+      background-color:red;
+    }
+
   }
 }

@@ -72,9 +72,10 @@ app.controller("ClockController", ["$scope", function ($scope) {
     }
 
     $scope.hands = [
-      new Hand("second", date.getSeconds(), 60),
-      new Hand("minute", (date.getMinutes() * 60) + date.getSeconds(), 3600),
       new Hand("hour", (currentHour * 60) + date.getMinutes(), 720),
+      new Hand("minute", (date.getMinutes() * 60) + date.getSeconds(), 3600),
+      new Hand("second", date.getSeconds(), 60),
+      new Hand("second-base", date.getSeconds(), 60),
     ];
 
     if(!$scope.$$phase) {
