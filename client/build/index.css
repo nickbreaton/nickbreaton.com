@@ -6,7 +6,7 @@
 body {
   background: #232323; }
 
-.eye-catch {
+.welcome {
   width: 100%;
   min-height: 25vh;
   max-height: 50vh;
@@ -14,7 +14,7 @@ body {
   background: #7c9b8b;
   position: relative;
   overflow: hidden; }
-  .eye-catch .clock {
+  .welcome .clock {
     border: .6vw solid;
     position: absolute;
     border-radius: 100vw;
@@ -30,41 +30,41 @@ body {
     background: white;
     box-shadow: 0 0 1vw .2vw #afafaf inset;
     border-color: gainsboro; }
-    .eye-catch .clock .interval {
+    .welcome .clock .interval {
       position: absolute;
       width: 0.4%;
       height: 100%;
       left: 49.8%; }
-      .eye-catch .clock .interval .tick, .eye-catch .clock .interval .normal, .eye-catch .clock .interval .medium, .eye-catch .clock .interval .large {
+      .welcome .clock .interval .tick, .welcome .clock .interval .normal, .welcome .clock .interval .medium, .welcome .clock .interval .large {
         background-color: #c8c8c8;
         position: absolute;
         right: 0;
         left: 0;
         top: 2%; }
-      .eye-catch .clock .interval .normal {
+      .welcome .clock .interval .normal {
         bottom: 95%; }
-      .eye-catch .clock .interval .medium {
+      .welcome .clock .interval .medium {
         bottom: 93%; }
-      .eye-catch .clock .interval .large {
+      .welcome .clock .interval .large {
         bottom: 91%; }
-    .eye-catch .clock .hand-holder {
+    .welcome .clock .hand-holder {
       position: absolute;
       width: 3%;
       height: 100%;
       left: 48.5%; }
-      .eye-catch .clock .hand-holder .hand, .eye-catch .clock .hand-holder .second, .eye-catch .clock .hand-holder .minute, .eye-catch .clock .hand-holder .hour {
+      .welcome .clock .hand-holder .hand, .welcome .clock .hand-holder .second, .welcome .clock .hand-holder .minute, .welcome .clock .hand-holder .hour {
         position: absolute;
         right: 0;
         left: 0; }
-      .eye-catch .clock .hand-holder .second {
+      .welcome .clock .hand-holder .second {
         background: red;
         top: 6%;
         bottom: 45%; }
-      .eye-catch .clock .hand-holder .minute {
+      .welcome .clock .hand-holder .minute {
         background: black;
         top: 5%;
         bottom: 40%; }
-      .eye-catch .clock .hand-holder .hour {
+      .welcome .clock .hand-holder .hour {
         background: black;
         top: 15%;
         bottom: 45%; }
