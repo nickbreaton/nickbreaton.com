@@ -1,8 +1,8 @@
 app.controller("ClockController", ["$scope", function ($scope) {
-  createIntervals($scope);
+  createIntervals();
+  createHands();
 
-
-  function createIntervals ($scope) {
+  function createIntervals () {
     $scope.intervals = [];
 
     for (var i = 1; i <= 60; i++) {
@@ -16,11 +16,46 @@ app.controller("ClockController", ["$scope", function ($scope) {
         size = "large";
       }
 
+      var rotation = (i * 360) / 60;
+
       $scope.intervals.push({
         id : i,
-        type : size
+        type : size,
+        rotation : rotation,
+        transform : "rotate(" + rotation + "deg)"
       });
     }
   }
 
+  function createHands () {
+    var date = new Date();
+
+    var currentHour = date.getHours();
+
+    if (currentHour == 0) {
+      currentHour = 12;
+    }
+
+    if (currentHour > 12) {
+      currentHour -= 12;
+    }
+
+    $scope.hands = [
+      new Hand("second", date.getSeconds(), 60),
+      new Hand("minute", (date.getMinutes() * 60) + date.getSeconds(), 3600),
+      new Hand("hour", (currentHour * 60) + date.getMinutes(), 720),
+    ];
+
+    if(!$scope.$$phase) {
+      $scope.$apply();
+    }
+
+    setTimeout(createHands, 1000 / 60);
+
+    function Hand (name, dateValue, totalValue) {
+      this.type = name;
+      this.rotation = (dateValue * 360) / totalValue;
+      this.transform = "rotate(" + this.rotation + "deg)";
+    }
+  }
 }]);

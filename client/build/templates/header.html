@@ -4,8 +4,14 @@
 <div class="eye-catch">
   See how I spend my time
   <div class="clock" ng-controller="ClockController">
-    <div ng-repeat="interval in intervals" class="interval" ng-style="{ transform : 'rotate(' + (interval.id * 360) / 60 + 'deg)'}">
+    <!-- intervals -->
+    <div ng-repeat="interval in intervals" class="interval" ng-style="{ transform : interval.transform }">
       <div ng-class="interval.type"></div>
+    </div>
+
+    <!-- hands -->
+    <div ng-repeat="hand in hands" class="hand-holder" ng-style="{ transform : hand.transform }">
+      <div ng-class="hand.type"></div>
     </div>
   </div>
 </div>

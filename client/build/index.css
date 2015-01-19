@@ -47,3 +47,24 @@ body {
         bottom: 93%; }
       .eye-catch .clock .interval .large {
         bottom: 91%; }
+    .eye-catch .clock .hand-holder {
+      position: absolute;
+      width: 3%;
+      height: 100%;
+      left: 48.5%; }
+      .eye-catch .clock .hand-holder .hand, .eye-catch .clock .hand-holder .second, .eye-catch .clock .hand-holder .minute, .eye-catch .clock .hand-holder .hour {
+        position: absolute;
+        right: 0;
+        left: 0; }
+      .eye-catch .clock .hand-holder .second {
+        background: red;
+        top: 6%;
+        bottom: 45%; }
+      .eye-catch .clock .hand-holder .minute {
+        background: black;
+        top: 5%;
+        bottom: 40%; }
+      .eye-catch .clock .hand-holder .hour {
+        background: black;
+        top: 15%;
+        bottom: 45%; }

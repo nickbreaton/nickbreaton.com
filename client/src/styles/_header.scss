@@ -78,6 +78,35 @@ $top-min-height: 50px;
       }
     }
 
+    .hand-holder {
+      @include sleve(3%);
 
+      .hand {
+        position:absolute;
+        right:0;
+        left:0;
+      }
+
+      .second {
+        @extend .hand;
+        background:red;
+        top:6%;
+        bottom:45%;
+      }
+
+      .minute {
+        @extend .hand;
+        background:black;
+        top:5%;
+        bottom:40%;
+      }
+
+      .hour {
+        @extend .hand;
+        background:black;
+        top:15%;
+        bottom:45%;
+      }
+    }
   }
 }
