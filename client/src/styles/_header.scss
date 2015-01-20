@@ -1,0 +1,30 @@
+.header {
+  width:100%;
+  background-color:$color-main-dark;
+  font-family:$title-font;
+  font-size:22px;
+  padding:1vw 0;
+
+  .button {
+    display:inline-block;
+
+    color:white;
+    text-decoration:none;
+    padding:5px 10px;
+    border-radius:7px;
+    margin-right:10px;
+  }
+
+  .active-button {
+    color:$color-main-dark;
+    background:white;
+  }
+
+  .button:first-child {
+    @extend .active-button;
+  }
+
+  .button:hover {
+    @extend .active-button;
+  }
+}

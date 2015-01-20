@@ -10,12 +10,22 @@
   background:$color-main;
   position:relative;
   overflow: hidden;
+  z-index:1;
+
+  .shadow {
+    position:absolute;
+    top:-20px;
+    right:-100px;
+    left:-100px;
+    height:20px;
+    z-index:2;
+    box-shadow:0 0 10px 0 black;
+
+  }
 
   .text {
     @extend .center;
     font-family:$title-font;
-
-    $sub-color:rgba(0,0,0,.25);
 
     .title {
       margin-top:5vh;
@@ -24,18 +34,8 @@
     }
 
     .subtitle {
-      color:$sub-color;
+      color:$color-main-dark;
       font-size:3vw;
-    }
-
-    .arrow {
-      margin-left:50%;
-      font-size:3vw;
-      display:inline-block;
-      text-align:center;
-      text-decoration:none;
-      margin-top:5vh;
-      color:$sub-color;
     }
   }
 
@@ -158,5 +158,9 @@
       background-color:red;
     }
 
+    .center-pin {
+      @include pin(1%);
+      // no color for now
+    }
   }
 }

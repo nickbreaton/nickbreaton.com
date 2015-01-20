@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Source Sans Pro";
-  src: url('/static/img/fonts/SourceSansPro.otf'); }
+  font-family: "Exo";
+  src: url('/static/img/fonts/exo.otf'); }
 
 * {
   padding: 0px;
@@ -11,7 +11,25 @@
   width: 70%;
   min-width: 500px;
   max-width: 750px;
-  margin: auto; }
+  margin: auto;
+  padding: 10px; }
+
+.header {
+  width: 100%;
+  background-color: #5d7468;
+  font-family: "Exo", Arial;
+  font-size: 22px;
+  padding: 1vw 0; }
+  .header .button {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin-right: 10px; }
+  .header .active-button, .header .button:first-child, .header .button:hover {
+    color: #5d7468;
+    background: white; }
 
 .welcome {
   width: 100%;
@@ -20,24 +38,25 @@
   height: 25vw;
   background: #7c9b8b;
   position: relative;
-  overflow: hidden; }
+  overflow: hidden;
+  z-index: 1; }
+  .welcome .shadow {
+    position: absolute;
+    top: -20px;
+    right: -100px;
+    left: -100px;
+    height: 20px;
+    z-index: 2;
+    box-shadow: 0 0 10px 0 black; }
   .welcome .text {
-    font-family: "Source Sans Pro", Arial; }
+    font-family: "Exo", Arial; }
     .welcome .text .title {
       margin-top: 5vh;
       color: white;
       font-size: 4.5vw; }
     .welcome .text .subtitle {
-      color: rgba(0, 0, 0, 0.25);
+      color: #5d7468;
       font-size: 3vw; }
-    .welcome .text .arrow {
-      margin-left: 50%;
-      font-size: 3vw;
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
-      margin-top: 5vh;
-      color: rgba(0, 0, 0, 0.25); }
   .welcome .clock {
     border: .6vw solid;
     position: absolute;
@@ -119,3 +138,10 @@
       top: 48.5%;
       left: 48.5%;
       background-color: red; }
+    .welcome .clock .center-pin {
+      width: 1%;
+      height: 1%;
+      border-radius: 100vw;
+      position: absolute;
+      top: 49.5%;
+      left: 49.5%; }

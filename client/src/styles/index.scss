@@ -1,7 +1,7 @@
 // font defintions
 @font-face {
-  font-family:"Source Sans Pro";
-  src:url('/static/img/fonts/SourceSansPro.otf');
+  font-family:"Exo";
+  src:url('/static/img/fonts/exo.otf');
 }
 
 
@@ -18,14 +18,17 @@
   min-width:500px;
   max-width:750px;
   margin:auto;
+  padding:10px;
 }
 
 
 // site variables
 
 $color-main: #7c9b8b;
-$title-font: "Source Sans Pro", Arial;
+$color-main-dark: #5d7468;
+$title-font: "Exo", Arial;
 
 // collect all style sheets
 
+@import 'header';
 @import 'welcome';
