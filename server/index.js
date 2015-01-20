@@ -5,14 +5,16 @@ var routes = require("./routes");
 var app = express();
 
 app.set("port", 3000);
-app.set("development", true);
+app.set("env", process.env.NODE_ENV);
 
 app.use(function (req, res, next) {
   routes(app);
   next();
 });
 
-if (app.get("development")) {
+console.log(app.get("env"));
+
+if (app.get("env") != "production") {
   app.listen(app.get("port"));
 } else {
   module.exports = app;
