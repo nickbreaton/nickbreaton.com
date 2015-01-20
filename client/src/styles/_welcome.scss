@@ -1,7 +1,7 @@
 .welcome {
-  $height: 30vw;
-  $min-height: 25vh;
-  $max-height:50vh;
+  $height: 25vw;
+  $min-height:10vh;
+  $max-height:40vh;
 
   width: 100%;
   min-height: $min-height;
@@ -10,6 +10,34 @@
   background:$color-main;
   position:relative;
   overflow: hidden;
+
+  .text {
+    @extend .center;
+    font-family:$title-font;
+
+    $sub-color:rgba(0,0,0,.25);
+
+    .title {
+      margin-top:5vh;
+      color:white;
+      font-size:4.5vw;
+    }
+
+    .subtitle {
+      color:$sub-color;
+      font-size:3vw;
+    }
+
+    .arrow {
+      margin-left:50%;
+      font-size:3vw;
+      display:inline-block;
+      text-align:center;
+      text-decoration:none;
+      margin-top:5vh;
+      color:$sub-color;
+    }
+  }
 
   .clock {
     $overscale: 1.2;
@@ -22,12 +50,13 @@
     border-radius:100vw;
     width:$size ;
     height:$size;
-    min-width:$min-size;
-    max-width:$max-size;
     min-height:$min-size;
+    min-width:$min-size;
     max-height:$max-size;
+    max-width:$max-size;
+
     top:-10%;
-    right:5vw;
+    right:2vw;
     overflow:hidden;
 
     background:white;

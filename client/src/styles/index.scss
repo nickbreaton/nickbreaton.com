@@ -1,13 +1,31 @@
+// font defintions
+@font-face {
+  font-family:"Source Sans Pro";
+  src:url('/static/img/fonts/SourceSansPro.otf');
+}
+
+
+// main site
+
 * {
   padding:0px;
   margin:0px;
   box-sizing:border-box;
 }
 
-body {
-  background: rgb(35,35,35);
+.center {
+  width:70%;
+  min-width:500px;
+  max-width:750px;
+  margin:auto;
 }
 
+
+// site variables
+
 $color-main: #7c9b8b;
+$title-font: "Source Sans Pro", Arial;
+
+// collect all style sheets
 
 @import 'welcome';

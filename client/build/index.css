@@ -1,31 +1,55 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url('/static/img/fonts/SourceSansPro.otf'); }
+
 * {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box; }
 
-body {
-  background: #232323; }
+.center, .welcome .text {
+  width: 70%;
+  min-width: 500px;
+  max-width: 750px;
+  margin: auto; }
 
 .welcome {
   width: 100%;
-  min-height: 25vh;
-  max-height: 50vh;
-  height: 30vw;
+  min-height: 10vh;
+  max-height: 40vh;
+  height: 25vw;
   background: #7c9b8b;
   position: relative;
   overflow: hidden; }
+  .welcome .text {
+    font-family: "Source Sans Pro", Arial; }
+    .welcome .text .title {
+      margin-top: 5vh;
+      color: white;
+      font-size: 4.5vw; }
+    .welcome .text .subtitle {
+      color: rgba(0, 0, 0, 0.25);
+      font-size: 3vw; }
+    .welcome .text .arrow {
+      margin-left: 50%;
+      font-size: 3vw;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 5vh;
+      color: rgba(0, 0, 0, 0.25); }
   .welcome .clock {
     border: .6vw solid;
     position: absolute;
     border-radius: 100vw;
-    width: 36vw;
-    height: 36vw;
-    min-width: 30vh;
-    max-width: 60vh;
-    min-height: 30vh;
-    max-height: 60vh;
+    width: 30vw;
+    height: 30vw;
+    min-height: 12vh;
+    min-width: 12vh;
+    max-height: 48vh;
+    max-width: 48vh;
     top: -10%;
-    right: 5vw;
+    right: 2vw;
     overflow: hidden;
     background: white;
     box-shadow: 0 0 1vw .2vw #afafaf inset;
