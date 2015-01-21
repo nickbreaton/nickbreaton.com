@@ -15,7 +15,7 @@ module.exports = function (app) {
   // static
   app.use("/static/", express.static(paths.build));
   app.use("/static/vendor/", express.static(path.join(paths.client, "vendor")));
-  app.use("/static/img/", express.static(path.join(paths.client, "img")));
+  app.use("/static/", express.static(path.join(paths.client, "resources")));
 
   // send 404 for statics not found
   app.use("/static/*", function (req, res) {
