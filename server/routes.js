@@ -6,7 +6,7 @@ var paths = require("./paths");
 module.exports = function (app) {
   var angularApp;
 
-  if (app.get("development")) {
+  if (app.get("dev") != "production") {
     angularApp = express.static(paths.index);
   } else {
     angularApp = express.static(path.join(paths.index, "min"));

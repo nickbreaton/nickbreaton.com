@@ -1,8 +1,10 @@
 .header {
+  $font-size: 22px;
+
   width:100%;
   background-color:$color-main-dark;
   font-family:$title-font;
-  font-size:22px;
+  font-size:$font-size;
   padding:1vw 0;
 
   .button {
@@ -20,11 +22,16 @@
     background:white;
   }
 
-  .button:first-child {
+  .button.active {
     @extend .active-button;
   }
 
   .button:hover {
     @extend .active-button;
+  }
+
+  .socialButton {
+    @extend .button;
+    float:right;
   }
 }

@@ -10,10 +10,16 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
   // routing
   $routeProvider
     .when("/", {
-      template : "Home",
+      templateUrl : "/static/templates/about.html",
     })
-    .when("/about/", {
-      template : "About"
+    .when("/contact/", {
+      template : "Contact"
+    })
+    .when("/résumé/", {
+      template : "Résumé"
+    })
+    .when("/resume/", {
+      redirectTo : "/résumé/"
     })
     .otherwise({
       template : "404",

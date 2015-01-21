@@ -10,10 +10,16 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
   // routing
   $routeProvider
     .when("/", {
-      template : "Home",
+      templateUrl : "/static/templates/about.html",
     })
-    .when("/about/", {
-      template : "About"
+    .when("/contact/", {
+      template : "Contact"
+    })
+    .when("/résumé/", {
+      template : "Résumé"
+    })
+    .when("/resume/", {
+      redirectTo : "/résumé/"
     })
     .otherwise({
       template : "404",
@@ -30,6 +36,16 @@ app.run(['$route', "$rootScope", function($route, $rootScope)  {
 }]);
 
 app.controller("ClockController", ["$scope", function ($scope) {
+
+  var reqAnimFrame = (function(){
+    return  window.requestAnimationFrame       ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame    ||
+    function( callback ){
+      window.setTimeout(callback, 1000 / 60);
+    };
+  })();
+
   createIntervals();
   createHands();
 
@@ -82,7 +98,7 @@ app.controller("ClockController", ["$scope", function ($scope) {
       $scope.$apply();
     }
 
-    setTimeout(createHands, 1000 / 60);
+    reqAnimFrame(createHands);
 
     function Hand (name, dateValue, totalValue) {
       this.type = name;
@@ -92,6 +108,50 @@ app.controller("ClockController", ["$scope", function ($scope) {
   }
 }]);
 
-app.controller("HeaderController", ["$scope", function ($scope) {
-  $scope.buttons = ["About", "Contact"];
+app.controller("HeaderController", ["$scope", "$location", "$rootScope", function ($scope, $location, $rootScope) {
+  $scope.pageButtons = [
+    new PageButton("About", "/"),
+    new PageButton("Contact", "/contact/"),
+    new PageButton("Résumé", "/résumé/"),
+  ];
+
+  $scope.socialButtons = [
+    new SocialButton("github.svg", "https://github.com/nbreaton/"),
+  ];
+
+  $scope.title = "Hi, I'm Nick Breaton.";
+  $scope.positition = "Front End Developer"
+  $scope.subtitle = "This is how I spend my time.";
+
+  function activateCurrentLink () {
+    $rootScope.htmlTitle = "Nick Breaton";
+
+    for (var i = 0; i < $scope.pageButtons.length; i++) {
+      var button = $scope.pageButtons[i];
+      if (button.link == $location.path()) {
+        $scope.pageButtons[i].active = true;
+        $rootScope.htmlTitle = button.name + " | " + $rootScope.htmlTitle;
+      } else {
+        $scope.pageButtons[i].active = false;
+      }
+    }
+
+  }
+
+  activateCurrentLink();
+
+  $scope.$on('$routeChangeStart', activateCurrentLink);
+
+  function PageButton (name, link) {
+    this.active = false;
+    this.name = name;
+    this.link = link;
+  }
+
+  function SocialButton (resourceLink, pageLink) {
+    var location = "/static/img/icons/";
+    this.image = location + resourceLink;
+    this.cssImage = "url('" + this.image + "')";
+    this.link = pageLink;
+  }
 }]);

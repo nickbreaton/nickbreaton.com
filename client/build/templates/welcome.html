@@ -1,25 +1,24 @@
-<div class="welcome">
+<div class="welcome" ng-controller="HeaderController">
   <div class="shadow"></div>
-  <div class="text">
-    <div class="title">
-      Hi, I'm Nick Breaton.
+  <div class="center">
+    <div class="text">
+      <div class="title">{{ title }}</div>
+      <div class="position">{{ positition }}</div>
+      <div class="subtitle">{{ subtitle }}</div>
     </div>
-    <div class="subtitle">
-      This is how I spend my time.
-    </div>
-  </div>
-  <div class="clock" ng-controller="ClockController">
-    <!-- intervals -->
-    <div ng-repeat="interval in intervals" class="interval" ng-style="{ transform : interval.transform }">
-      <div ng-class="interval.type"></div>
-    </div>
+    <div class="clock" ng-controller="ClockController">
+      <!-- intervals -->
+      <div ng-repeat="interval in intervals" class="interval" ng-style="{ transform : interval.transform }">
+        <div ng-class="interval.type"></div>
+      </div>
 
-    <!-- hands -->
-    <div class="base-pin"></div>
-    <div ng-repeat="hand in hands" class="hand-holder" ng-style="{ transform : hand.transform }">
-      <div ng-class="hand.type"></div>
+      <!-- hands -->
+      <div class="base-pin"></div>
+      <div ng-repeat="hand in hands" class="hand-holder" ng-style="{ transform : hand.transform }">
+        <div ng-class="hand.type"></div>
+      </div>
+      <div class="second-pin"></div>
+      <div class="center-pin"></div>
     </div>
-    <div class="second-pin"></div>
-    <div class="center-pin"></div>
   </div>
 </div>

@@ -1,11 +1,7 @@
 .welcome {
-  $height: 25vw;
-  $min-height:10vh;
-  $max-height:40vh;
+  $height: 350px;
 
   width: 100%;
-  min-height: $min-height;
-  max-height: $max-height;
   height:$height;
   background:$color-main;
   position:relative;
@@ -20,7 +16,6 @@
     height:20px;
     z-index:2;
     box-shadow:0 0 10px 0 black;
-
   }
 
   .text {
@@ -30,33 +25,36 @@
     .title {
       margin-top:5vh;
       color:white;
-      font-size:4.5vw;
+      font-size:56px;
+
     }
 
     .subtitle {
-      color:$color-main-dark;
-      font-size:3vw;
+      font-size:38px;
+      color:white;
     }
+
+    .position {
+      @extend .subtitle;
+      color:$color-main-dark;
+      margin-bottom:50px;
+    }
+
+
   }
 
   .clock {
-    $overscale: 1.2;
+    $overscale: 1.1;
     $size: $height * $overscale;
-    $min-size: $min-height * $overscale;
-    $max-size: $max-height * $overscale;
 
     border: .6vw solid;
     position:absolute;
     border-radius:100vw;
     width:$size ;
     height:$size;
-    min-height:$min-size;
-    min-width:$min-size;
-    max-height:$max-size;
-    max-width:$max-size;
 
-    top:-10%;
-    right:2vw;
+    top:-($size * ($overscale - 1)) / 2;
+    right:0;
     overflow:hidden;
 
     background:white;

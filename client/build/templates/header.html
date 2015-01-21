@@ -1,7 +1,10 @@
 <div class="header" ng-controller="HeaderController">
   <div class="center">
-    <a class="button" href="#" ng-repeat="button in buttons">
-      {{ button }}
+    <a class="button" ng-repeat="button in pageButtons" href="{{ button.link }}" ng-class="{ active : button.active }">
+      {{ button.name }}
+    </a>
+    <a class="socialButton" ng-repeat="button in socialButtons" href="{{ button.link }}">
+      <!-- <ng-include src="button.image"></div> -->
     </a>
   </div>
 </div>

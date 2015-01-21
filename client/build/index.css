@@ -8,11 +8,10 @@
   box-sizing: border-box; }
 
 .center, .welcome .text {
-  width: 70%;
-  min-width: 500px;
-  max-width: 750px;
+  width: 950px;
   margin: auto;
-  padding: 10px; }
+  padding: 10px;
+  position: relative; }
 
 .header {
   width: 100%;
@@ -20,22 +19,22 @@
   font-family: "Exo", Arial;
   font-size: 22px;
   padding: 1vw 0; }
-  .header .button {
+  .header .button, .header .socialButton {
     display: inline-block;
     color: white;
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 7px;
     margin-right: 10px; }
-  .header .active-button, .header .button:first-child, .header .button:hover {
+  .header .active-button, .header .button.active, .header .active.socialButton, .header .button:hover, .header .socialButton:hover {
     color: #5d7468;
     background: white; }
+  .header .socialButton {
+    float: right; }
 
 .welcome {
   width: 100%;
-  min-height: 10vh;
-  max-height: 40vh;
-  height: 25vw;
+  height: 350px;
   background: #7c9b8b;
   position: relative;
   overflow: hidden;
@@ -53,22 +52,21 @@
     .welcome .text .title {
       margin-top: 5vh;
       color: white;
-      font-size: 4.5vw; }
-    .welcome .text .subtitle {
+      font-size: 56px; }
+    .welcome .text .subtitle, .welcome .text .position {
+      font-size: 38px;
+      color: white; }
+    .welcome .text .position {
       color: #5d7468;
-      font-size: 3vw; }
+      margin-bottom: 50px; }
   .welcome .clock {
     border: .6vw solid;
     position: absolute;
     border-radius: 100vw;
-    width: 30vw;
-    height: 30vw;
-    min-height: 12vh;
-    min-width: 12vh;
-    max-height: 48vh;
-    max-width: 48vh;
-    top: -10%;
-    right: 2vw;
+    width: 385px;
+    height: 385px;
+    top: -19.25px;
+    right: 0;
     overflow: hidden;
     background: white;
     box-shadow: 0 0 1vw .2vw #afafaf inset;
