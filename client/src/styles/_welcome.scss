@@ -8,12 +8,22 @@
   overflow: hidden;
   z-index:1;
 
+  @media (max-width:$break-width) {
+    height:auto;
+    padding-bottom:20px;
+  }
+
+
   .text {
     @extend .center;
     font-family:$title-font;
 
+    @media (max-width:$break-width) {
+      text-align:center;
+    }
+
     .title {
-      margin-top:5vh;
+      margin-top:30px;
       color:white;
       font-size:56px;
 
@@ -36,6 +46,17 @@
   .clock {
     $overscale: 1.1;
     $size: $height * $overscale;
+
+    // TODO REMOVE
+    @media (max-width:$break-width) {
+      position:relative;
+      margin:auto;
+      margin-top:20px;
+      margin-bottom:20px;
+      height:$size * .9;
+      width:$size * .9;
+
+    }
 
     border: .6vw solid;
     position:absolute;

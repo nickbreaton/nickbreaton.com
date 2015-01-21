@@ -12,6 +12,9 @@
   margin: auto;
   padding: 10px;
   position: relative; }
+  @media (max-width: 950px) {
+    .center, .welcome .text {
+      width: 100%; } }
 
 .header {
   position: fixed;
@@ -47,10 +50,17 @@
   position: relative;
   overflow: hidden;
   z-index: 1; }
+  @media (max-width: 950px) {
+    .welcome {
+      height: auto;
+      padding-bottom: 20px; } }
   .welcome .text {
     font-family: "Exo", Arial; }
+    @media (max-width: 950px) {
+      .welcome .text {
+        text-align: center; } }
     .welcome .text .title {
-      margin-top: 5vh;
+      margin-top: 30px;
       color: white;
       font-size: 56px; }
     .welcome .text .subtitle, .welcome .text .position {
@@ -71,6 +81,14 @@
     background: white;
     box-shadow: 0 0 1vw .2vw #afafaf inset;
     border-color: gainsboro; }
+    @media (max-width: 950px) {
+      .welcome .clock {
+        position: relative;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: 346.5px;
+        width: 346.5px; } }
     .welcome .clock .interval {
       position: absolute;
       width: 0.4%;

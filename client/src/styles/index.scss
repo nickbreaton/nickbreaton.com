@@ -5,6 +5,14 @@
 }
 
 
+// site variables
+
+$color-main: #7c9b8b;
+$color-main-dark: #5d7468;
+$title-font: "Exo", Arial;
+$break-width: 950px;
+
+
 // main site
 
 * {
@@ -14,18 +22,16 @@
 }
 
 .center {
-  width:950px;
+  width:$break-width;
   margin:auto;
   padding:10px;
   position:relative;
+
+  @media (max-width:$break-width) {
+    width:100%;
+  }
 }
 
-
-// site variables
-
-$color-main: #7c9b8b;
-$color-main-dark: #5d7468;
-$title-font: "Exo", Arial;
 
 // collect all style sheets
 
