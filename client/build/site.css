@@ -79,7 +79,7 @@
     right: 10px;
     overflow: hidden;
     background: white;
-    box-shadow: 0 0 25px 3px #afafaf inset;
+    box-shadow: 0 0 25px 1px #afafaf inset;
     border-color: gainsboro; }
     @media (max-width: 950px) {
       .welcome .clock {
@@ -87,8 +87,10 @@
         margin: auto;
         margin-top: 20px;
         margin-bottom: 20px;
-        height: 346.5px;
-        width: 346.5px; } }
+        max-height: 346.5px;
+        max-width: 346.5px;
+        width: 80vw;
+        height: 80vw; } }
     .welcome .clock .interval {
       position: absolute;
       width: 0.4%;
@@ -154,10 +156,3 @@
       top: 48.5%;
       left: 48.5%;
       background-color: red; }
-    .welcome .clock .center-pin {
-      width: 1%;
-      height: 1%;
-      border-radius: 100vw;
-      position: absolute;
-      top: 49.5%;
-      left: 49.5%; }

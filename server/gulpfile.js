@@ -48,6 +48,7 @@ gulp.task("styles", function () {
     .pipe(plugin.sass())
     .on("error", error)
     .pipe(plugin.autoprefixer())
+    .pipe(plugin.rename("site.css"))
     .pipe(gulp.dest(paths.build));
 });
 

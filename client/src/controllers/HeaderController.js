@@ -2,7 +2,7 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", functio
   $scope.pageButtons = [
     new PageButton("About", "/"),
     new PageButton("Contact", "/contact/"),
-    new PageButton("Résumé", "/résumé/"),
+    new PageButton("Résumé", "/resume/"),
   ];
 
   $scope.socialButtons = [

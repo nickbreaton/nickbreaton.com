@@ -17,6 +17,12 @@ module.exports = function (app) {
   app.use("/static/vendor/", express.static(path.join(paths.client, "vendor")));
   app.use("/static/img/", express.static(path.join(paths.client, "img")));
 
+  // send 404 for statics not found
+  app.use("/static/*", function (req, res) {
+    res.writeHead(404);
+    res.end("Resource not found.")
+  });
+
   // everthing else respond with index (angular will handle 404)
   app.use("*", angularApp);
 }
