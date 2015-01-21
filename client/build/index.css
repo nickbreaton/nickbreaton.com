@@ -70,16 +70,16 @@
       color: #5d7468;
       margin-bottom: 50px; }
   .welcome .clock {
-    border: .6vw solid;
+    border: 9px solid;
     position: absolute;
     border-radius: 100vw;
     width: 385px;
     height: 385px;
     top: -19.25px;
-    right: 0;
+    right: 10px;
     overflow: hidden;
     background: white;
-    box-shadow: 0 0 1vw .2vw #afafaf inset;
+    box-shadow: 0 0 25px 3px #afafaf inset;
     border-color: gainsboro; }
     @media (max-width: 950px) {
       .welcome .clock {
