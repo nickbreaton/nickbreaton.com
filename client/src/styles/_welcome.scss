@@ -8,16 +8,6 @@
   overflow: hidden;
   z-index:1;
 
-  .shadow {
-    position:absolute;
-    top:-20px;
-    right:-100px;
-    left:-100px;
-    height:20px;
-    z-index:2;
-    box-shadow:0 0 10px 0 black;
-  }
-
   .text {
     @extend .center;
     font-family:$title-font;

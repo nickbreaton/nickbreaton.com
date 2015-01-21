@@ -1,15 +1,18 @@
 .header {
   $font-size: 22px;
 
+  position:fixed;
   width:100%;
   background-color:$color-main-dark;
   font-family:$title-font;
   font-size:$font-size;
   padding:1vw 0;
+  z-index:20;
+  top:0;
+  box-shadow:0 0 10px 0 black;
 
   .button {
     display:inline-block;
-
     color:white;
     text-decoration:none;
     padding:5px 10px;
@@ -34,4 +37,9 @@
     @extend .button;
     float:right;
   }
+}
+
+.header.placeholder {
+  position:relative;
+  box-shadow:none;
 }
