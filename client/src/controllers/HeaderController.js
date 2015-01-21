@@ -1,7 +1,8 @@
-app.controller("HeaderController", ["$scope", "$location", "$rootScope", function ($scope, $location, $rootScope) {
+app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteInfo", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
     new PageButton("Contact", "/contact/"),
+    new PageButton("Skills", "/skills/"),
     new PageButton("Résumé", "/resume/"),
   ];
 
@@ -9,12 +10,12 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", functio
     new SocialButton("github.svg", "https://github.com/nbreaton/"),
   ];
 
-  $scope.title = "Hi, I'm Nick Breaton.";
-  $scope.positition = "Front End Developer"
-  $scope.subtitle = "This is how I spend my time.";
+  $scope.title = SiteInfo.nameIntro + " " + SiteInfo.name;
+  $scope.positition = SiteInfo.jobTitle;
+  $scope.subtitle = SiteInfo.moto;
 
   function activateCurrentLink () {
-    $rootScope.htmlTitle = "Nick Breaton";
+    $rootScope.htmlTitle = SiteInfo.name;
 
     for (var i = 0; i < $scope.pageButtons.length; i++) {
       var button = $scope.pageButtons[i];
@@ -25,7 +26,6 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", functio
         $scope.pageButtons[i].active = false;
       }
     }
-
   }
 
   activateCurrentLink();
