@@ -12,6 +12,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.listen(app.get("port"));
-
-module.exports = app;
+if (app.get("env") != "production") {
+  app.listen(app.get("port"));
+} else {
+  module.exports = app;
+}
