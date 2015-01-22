@@ -33,8 +33,47 @@
     @extend .active-button;
   }
 
-  .socialButton {
-    @extend .button;
+  @mixin disable() {
+    width:0;
+    height:0;
+    padding:0;
+    margin:0;
+    visibility:hidden;
+  }
+
+  .button.page {
+    @media (max-width: 700px) {
+      @include disable();
+    }
+  }
+
+  .button.menu {
+    cursor:pointer;
+    visibility:visible;
+    position:relative;
+    display:inline-block;
+    padding-top:10px;
+
+    @media (min-width: 700px) {
+      @include disable();
+    }
+
+    path {
+      fill:white;
+    }
+  }
+
+  .button.menu.active {
+    path {
+      fill:$color-main-dark;
+    }
+  }
+
+  .button.menu:hover {
+    @extend .button.menu.active;
+  }
+
+  .button.social {
     float:right;
   }
 }

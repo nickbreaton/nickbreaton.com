@@ -26,17 +26,41 @@
   z-index: 20;
   top: 0;
   box-shadow: 0 0 10px 0 black; }
-  .header .button, .header .socialButton {
+  .header .button {
     display: inline-block;
     color: white;
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 7px;
     margin-right: 10px; }
-  .header .active-button, .header .button.active, .header .active.socialButton, .header .button:hover, .header .socialButton:hover {
+  .header .active-button, .header .button.active, .header .button:hover {
     color: #5d7468;
     background: white; }
-  .header .socialButton {
+  @media (max-width: 700px) {
+    .header .button.page {
+      width: 0;
+      height: 0;
+      padding: 0;
+      margin: 0;
+      visibility: hidden; } }
+  .header .button.menu {
+    cursor: pointer;
+    visibility: visible;
+    position: relative;
+    display: inline-block;
+    padding-top: 10px; }
+    @media (min-width: 700px) {
+      .header .button.menu {
+        width: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        visibility: hidden; } }
+    .header .button.menu path {
+      fill: white; }
+  .header .button.menu.active path, .header .button.menu:hover path {
+    fill: #5d7468; }
+  .header .button.social {
     float: right; }
 
 .header.placeholder {
