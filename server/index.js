@@ -13,6 +13,4 @@ app.use(function (req, res, next) {
   next();
 });
 
-console.log(app.get("production"));
-
 app.get("production") || true ? module.exports = app : app.listen(app.get("port"));
