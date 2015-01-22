@@ -6,11 +6,11 @@ var app = express();
 
 app.set("port", 3000);
 app.set("env", process.env.NODE_ENV);
-app.set("domain", "127.0.0.1");
+app.set("dev", app.get("env") != "production");
 
 app.use(function (req, res, next) {
   routes(app);
   next();
 });
 
-app.get("production") || true ? module.exports = app : app.listen(app.get("port"));
+app.get("dev") ? app.listen(app.get("port")) : module.exports = app;
