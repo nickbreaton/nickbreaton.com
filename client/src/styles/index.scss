@@ -9,6 +9,7 @@
 
 $color-main: #7c9b8b;
 $color-main-dark: #5d7468;
+$color-main-light: #ECE5CE;
 $title-font: "Exo", Arial;
 $break-width: 950px;
 
@@ -37,3 +38,4 @@ $break-width: 950px;
 
 @import 'header';
 @import 'welcome';
+@import 'about-content';

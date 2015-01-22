@@ -6,8 +6,7 @@
   background:$color-main;
   position:relative;
   overflow: hidden;
-  z-index:1;
-
+  
   @media (max-width:$break-width) {
     height:auto;
     padding-bottom:20px;

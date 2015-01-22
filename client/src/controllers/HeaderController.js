@@ -4,6 +4,7 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
     new PageButton("Contact", "/contact/"),
     new PageButton("Skills", "/skills/"),
     new PageButton("Résumé", "/resume/"),
+    new PageButton("Blog", "/blog/"),
   ];
 
   $scope.socialButtons = [
