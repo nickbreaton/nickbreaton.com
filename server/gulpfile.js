@@ -25,6 +25,7 @@ gulp.task("scripts", function () {
     .pipe(gulp.dest(paths.build))
     .pipe(plugin.rename("site.min.js"))
     .pipe(plugin.uglify())
+    .on("error", error)
     .pipe(gulp.dest(paths.build));
 });
 
