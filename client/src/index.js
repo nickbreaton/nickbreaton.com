@@ -4,7 +4,7 @@
 var app = angular.module("my-site", ["ngRoute"]);
 
 // app configuration
-app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider){
+app.config(["$routeProvider", "$locationProvider",  function ($routeProvider, $locationProvider){
   $locationProvider.html5Mode(true);
 
   // routing
@@ -17,6 +17,9 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
     })
     .when("/hire/", {
       template : "Hire Me!"
+    })
+    .when("/blog/", {
+      templateUrl : "/static/templates/blog.html"
     })
 
     // redirects

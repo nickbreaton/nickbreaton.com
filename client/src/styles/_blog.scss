@@ -1,0 +1,38 @@
+.blog {
+  margin-top:50px;
+}
+
+.post {
+  .date {
+    vertical-align:top;
+
+    div {
+      $width: 75px;
+
+      font-family:$title-font;
+      text-align:center;
+      width:$width;
+      line-height:$width * .4;
+      vertical-align:middle;
+      padding:($width * .2) ($width * .1);
+      margin-right:($width * .1);
+      background:$color-main;
+      border-radius:($width * .1);
+      color:white;
+      font-size:($width * .2);
+    }
+  }
+
+  .text {
+    .title {
+      font-family:$title-font;
+      font-size:45px;
+      color:$color-main-dark;
+    }
+
+    .body {
+      text-align: justify;
+
+    }
+  }
+}

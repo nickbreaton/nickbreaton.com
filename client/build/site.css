@@ -187,3 +187,27 @@
   z-index: 1;
   box-shadow: 0 0 5px 2px rgba(55, 55, 55, 0.7);
   position: relative; }
+
+.blog {
+  margin-top: 50px; }
+
+.post .date {
+  vertical-align: top; }
+  .post .date div {
+    font-family: "Exo", Arial;
+    text-align: center;
+    width: 75px;
+    line-height: 30px;
+    vertical-align: middle;
+    padding: 15px 7.5px;
+    margin-right: 7.5px;
+    background: #7c9b8b;
+    border-radius: 7.5px;
+    color: white;
+    font-size: 15px; }
+.post .text .title {
+  font-family: "Exo", Arial;
+  font-size: 45px;
+  color: #5d7468; }
+.post .text .body {
+  text-align: justify; }
