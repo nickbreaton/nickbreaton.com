@@ -15,14 +15,11 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
     .when("/contact/", {
       template : "Contact"
     })
-    .when("/resume/", {
-      template : "Résumé"
+    .when("/hire/", {
+      template : "Hire Me!"
     })
 
     // redirects
-    .when("/résumé/", {
-      redirectTo : "/resume/"
-    })
     .when("/about/", {
       redirectTo : "/"
     })

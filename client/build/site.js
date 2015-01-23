@@ -15,14 +15,11 @@ app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $lo
     .when("/contact/", {
       template : "Contact"
     })
-    .when("/resume/", {
-      template : "Résumé"
+    .when("/hire/", {
+      template : "Hire Me!"
     })
 
     // redirects
-    .when("/résumé/", {
-      redirectTo : "/resume/"
-    })
     .when("/about/", {
       redirectTo : "/"
     })
@@ -120,7 +117,7 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
     new PageButton("About", "/"),
     new PageButton("Contact", "/contact/"),
     new PageButton("Skills", "/skills/"),
-    new PageButton("Résumé", "/resume/"),
+    new PageButton("Hire", "/hire/"),
     new PageButton("Blog", "/blog/"),
   ];
 

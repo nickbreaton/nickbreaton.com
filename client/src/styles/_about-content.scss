@@ -1,8 +1,8 @@
 .about-content {
   width:100%;
-  height:5000px;
+  height:1500px;
   background:$color-main-light;
   z-index:1;
-  box-shadow:0 0 10px 0 black;
+  box-shadow:$main-shadow;
   position:relative;
 }

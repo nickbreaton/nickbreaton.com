@@ -3,7 +3,7 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
     new PageButton("About", "/"),
     new PageButton("Contact", "/contact/"),
     new PageButton("Skills", "/skills/"),
-    new PageButton("Résumé", "/resume/"),
+    new PageButton("Hire", "/hire/"),
     new PageButton("Blog", "/blog/"),
   ];
 
