@@ -169,23 +169,16 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
 }]);
 
 app.controller("MapController", ["$scope", "$rootScope", function ($scope, $rootScope) {
-  // $rootScope.isMapReady = function () {
-  //   if ($rootScope.mapTimer === 0) {
-  //     $rootScope.mapTimer = 1500;
-  //     setTimeout(function () {
-  //       $rootScope.mapTimer = 0;
-  //     }, $rootScope.mapTimer);
-  //
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   var canvas = document.getElementById('map-canvas');
   var parent = canvas.parentNode;
 
   if (google.maps.event) {
-    google.maps.event.addDomListenerOnce(window, 'resize', create);
+    google.maps.event.addDomListener(window, 'resize', function () {
+      if ($rootScope.mapWidth != canvas.getBoundingClientRect().width) {
+        $rootScope.mapWidth = canvas.getBoundingClientRect().width;
+        create();
+      }
+    });
   }
 
 
@@ -211,11 +204,6 @@ app.controller("MapController", ["$scope", "$rootScope", function ($scope, $root
       var customMapType = new google.maps.StyledMapType(style, {name: 'Custom Style'});
 
       map.mapTypes.set(randId, customMapType);
-
-
-      google.maps.event.addListenerOnce(map, 'idle', function(){
-        google.maps.event.addDomListenerOnce(window, 'resize', create);
-      });
     }
   }
 
