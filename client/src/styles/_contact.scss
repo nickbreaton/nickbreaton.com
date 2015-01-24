@@ -1,0 +1,22 @@
+.contact {
+
+  .map-frame {
+    width: 100vw;
+    height: 20vw;
+    min-height:400px;
+    background:green;
+    overflow:hidden;
+    position:relative;
+    background:$color-main-light;
+
+    .cover {
+      top:0;
+      bottom:0;
+      right:0;
+      left:0;
+      position:absolute;
+    }
+  }
+
+
+}
