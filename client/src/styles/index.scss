@@ -21,11 +21,12 @@ $main-shadow: 0 0 5px 2px rgba(55,55,55, .7);
   padding:0px;
   margin:0px;
   box-sizing:border-box;
+
+  body {
+    background-color:$color-main-light;
+  }
 }
 
-body {
-  background-color:$color-main-light;
-}
 
 .center {
   width:$break-width;
@@ -43,6 +44,6 @@ body {
 
 @import 'header';
 @import 'welcome';
-@import 'about-content';
+@import 'about';
 @import 'blog';
 @import 'contact';

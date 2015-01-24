@@ -7,8 +7,9 @@
     position:relative;
   }
 
+
   .map-frame {
-    width: 100vw;
+    width: 100%;
     height: 20vw;
     min-height:400px;
     background:green;
@@ -22,6 +23,14 @@
       right:0;
       left:0;
       position:absolute;
+    }
+
+    #map-canvas {
+      $offset: 250px;
+      position:absolute;
+      top:-($offset * .7);
+      height: 500px + $offset;
+      width:100%;
     }
   }
 }

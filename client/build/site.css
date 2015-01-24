@@ -6,17 +6,16 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box; }
+  * body {
+    background-color: #E8E7E1; }
 
-body {
-  background-color: #E8E7E1; }
-
-.center, .welcome .text {
+.center, .about .welcome .text {
   width: 950px;
   margin: auto;
   padding: 10px;
   position: relative; }
   @media (max-width: 950px) {
-    .center, .welcome .text {
+    .center, .about .welcome .text {
       width: 100%; } }
 
 .header {
@@ -107,32 +106,32 @@ body {
     -webkit-transition: max-height .75s ease-in;
             transition: max-height .75s ease-in; }
 
-.welcome {
+.about .welcome {
   width: 100%;
   height: 350px;
   background: #7c9b8b;
   position: relative;
   overflow: hidden; }
   @media (max-width: 950px) {
-    .welcome {
+    .about .welcome {
       height: auto;
       padding-bottom: 20px; } }
-  .welcome .text {
+  .about .welcome .text {
     font-family: "Exo", Arial; }
     @media (max-width: 950px) {
-      .welcome .text {
+      .about .welcome .text {
         text-align: center; } }
-    .welcome .text .title {
+    .about .welcome .text .title {
       margin-top: 30px;
       color: white;
       font-size: 56px; }
-    .welcome .text .subtitle, .welcome .text .position {
+    .about .welcome .text .subtitle, .about .welcome .text .position {
       font-size: 38px;
       color: white; }
-    .welcome .text .position {
+    .about .welcome .text .position {
       color: #5d7468;
       margin-bottom: 50px; }
-  .welcome .clock {
+  .about .welcome .clock {
     border: 9px solid;
     position: absolute;
     border-radius: 100vw;
@@ -145,7 +144,7 @@ body {
     box-shadow: 0 0 25px 1px #afafaf inset;
     border-color: gainsboro; }
     @media (max-width: 950px) {
-      .welcome .clock {
+      .about .welcome .clock {
         position: relative;
         margin: auto;
         margin-top: 20px;
@@ -154,56 +153,56 @@ body {
         max-width: 346.5px;
         width: 80vw;
         height: 80vw; } }
-    .welcome .clock .interval {
+    .about .welcome .clock .interval {
       position: absolute;
       width: 0.4%;
       height: 100%;
       left: 49.8%; }
-      .welcome .clock .interval .tick, .welcome .clock .interval .normal, .welcome .clock .interval .medium, .welcome .clock .interval .large {
+      .about .welcome .clock .interval .tick, .about .welcome .clock .interval .normal, .about .welcome .clock .interval .medium, .about .welcome .clock .interval .large {
         background-color: #c8c8c8;
         position: absolute;
         right: 0;
         left: 0;
         top: 2%; }
-      .welcome .clock .interval .normal {
+      .about .welcome .clock .interval .normal {
         bottom: 95%; }
-      .welcome .clock .interval .medium {
+      .about .welcome .clock .interval .medium {
         bottom: 93%; }
-      .welcome .clock .interval .large {
+      .about .welcome .clock .interval .large {
         bottom: 91%; }
-    .welcome .clock .hand-holder {
+    .about .welcome .clock .hand-holder {
       position: absolute;
       width: 2%;
       height: 100%;
       left: 49%; }
-      .welcome .clock .hand-holder .second, .welcome .clock .hand-holder .second-base {
+      .about .welcome .clock .hand-holder .second, .about .welcome .clock .hand-holder .second-base {
         position: absolute;
         right: 33.5%;
         left: 33.5%;
         background: red;
         top: 9%;
         bottom: 43%; }
-      .welcome .clock .hand-holder .second-base {
+      .about .welcome .clock .hand-holder .second-base {
         position: absolute;
         right: 0%;
         left: 0%;
         top: 55%;
         height: 10%; }
-      .welcome .clock .hand-holder .minute {
+      .about .welcome .clock .hand-holder .minute {
         position: absolute;
         right: 0%;
         left: 0%;
         background: black;
         top: 5%;
         bottom: 40%; }
-      .welcome .clock .hand-holder .hour {
+      .about .welcome .clock .hand-holder .hour {
         position: absolute;
         right: 0%;
         left: 0%;
         background: black;
         top: 17%;
         bottom: 40%; }
-    .welcome .clock .base-pin {
+    .about .welcome .clock .base-pin {
       width: 5%;
       height: 5%;
       border-radius: 100vw;
@@ -211,7 +210,7 @@ body {
       top: 47.5%;
       left: 47.5%;
       background-color: black; }
-    .welcome .clock .second-pin {
+    .about .welcome .clock .second-pin {
       width: 3%;
       height: 3%;
       border-radius: 100vw;
@@ -220,12 +219,31 @@ body {
       left: 48.5%;
       background-color: red; }
 
-.about-intro {
+.about .about-intro {
   width: 100%;
   height: 500px;
   z-index: 1;
   box-shadow: 0 0 5px 2px rgba(55, 55, 55, 0.7);
   position: relative; }
+.about .map-frame {
+  width: 100%;
+  height: 20vw;
+  min-height: 400px;
+  background: green;
+  overflow: hidden;
+  position: relative;
+  background: #E8E7E1; }
+  .about .map-frame .cover {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute; }
+  .about .map-frame #map-canvas {
+    position: absolute;
+    top: -175px;
+    height: 750px;
+    width: 100%; }
 
 .blog {
   margin-top: 50px; }
@@ -251,17 +269,3 @@ body {
 .post .text .body {
   text-align: justify; }
 
-.contact .map-frame {
-  width: 100vw;
-  height: 20vw;
-  min-height: 400px;
-  background: green;
-  overflow: hidden;
-  position: relative;
-  background: #E8E7E1; }
-  .contact .map-frame .cover {
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    position: absolute; }
