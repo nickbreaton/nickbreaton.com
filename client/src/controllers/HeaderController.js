@@ -15,6 +15,14 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   $scope.positition = SiteInfo.jobTitle;
   $scope.subtitle = SiteInfo.moto;
 
+
+  $scope.toggleDrop = function () {
+    $scope.dropActive = !$scope.dropActive;
+
+  }
+
+  $scope.dropActive = false;
+
   function activateCurrentLink () {
     $rootScope.htmlTitle = SiteInfo.name;
 

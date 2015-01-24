@@ -49,16 +49,6 @@ app.controller("BlogController", ["$scope", function ($scope) {
 }]);
 
 app.controller("ClockController", ["$scope", function ($scope) {
-
-  var reqAnimFrame = (function(){
-    return  window.requestAnimationFrame       ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    function( callback ){
-      window.setTimeout(callback, 1000 / 60);
-    };
-  })();
-
   createIntervals();
   createHands();
 
@@ -111,7 +101,7 @@ app.controller("ClockController", ["$scope", function ($scope) {
       $scope.$apply();
     }
 
-    reqAnimFrame(createHands);
+    setTimeout(createHands, 1000);
 
     function Hand (name, dateValue, totalValue) {
       this.type = name;
@@ -137,6 +127,14 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   $scope.title = SiteInfo.nameIntro + " " + SiteInfo.name;
   $scope.positition = SiteInfo.jobTitle;
   $scope.subtitle = SiteInfo.moto;
+
+
+  $scope.toggleDrop = function () {
+    $scope.dropActive = !$scope.dropActive;
+
+  }
+
+  $scope.dropActive = false;
 
   function activateCurrentLink () {
     $rootScope.htmlTitle = SiteInfo.name;

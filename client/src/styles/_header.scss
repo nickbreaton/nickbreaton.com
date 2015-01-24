@@ -1,3 +1,6 @@
+$scale-width: 550px;
+
+
 .header {
   $font-size: 22px;
 
@@ -42,7 +45,7 @@
   }
 
   .button.page {
-    @media (max-width: 700px) {
+    @media (max-width: $scale-width) {
       @include disable();
     }
   }
@@ -54,7 +57,7 @@
     display:inline-block;
     padding-top:10px;
 
-    @media (min-width: 700px) {
+    @media (min-width: $scale-width) {
       @include disable();
     }
 
@@ -81,4 +84,65 @@
 .header.placeholder {
   position:relative;
   box-shadow:none;
+}
+
+.header.menu {
+  @media (min-width: $scale-width) {
+    visibility:hidden;
+  }
+  box-shadow:none;
+
+  .drop-down {
+    position:absolute;
+    top:100%;
+    z-index:10;
+    box-shadow:$main-shadow, $main-shadow;
+    background:$color-main-dark;
+    transition:max-height  .4s ease;
+    width:100%;
+    overflow:hidden;
+    max-height:0px;
+
+    .choice {
+      position:relative;
+      display:inline-block;
+      margin:top;
+      padding:10px;
+      width:100vw;
+      border-top:1px solid white;
+      color:white;
+      text-decoration:none;
+      font-size:20px;
+    }
+
+    .choice:first-child {
+      padding-top:15px;
+    }
+
+    .choice:hover {
+      background:rgba(255,255,255,.2);
+    }
+
+    .choice:active {
+      background:rgba(0,0,0,.2);
+    }
+
+    .choice.active {
+      @extend .choice:active;
+    }
+
+    .choice.active:hover {
+      @extend .choice:hover;
+    }
+
+    .choice.active:hover:active {
+      @extend .choice:active;
+    }
+  }
+
+  .drop-down.active {
+
+    max-height:1000px;
+    transition:max-height .75s ease-in;
+  }
 }

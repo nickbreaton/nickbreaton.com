@@ -36,7 +36,7 @@
   .header .active-button, .header .button.active, .header .button:hover {
     color: #5d7468;
     background: white; }
-  @media (max-width: 700px) {
+  @media (max-width: 550px) {
     .header .button.page {
       width: 0;
       height: 0;
@@ -49,7 +49,7 @@
     position: relative;
     display: inline-block;
     padding-top: 10px; }
-    @media (min-width: 700px) {
+    @media (min-width: 550px) {
       .header .button.menu {
         width: 0;
         height: 0;
@@ -66,6 +66,43 @@
 .header.placeholder {
   position: relative;
   box-shadow: none; }
+
+.header.menu {
+  box-shadow: none; }
+  @media (min-width: 550px) {
+    .header.menu {
+      visibility: hidden; } }
+  .header.menu .drop-down {
+    position: absolute;
+    top: 100%;
+    z-index: 10;
+    box-shadow: 0 0 5px 2px rgba(55, 55, 55, 0.7), 0 0 5px 2px rgba(55, 55, 55, 0.7);
+    background: #5d7468;
+    -webkit-transition: max-height .4s ease;
+            transition: max-height .4s ease;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0px; }
+    .header.menu .drop-down .choice {
+      position: relative;
+      display: inline-block;
+      margin: top;
+      padding: 10px;
+      width: 100vw;
+      border-top: 1px solid white;
+      color: white;
+      text-decoration: none;
+      font-size: 20px; }
+    .header.menu .drop-down .choice:first-child {
+      padding-top: 15px; }
+    .header.menu .drop-down .choice:hover, .header.menu .drop-down .choice.active:hover {
+      background: rgba(255, 255, 255, 0.2); }
+    .header.menu .drop-down .choice:active, .header.menu .drop-down .choice.active, .header.menu .drop-down .active.choice:active:hover {
+      background: rgba(0, 0, 0, 0.2); }
+  .header.menu .drop-down.active {
+    max-height: 1000px;
+    -webkit-transition: max-height .75s ease-in;
+            transition: max-height .75s ease-in; }
 
 .welcome {
   width: 100%;

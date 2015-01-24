@@ -1,14 +1,4 @@
 app.controller("ClockController", ["$scope", function ($scope) {
-
-  var reqAnimFrame = (function(){
-    return  window.requestAnimationFrame       ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    function( callback ){
-      window.setTimeout(callback, 1000 / 60);
-    };
-  })();
-
   createIntervals();
   createHands();
 
@@ -61,7 +51,7 @@ app.controller("ClockController", ["$scope", function ($scope) {
       $scope.$apply();
     }
 
-    reqAnimFrame(createHands);
+    setTimeout(createHands, 1000);
 
     function Hand (name, dateValue, totalValue) {
       this.type = name;
