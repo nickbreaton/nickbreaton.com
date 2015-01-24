@@ -23,6 +23,10 @@ $main-shadow: 0 0 5px 2px rgba(55,55,55, .7);
   box-sizing:border-box;
 }
 
+body {
+  background-color:$color-main-light;
+}
+
 .center {
   width:$break-width;
   margin:auto;

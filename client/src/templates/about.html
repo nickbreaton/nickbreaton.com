@@ -1,2 +1,10 @@
-<ng-include src="template('welcome')"></ng-include>
-<ng-include src="template('about-content')"></ng-include>
+<div class="about">
+  <ng-include src="template('welcome')"></ng-include>
+
+  <div class="about-intro">
+    <div class="center">
+    </div>
+  </div>
+
+  <div class="map-frame" id="map-frame" ng-controller="MapController"></div>
+</div>

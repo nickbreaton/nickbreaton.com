@@ -1,9 +1,9 @@
 app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteInfo", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
-    new PageButton("Contact", "/contact/"),
     new PageButton("Skills", "/skills/"),
     new PageButton("Hire", "/hire/"),
+    new PageButton("Contact", "/contact/"),
     new PageButton("Blog", "/blog/"),
   ];
 
