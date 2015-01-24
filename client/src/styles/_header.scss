@@ -3,6 +3,7 @@ $scale-width: 550px;
 
 .header {
   $font-size: 22px;
+  user-select:none;
 
   position:fixed;
   width:100%;

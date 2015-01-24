@@ -181,6 +181,8 @@ app.controller("MapController", ["$scope", "$rootScope", function ($scope, $root
     });
   }
 
+  // make sure event runs every time controller is activated
+  window.dispatchEvent(new Event('resize'));
 
   function create () {
     if (google) {
@@ -195,7 +197,7 @@ app.controller("MapController", ["$scope", "$rootScope", function ($scope, $root
 
       var mapOptions = {
         zoom: 13,
-        center: new google.maps.LatLng(35.7303443,-78.8570691),
+        center: new google.maps.LatLng(35.7303443,-78.8500691),
         mapTypeId : randId
       };
 
@@ -207,8 +209,6 @@ app.controller("MapController", ["$scope", "$rootScope", function ($scope, $root
     }
   }
 
-  // make sure event runs every time controller is activated
-  window.dispatchEvent(new Event('resize'));
 }]);
 
 app.factory("SiteInfo", function () {

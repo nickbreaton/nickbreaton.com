@@ -1,17 +1,18 @@
 .about {
   .about-intro {
     width:100%;
-    height:500px;
     z-index:1;
+    height:300px;
     box-shadow:$main-shadow;
     position:relative;
   }
 
 
   .map-frame {
+    $height: 450px;
+
     width: 100%;
-    height: 20vw;
-    min-height:400px;
+    height:$height;
     background:green;
     overflow:hidden;
     position:relative;
@@ -28,9 +29,13 @@
     #map-canvas {
       $offset: 250px;
       position:absolute;
-      top:-($offset * .7);
-      height: 500px + $offset;
+      top: -($offset / 2);
+      height: $height + $offset;
       width:100%;
+    }
+
+    .pin {
+
     }
   }
 }

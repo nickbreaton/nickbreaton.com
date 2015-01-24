@@ -19,6 +19,10 @@
       width: 100%; } }
 
 .header {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   position: fixed;
   width: 100%;
   background-color: #5d7468;
@@ -132,6 +136,10 @@
       color: #5d7468;
       margin-bottom: 50px; }
   .about .welcome .clock {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
     border: 9px solid;
     position: absolute;
     border-radius: 100vw;
@@ -221,14 +229,13 @@
 
 .about .about-intro {
   width: 100%;
-  height: 500px;
   z-index: 1;
+  height: 300px;
   box-shadow: 0 0 5px 2px rgba(55, 55, 55, 0.7);
   position: relative; }
 .about .map-frame {
   width: 100%;
-  height: 20vw;
-  min-height: 400px;
+  height: 450px;
   background: green;
   overflow: hidden;
   position: relative;
@@ -241,8 +248,8 @@
     position: absolute; }
   .about .map-frame #map-canvas {
     position: absolute;
-    top: -175px;
-    height: 750px;
+    top: -125px;
+    height: 700px;
     width: 100%; }
 
 .blog {
