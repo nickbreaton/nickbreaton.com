@@ -13,7 +13,7 @@ app.config(["$routeProvider", "$locationProvider",  function ($routeProvider, $l
       templateUrl : "/static/templates/about.html",
     })
     .when("/contact/", {
-      template : "Contact"
+      templateUrl : "/static/templates/contact.html"
     })
     .when("/hire/", {
       template : "Hire Me!"

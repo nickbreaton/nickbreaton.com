@@ -248,3 +248,18 @@
   color: #5d7468; }
 .post .text .body {
   text-align: justify; }
+
+.contact .map-frame {
+  width: 100vw;
+  height: 20vw;
+  min-height: 400px;
+  background: green;
+  overflow: hidden;
+  position: relative;
+  background: #E8E7E1; }
+  .contact .map-frame .cover {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute; }
