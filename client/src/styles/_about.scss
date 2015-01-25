@@ -7,7 +7,6 @@
     position:relative;
   }
 
-
   .map-frame {
     $height: 450px;
 
@@ -18,14 +17,6 @@
     position:relative;
     background:$color-main-light;
 
-    .cover {
-      top:0;
-      bottom:0;
-      right:0;
-      left:0;
-      position:absolute;
-    }
-
     #map-canvas {
       $offset: 250px;
       position:absolute;
@@ -34,8 +25,45 @@
       width:100%;
     }
 
-    .pin {
+    .cover {
+      top:0;
+      bottom:0;
+      right:0;
+      left:0;
+      position:absolute;
 
+      $scale: 1.3;
+
+      .pin {
+        width:45px * $scale;
+        height:70px * $scale;
+        position:relative;
+        margin:auto;
+        margin-top:90px + (45px * (1 - $scale));
+        opacity:0;
+        transition:none;
+
+        svg {
+          transform:rotate(-45deg);
+          width:100%;
+          height:100%;
+          position:absolute;
+        }
+
+        .top path {
+            fill:red;
+        }
+
+        .bottom path {
+          fill: black;
+        }
+      }
+
+      .pin.active {
+        margin-top:125px + (45px * (1 - $scale));
+        opacity:1;
+        transition:.1s linear;
+      }
     }
   }
 }

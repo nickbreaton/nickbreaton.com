@@ -240,17 +240,42 @@
   overflow: hidden;
   position: relative;
   background: #E8E7E1; }
+  .about .map-frame #map-canvas {
+    position: absolute;
+    top: -125px;
+    height: 700px;
+    width: 100%; }
   .about .map-frame .cover {
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     position: absolute; }
-  .about .map-frame #map-canvas {
-    position: absolute;
-    top: -125px;
-    height: 700px;
-    width: 100%; }
+    .about .map-frame .cover .pin {
+      width: 58.5px;
+      height: 91px;
+      position: relative;
+      margin: auto;
+      margin-top: 76.5px;
+      opacity: 0;
+      -webkit-transition: none;
+              transition: none; }
+      .about .map-frame .cover .pin svg {
+        -webkit-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+        width: 100%;
+        height: 100%;
+        position: absolute; }
+      .about .map-frame .cover .pin .top path {
+        fill: red; }
+      .about .map-frame .cover .pin .bottom path {
+        fill: black; }
+    .about .map-frame .cover .pin.active {
+      margin-top: 111.5px;
+      opacity: 1;
+      -webkit-transition: .1s linear;
+              transition: .1s linear; }
 
 .blog {
   margin-top: 50px; }

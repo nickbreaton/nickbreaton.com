@@ -168,9 +168,17 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   }
 }]);
 
-app.controller("MapController", ["$scope", "$rootScope", function ($scope, $rootScope) {
+app.controller("MapController", ["$scope", "$rootScope", "MapStyle", function ($scope, $rootScope, MapStyle) {
   var canvas;
   var parent;
+
+  setTimeout(function () {
+    $scope.pinActive = true;
+  }, 1500);
+
+  setTimeout(function () {
+    $scope.pinActive = false;
+  }, 3000);
 
   $rootScope.mapWidth = undefined;
 
@@ -190,9 +198,8 @@ app.controller("MapController", ["$scope", "$rootScope", function ($scope, $root
   window.dispatchEvent(new Event('resize'));
 
   function create () {
-
     if (google) {
-      var style = [{"featureType":"all","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"visibility":"on"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7c9b8b"},{"visibility":"on"}]}];
+      var style = MapStyle("#7c9b8b");
 
       var letters = "ABCDEFGHIJKLMNOPQRSTUV";
       var randId = "";
@@ -216,6 +223,10 @@ app.controller("MapController", ["$scope", "$rootScope", function ($scope, $root
   }
 
 }]);
+
+app.constant("MapStyle", function (color) {
+ return [{"featureType":"all","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"visibility":"on"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":color},{"visibility":"on"}]}];
+});
 
 app.factory("SiteInfo", function () {
   this.firstName = "Nick";
