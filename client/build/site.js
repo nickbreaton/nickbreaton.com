@@ -172,13 +172,13 @@ app.controller("MapController", ["$scope", "$rootScope", "MapStyle", function ($
   var canvas;
   var parent;
 
-  setTimeout(function () {
+  setInterval(function () {
     $scope.pinActive = true;
-  }, 1500);
-
-  setTimeout(function () {
-    $scope.pinActive = false;
+    setTimeout(function () {
+      $scope.pinActive = false;
+    }, 1500);
   }, 3000);
+
 
   $rootScope.mapWidth = undefined;
 
