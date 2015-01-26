@@ -298,7 +298,46 @@
 
 .incompatible {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   position: absolute;
   background: #7c9b8b;
   z-index: 100; }
+  .incompatible .text {
+    width: 100%;
+    text-align: center;
+    font-family: "Exo", Arial;
+    padding: 10px 20px; }
+    .incompatible .text .title {
+      margin-top: 5%;
+      color: white;
+      font-size: 75px;
+      margin-bottom: 25px; }
+    .incompatible .text .subtitle, .incompatible .about .welcome .text .position, .about .welcome .incompatible .text .position {
+      color: #5d7468;
+      font-size: 50px;
+      margin-bottom: 25px; }
+    .incompatible .text .error {
+      font-size: 30px;
+      color: gold;
+      margin-bottom: 25px; }
+    .incompatible .text .otherwise {
+      font-size: 25px;
+      color: #E8E7E1;
+      margin-bottom: 25px; }
+    .incompatible .text .resume {
+      display: inline-block;
+      padding: 15px;
+      font-family: inherit;
+      font-size: 30px;
+      background: #E8E7E1;
+      color: #5d7468;
+      outline: 0px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      text-decoration: none; }
+    .incompatible .text .resume:active {
+      background: #5d7468;
+      color: #E8E7E1; }

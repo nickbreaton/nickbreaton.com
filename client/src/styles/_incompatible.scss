@@ -1,7 +1,62 @@
 .incompatible {
     width:100%;
-    height:100%;
+    min-height:100%;
     position:absolute;
     background:$color-main;
     z-index:100;
+
+    .text {
+      width:100%;
+      text-align:center;
+      font-family:$title-font;
+      padding:10px 20px;
+
+      $margin: 25px;
+
+      .title {
+        margin-top:5%;
+        color:white;
+        font-size:75px;
+        margin-bottom:$margin;
+      }
+
+      .subtitle {
+        color:$color-main-dark;
+        font-size:50px;
+        margin-bottom:$margin;
+      }
+
+      .error {
+        font-size:30px;
+        color:gold;
+        margin-bottom:$margin;
+      }
+
+      .otherwise {
+        font-size:25px;
+        color:$color-main-light;
+        margin-bottom:$margin;
+      }
+
+      .resume {
+        display:inline-block;
+        padding:15px;
+        font-family:inherit;
+        font-size:30px;
+        background:$color-main-light;
+        color:$color-main-dark;
+        outline:0px;
+        border-radius:20px;
+        border:none;
+        cursor:pointer;
+        margin-top:$margin;
+        margin-bottom:$margin;
+        text-decoration:none;
+      }
+
+      .resume:active {
+        background:$color-main-dark;
+        color:$color-main-light;
+      }
+    }
 }

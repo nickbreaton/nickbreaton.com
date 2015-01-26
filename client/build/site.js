@@ -168,6 +168,10 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   }
 }]);
 
+app.controller("IncompatibleController", ["$scope", function ($scope) {
+  $scope.error = "Please update your browser to use this site.";
+}]);
+
 app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", function ($scope, $rootScope, $window, MapStyle) {
   map();
   pin();

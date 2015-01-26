@@ -18,6 +18,16 @@
 </head>
 <body>
   <ng-include src="'/static/templates/base.html'"></ng-include>
-  <div class="not-compatible" ng-hide="true"></div>
+
+  <!-- browswer support is limited -->
+  <div class="incompatible" ng-controller="IncompatibleController" ng-hide="true">
+    <div class="text">
+      <div class="title">Nick Breaton</div>
+      <div class="subtitle">Web Developer</div>
+      <div class="error" ng-bind="error">Please enable JavaScript to use this site.</div>
+      <div class="otherwise">But if you don't want to, that's okay.<div>
+      <a class="resume" href="/resume.pdf" target="_blank">View My Resume</a>
+    </div>
+  </div>
 <body>
 </html>
