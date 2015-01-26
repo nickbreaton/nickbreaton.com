@@ -111,6 +111,15 @@ app.controller("ClockController", ["$scope", function ($scope) {
   }
 }]);
 
+app.controller("CompatibilityController", ["$scope", function ($scope) {
+  $scope.error = "Please update your browser to use this site.";
+
+  var testCanvas = document.createElement("canvas");
+
+  $scope.supported = !((testCanvas.getContext) ? true : false);
+
+}]);
+
 app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteInfo", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
@@ -169,10 +178,6 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   }
 }]);
 
-app.controller("IncompatibleController", ["$scope", function ($scope) {
-  $scope.error = "Please update your browser to use this site.";
-}]);
-
 app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", function ($scope, $rootScope, $window, MapStyle) {
   map();
   pin();
@@ -181,12 +186,14 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
     setTimeout(function () {
       watch();
       angular.element($window).bind('scroll', watch);
+      angular.element(document).bind('resize', watch);
     }, 1000);
 
     function watch() {
       var mapEl = document.getElementById("map-frame");
       var pinEl = document.getElementById("map-pin")
 
+      // doesnt throw errors on other pages if still listening
       if (mapEl && pinEl) {
         var map = mapEl.getBoundingClientRect();
         var pin = pinEl.getBoundingClientRect();

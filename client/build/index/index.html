@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html ng-app="my-site">
 <head>
+  <!-- enable moible scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title ng-bind="htmlTitle">Nick Breaton</title>
 
   <!-- style -->
   <link rel="stylesheet" href="/static/site.css" />
@@ -13,14 +16,21 @@
 
   <!-- script -->
   <script src="/static/site.js"></script>
-
-  <title ng-bind="htmlTitle">Nick Breaton</title>
 </head>
-<body>
-  <ng-include src="'/static/templates/base.html'"></ng-include>
+<body ng-controller="CompatibilityController">
+  <div ng-hide="supported">
+    <!-- header -->
+    <ng-include src="template('header')"></ng-include>
+
+    <!-- changing body content -->
+    <ng-view autoscroll="true"></ng-view>
+
+    <!-- footer -->
+    <!-- ng-include footer -->
+  </div>
 
   <!-- browswer support is limited -->
-  <div class="incompatible" ng-controller="IncompatibleController" ng-hide="true">
+  <div class="incompatible" ng-hide="!supported">
     <div class="text">
       <div class="title">Nick Breaton</div>
       <div class="subtitle">Web Developer</div>

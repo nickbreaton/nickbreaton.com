@@ -6,12 +6,14 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
     setTimeout(function () {
       watch();
       angular.element($window).bind('scroll', watch);
+      angular.element(document).bind('resize', watch);
     }, 1000);
 
     function watch() {
       var mapEl = document.getElementById("map-frame");
       var pinEl = document.getElementById("map-pin")
 
+      // doesnt throw errors on other pages if still listening
       if (mapEl && pinEl) {
         var map = mapEl.getBoundingClientRect();
         var pin = pinEl.getBoundingClientRect();
