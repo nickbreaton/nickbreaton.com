@@ -266,8 +266,8 @@
       .about .map-frame .cover .pin path {
         fill: red; }
     .about .map-frame .cover .pin.active {
-      -webkit-transition: .1s linear;
-              transition: .1s linear;
+      -webkit-transition: .33s linear;
+              transition: .33s linear;
       width: 55px;
       height: 55px;
       margin-top: 145px; }

@@ -54,7 +54,7 @@
       }
 
       .pin.active {
-        transition:.1s linear;
+        transition:.33s linear;
         width:$size;
         height:$size;
         margin-top:($height / 2) - $size - 25px;

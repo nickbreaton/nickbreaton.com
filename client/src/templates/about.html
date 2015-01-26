@@ -7,12 +7,12 @@
     </div>
   </div>
 
-  <div class="map-frame" ng-controller="MapController">
+  <div class="map-frame" id="map-frame" ng-controller="MapController">
     <div id="map-canvas">
       <!-- google map loaded here -->
     </div>
     <div class="cover">
-      <div class="pin" ng-class="{ active : pinActive }">
+      <div class="pin" id="map-pin" ng-class="{ active : pinActive }">
         <ng-include src="'/static/icons/location-full.svg'"></ng-include>
       </div>
     </div>
