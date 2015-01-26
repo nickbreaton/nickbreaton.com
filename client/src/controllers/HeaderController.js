@@ -2,6 +2,7 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   $scope.pageButtons = [
     new PageButton("About", "/"),
     new PageButton("Skills", "/skills/"),
+    new PageButton("Portfolio", "/portfolio/"),
     new PageButton("Hire", "/hire/"),
     new PageButton("Contact", "/contact/"),
     new PageButton("Blog", "/blog/"),

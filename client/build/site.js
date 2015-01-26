@@ -115,6 +115,7 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
   $scope.pageButtons = [
     new PageButton("About", "/"),
     new PageButton("Skills", "/skills/"),
+    new PageButton("Portfolio", "/portfolio/"),
     new PageButton("Hire", "/hire/"),
     new PageButton("Contact", "/contact/"),
     new PageButton("Blog", "/blog/"),
@@ -183,17 +184,22 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
     }, 1000);
 
     function watch() {
-      var map = document.getElementById("map-frame").getBoundingClientRect();
-      var pin = document.getElementById("map-pin").getBoundingClientRect();
+      var mapEl = document.getElementById("map-frame");
+      var pinEl = document.getElementById("map-pin")
 
-      if (map.bottom * .85 < window.innerHeight) {
-        $scope.pinActive = true;
-        $scope.$apply();
-      }
+      if (mapEl && pinEl) {
+        var map = mapEl.getBoundingClientRect();
+        var pin = pinEl.getBoundingClientRect();
 
-      if (pin.top > window.innerHeight) {
-        $scope.pinActive = false;
-        $scope.$apply();
+        if (map.bottom * .85 < window.innerHeight) {
+          $scope.pinActive = true;
+          $scope.$apply();
+        }
+
+        if (pin.top > window.innerHeight) {
+          $scope.pinActive = false;
+          $scope.$apply();
+        }
       }
     }
   }
