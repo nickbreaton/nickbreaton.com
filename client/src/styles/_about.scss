@@ -2,9 +2,23 @@
   .about-intro {
     width:100%;
     z-index:1;
-    height:300px;
     box-shadow:$main-shadow;
     position:relative;
+
+    .definition {
+      font-size:25px;
+      margin: 75px 0px;
+      font-family:$body-font;
+      padding:10px;
+      line-height:30px;
+
+      .word {
+        @media (max-width: $break-width) {
+          display:block;
+        }
+        font-weight:bold;
+      }
+    }
   }
 
   .map-frame {
