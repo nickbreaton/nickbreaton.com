@@ -13,6 +13,14 @@
   * body {
     background-color: #E8E7E1; }
 
+::-moz-selection {
+  background: rgba(93, 116, 104, 0.9);
+  color: white; }
+
+::selection {
+  background: rgba(93, 116, 104, 0.9);
+  color: white; }
+
 .center, .about .welcome .text {
   width: 950px;
   margin: auto;
@@ -247,10 +255,25 @@
       @media (max-width: 950px) {
         .about .about-intro .definition .word {
           display: block; } }
-  .about .about-intro .education {
-    min-height: 400px;
+  .about .about-intro .section-format, .about .about-intro .education, .about .about-intro .free-time {
     position: relative;
     padding: 40px 10px; }
+  .about .about-intro .title-format, .about .about-intro .education .title, .about .about-intro .free-time .title {
+    font-family: "Exo", Arial;
+    font-size: 45px;
+    margin-bottom: 25px; }
+    @media (max-width: 950px) {
+      .about .about-intro .title-format, .about .about-intro .education .title, .about .about-intro .free-time .title {
+        text-align: center; }
+        .about .about-intro .title-format .split, .about .about-intro .education .title .split, .about .about-intro .free-time .title .split {
+          display: block; } }
+  .about .about-intro .text-format, .about .about-intro .education .body, .about .about-intro .free-time .body {
+    font-family: "ColabThi", Arial;
+    font-size: 25px;
+    line-height: 31.25px;
+    text-align: justify; }
+  .about .about-intro .education {
+    min-height: 400px; }
     .about .about-intro .education .cover, .about .about-intro .education .cover-image, .about .about-intro .education .cover-color {
       top: 0;
       left: 0;
@@ -265,25 +288,20 @@
       background-position: center; }
     .about .about-intro .education .cover-color {
       background: #7c9b8b;
-      opacity: .85; }
+      opacity: .9; }
     .about .about-intro .education .title {
-      font-family: "Exo", Arial;
       color: white;
-      font-size: 45px;
-      margin-bottom: 10px;
       position: relative; }
-      @media (max-width: 950px) {
-        .about .about-intro .education .title {
-          text-align: center; }
-          .about .about-intro .education .title .first-off {
-            display: block; } }
     .about .about-intro .education .body {
       position: relative;
-      font-family: "ColabThi", Arial;
-      font-size: 25px;
-      color: white;
-      text-align: justify; }
+      color: white; }
+  .about .about-intro .free-time .body {
+    color: #555; }
 .about .map-frame {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   width: 100%;
   height: 450px;
   background: green;

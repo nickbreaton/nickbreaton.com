@@ -34,6 +34,11 @@ $main-shadow: 0 0 5px 2px rgba(55,55,55, .7);
   }
 }
 
+::selection {
+  background: rgba(93,116,104,.9);
+  color: white;
+}
+
 
 .center {
   width:$break-width;

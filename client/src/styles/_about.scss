@@ -20,10 +20,39 @@
       }
     }
 
-    .education {
-      min-height:400px;
+    // text formating for following sections
+    .section-format {
       position:relative;
       padding:40px 10px;
+
+    }
+
+    .title-format {
+      font-family:$title-font;
+      font-size:45px;
+      margin-bottom:25px;
+
+      @media (max-width: $break-width) {
+        text-align:center;
+
+        .split {
+          display:block;
+        }
+      }
+    }
+
+    .text-format {
+      font-family:$body-font;
+      font-size:$body-size;
+      line-height:$body-size * 1.25;
+      text-align:justify;
+
+    }
+
+
+    .education {
+      @extend .section-format;
+      min-height:400px;
 
       .cover {
         top:0;
@@ -44,37 +73,42 @@
       .cover-color {
         @extend .cover;
         background:$color-main;
-        opacity:.85;
+        opacity:.9;
       }
 
       .title {
-        @media (max-width: $break-width) {
-          text-align:center;
+        @extend .title-format;
 
-          .first-off {
-            display:block;
-          }
-        }
-
-        font-family:$title-font;
         color:white;
-        font-size:45px;
-        margin-bottom:10px;
         position:relative;
       }
 
       .body {
+        @extend .text-format;
+
         position:relative;
-        font-family:$body-font;
-        font-size:$body-size;
         color:white;
-        text-align:justify;
+      }
+    }
+
+    .free-time {
+      @extend .section-format;
+
+
+      .title {
+        @extend .title-format;
+      }
+
+      .body {
+        @extend .text-format;
+        color: #555;
       }
     }
   }
 
   .map-frame {
     $height: 450px;
+    user-select:none;
 
     width: 100%;
     height:$height;
