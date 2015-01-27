@@ -6,8 +6,8 @@
     position:relative;
 
     .definition {
-      font-size:25px;
-      margin: 75px 0px;
+      font-size:$body-size;
+      margin: 85px 0px;
       font-family:$body-font;
       padding:10px;
       line-height:30px;
@@ -17,6 +17,58 @@
           display:block;
         }
         font-weight:bold;
+      }
+    }
+
+    .education {
+      min-height:400px;
+      position:relative;
+      padding:40px 10px;
+
+      .cover {
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        position:absolute;
+      }
+
+      .cover-image {
+        @extend .cover;
+        filter: grayscale(100%);
+        background-image:url('/static/img/ww.jpg');
+        background-size:cover;
+        background-position:center;
+      }
+
+      .cover-color {
+        @extend .cover;
+        background:$color-main;
+        opacity:.85;
+      }
+
+      .title {
+        @media (max-width: $break-width) {
+          text-align:center;
+
+          .first-off {
+            display:block;
+          }
+        }
+
+        font-family:$title-font;
+        color:white;
+        font-size:45px;
+        margin-bottom:10px;
+        position:relative;
+      }
+
+      .body {
+        position:relative;
+        font-family:$body-font;
+        font-size:$body-size;
+        color:white;
+        text-align:justify;
       }
     }
   }
