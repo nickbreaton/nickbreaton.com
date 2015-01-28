@@ -91,9 +91,23 @@
       }
     }
 
-    .free-time {
+    .color {
       @extend .section-format;
+      background-color: $color-main;
 
+      .title {
+        @extend .title-format;
+        color: white;
+      }
+
+      .body {
+        @extend .text-format;
+        color: $color-main-light;
+      }
+    }
+
+    .white {
+      @extend .section-format;
 
       .title {
         @extend .title-format;
@@ -107,7 +121,7 @@
   }
 
   .map-frame {
-    $height: 450px;
+    $height: 400px;
     user-select:none;
 
     width: 100%;
@@ -154,7 +168,7 @@
       }
 
       .pin.active {
-        transition:.33s linear;
+        transition:.4s linear;
         width:$size;
         height:$size;
         margin-top:($height / 2) - $size - 25px;
