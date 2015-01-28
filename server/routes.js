@@ -15,6 +15,9 @@ module.exports = function (app) {
   // provide resume at root
   app.use("/resume.pdf", express.static(path.join(paths.client, "resources", "resume.pdf")));
 
+  // robots.txt
+  app.use("/robots.txt", express.static(path.join(paths.server, "robots.txt")));
+
   // send 404 for statics not found
   app.use("/static/*", function (req, res) {
     res.writeHead(404);
