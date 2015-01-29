@@ -13,4 +13,4 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("dev") ? app.listen(app.get("port")) : module.exports = app;
+app.listen(app.get("port"));
