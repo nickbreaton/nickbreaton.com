@@ -132,11 +132,13 @@
     background:$color-main-light;
 
     #map-canvas {
-      $offset: 250px;
+      $vertical-offset: 250px;
+      $horizontal-offset: -100px;
       position:absolute;
-      top: -($offset / 2);
-      height: $height + $offset;
-      width:100%;
+      top: -($vertical-offset / 2);
+      height: $height + $vertical-offset;
+      left:-100px;
+      right:-100px;
     }
 
     .cover {

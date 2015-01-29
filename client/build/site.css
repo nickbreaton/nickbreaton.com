@@ -318,7 +318,8 @@
     position: absolute;
     top: -125px;
     height: 650px;
-    width: 100%; }
+    left: -100px;
+    right: -100px; }
   .about .map-frame .cover, .about .map-frame .about-intro .education .cover-image, .about .about-intro .education .map-frame .cover-image, .about .map-frame .about-intro .education .cover-color, .about .about-intro .education .map-frame .cover-color {
     top: 0;
     bottom: 0;
