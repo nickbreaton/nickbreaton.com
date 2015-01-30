@@ -84,6 +84,12 @@
 .header.placeholder {
   position: relative;
   box-shadow: none; }
+  .header.placeholder .bounce-fix {
+    width: 100%;
+    top: -100vh;
+    height: 100vh;
+    position: absolute;
+    background-color: inherit; }
 
 .header.menu {
   box-shadow: none; }
