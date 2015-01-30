@@ -39,19 +39,22 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
     $rootScope.mapWidth = undefined;
 
     if (google.maps.event) {
-      google.maps.event.addDomListener(window, 'resize', function () {
-        canvas = document.getElementById('map-canvas');
-        parent = canvas.parentNode;
+      // run when page resizes
+      google.maps.event.addDomListener(window, "resize", go);
 
-        if ($rootScope.mapWidth != parent.getBoundingClientRect().width) {
-          create();
-          $rootScope.mapWidth = parent.getBoundingClientRect().width;
-        }
-      });
+      // make sure event runs every time controller is activated
+      go();
     }
 
-    // make sure event runs every time controller is activated
-    window.dispatchEvent(new Event('resize'));
+    function go () {
+      canvas = document.getElementById("map-canvas");
+      parent = canvas.parentNode;
+
+      if ($rootScope.mapWidth != parent.getBoundingClientRect().width) {
+        create();
+        $rootScope.mapWidth = parent.getBoundingClientRect().width;
+      }
+    }
 
     function create () {
       if (google) {
@@ -72,7 +75,7 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
 
         var map = new google.maps.Map(canvas, mapOptions);
 
-        var customMapType = new google.maps.StyledMapType(style, {name: 'Custom Style'});
+        var customMapType = new google.maps.StyledMapType(style, {name: "Custom Style"});
 
         map.mapTypes.set(randId, customMapType);
       }
