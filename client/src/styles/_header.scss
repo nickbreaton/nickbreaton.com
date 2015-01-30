@@ -85,14 +85,7 @@ $scale-width: 580px;
 .header.placeholder {
   position:relative;
   box-shadow:none;
-
-  .bounce-fix {
-    width:100%;
-    top:-100vh;
-    height:100vh;
-    position:absolute;
-    background-color:inherit;
-  }
+  color:white;
 }
 
 .header.menu {
