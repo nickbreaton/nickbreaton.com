@@ -5,13 +5,13 @@
       <div class="position">{{ positition }}</div>
       <div class="clock" ng-controller="ClockController">
         <!-- intervals -->
-        <div ng-repeat="interval in intervals" class="interval" ng-style="{ transform : interval.transform }">
+        <div ng-repeat="interval in intervals" class="interval" ng-style="{ '-webkit-transform' : interval.transform, '-moz-transform' : interval.transform, '-ms-transform' : interval.transform, transform : interval.transform }">
           <div ng-class="interval.type"></div>
         </div>
 
         <!-- hands -->
         <div class="base-pin"></div>
-        <div ng-repeat="hand in hands" class="hand-holder" ng-style="{ transform : hand.transform }">
+        <div ng-repeat="hand in hands" class="hand-holder" ng-style="{ '-webkit-transform' : hand.transform, '-moz-transform' : hand.transform, '-ms-transform' : hand.transform, transform : hand.transform }">
           <div ng-class="hand.type"></div>
         </div>
         <div class="second-pin"></div>
