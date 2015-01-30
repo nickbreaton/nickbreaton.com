@@ -84,7 +84,7 @@
 .header.placeholder {
   position: relative;
   box-shadow: none;
-  color: white; }
+  background-color: white; }
 
 .header.menu {
   box-shadow: none; }
