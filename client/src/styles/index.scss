@@ -1,12 +1,22 @@
 // font defintions
 @font-face {
-  font-family:"Exo";
+  font-family:"Exo-otf";
   src:url('/static/fonts/exo.otf');
 }
 
 @font-face {
-  font-family:"ColabThi";
+  font-family:"Exo-eot";
+  src:url('/static/fonts/exo.eot');
+}
+
+@font-face {
+  font-family:"ColabThi-otf";
   src:url('/static/fonts/ColabThi.otf');
+}
+
+@font-face {
+  font-family:"ColabThi-eot";
+  src:url('/static/fonts/ColabThi.eot');
 }
 
 
@@ -15,8 +25,8 @@
 $color-main: #7c9b8b;
 $color-main-dark: #5d7468;
 $color-main-light: #E8E7E1;
-$title-font: "Exo", Arial;
-$body-font: "ColabThi", Arial;
+$title-font: "Exo-otf", "Exo-eot", Arial;
+$body-font: "ColabThi-otf", "ColabThi-eot", Arial;
 $body-size: 25px;
 $break-width: 950px;
 $main-shadow: 0 0 5px 2px rgba(55,55,55, .7);
