@@ -23,8 +23,10 @@ gulp.task("scripts", function () {
   return gulp.src(scripts)
     .pipe(plugin.concat("site.js"))
     .pipe(gulp.dest(paths.build))
+    .pipe(plugin.sourcemaps.init())
     .pipe(plugin.rename("site.min.js"))
     .pipe(plugin.uglify())
+    .pipe(plugin.sourcemaps.write("."))
     .on("error", error)
     .pipe(gulp.dest(paths.build));
 });
