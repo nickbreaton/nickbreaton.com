@@ -23,6 +23,10 @@ module.exports.connect = function () {
     db = mongoose.connection.db;
     ready = true;
   });
+
+  mongoose.connection.on("error", function(err) {
+    console.log("\n" + " > " + "Mongoose Connection " + err + "\n");
+  });
 }
 
 module.exports.route = function (app) {

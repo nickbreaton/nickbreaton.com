@@ -123,6 +123,10 @@ app.controller("CompatibilityController", ["$scope", function ($scope) {
 
 }]);
 
+app.controller("ContactController", ["$scope", function ($scope) {
+
+}]);
+
 app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteInfo", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),

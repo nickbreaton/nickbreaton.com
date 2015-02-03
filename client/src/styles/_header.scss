@@ -1,6 +1,3 @@
-$scale-width: 580px;
-
-
 .header {
   $font-size: 22px;
   user-select:none;
@@ -46,7 +43,7 @@ $scale-width: 580px;
   }
 
   .button.page {
-    @media (max-width: $scale-width) {
+    @media (max-width: $header-break) {
       @include disable();
     }
   }
@@ -58,7 +55,7 @@ $scale-width: 580px;
     display:inline-block;
     padding-top:10px;
 
-    @media (min-width: $scale-width) {
+    @media (min-width: $header-break) {
       @include disable();
     }
 
@@ -89,7 +86,7 @@ $scale-width: 580px;
 }
 
 .header.menu {
-  @media (min-width: $scale-width) {
+  @media (min-width: $header-break) {
     visibility:hidden;
   }
   box-shadow:none;

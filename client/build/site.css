@@ -1,10 +1,18 @@
 @font-face {
-  font-family: "Exo";
+  font-family: "Exo-otf";
   src: url('/static/fonts/exo.otf'); }
 
 @font-face {
-  font-family: "ColabThi";
+  font-family: "Exo-eot";
+  src: url('/static/fonts/exo.eot'); }
+
+@font-face {
+  font-family: "ColabThi-otf";
   src: url('/static/fonts/ColabThi.otf'); }
+
+@font-face {
+  font-family: "ColabThi-eot";
+  src: url('/static/fonts/ColabThi.eot'); }
 
 * {
   padding: 0px;
@@ -38,7 +46,7 @@
   position: fixed;
   width: 100%;
   background-color: #5d7468;
-  font-family: "Exo", Arial;
+  font-family: "Exo-otf", "Exo-eot", Arial;
   font-size: 22px;
   padding: 1vw 0;
   z-index: 20;
@@ -134,7 +142,7 @@
       height: auto;
       padding-bottom: 20px; } }
   .about .welcome .text {
-    font-family: "Exo", Arial; }
+    font-family: "Exo-otf", "Exo-eot", Arial; }
     @media (max-width: 950px) {
       .about .welcome .text {
         text-align: center; } }
@@ -248,7 +256,7 @@
   .about .about-intro .definition {
     font-size: 25px;
     margin: 85px 0px;
-    font-family: "ColabThi", Arial;
+    font-family: "ColabThi-otf", "ColabThi-eot", Arial;
     padding: 10px;
     line-height: 30px; }
     .about .about-intro .definition .word {
@@ -260,7 +268,7 @@
     position: relative;
     padding: 40px 10px; }
   .about .about-intro .title-format, .about .about-intro .education .title, .about .about-intro .color .title, .about .about-intro .white .title {
-    font-family: "Exo", Arial;
+    font-family: "Exo-otf", "Exo-eot", Arial;
     font-size: 45px;
     margin-bottom: 25px; }
     @media (max-width: 950px) {
@@ -269,7 +277,7 @@
         .about .about-intro .title-format .split, .about .about-intro .education .title .split, .about .about-intro .color .title .split, .about .about-intro .white .title .split {
           display: block; } }
   .about .about-intro .text-format, .about .about-intro .education .body, .about .about-intro .color .body, .about .about-intro .white .body {
-    font-family: "ColabThi", Arial;
+    font-family: "ColabThi-otf", "ColabThi-eot", Arial;
     font-size: 25px;
     line-height: 31.25px;
     text-align: justify; }
@@ -348,29 +356,74 @@
       height: 55px;
       margin-top: 120px; }
 
-.blog {
-  margin-top: 50px; }
-
-.post .date {
-  vertical-align: top; }
-  .post .date div {
-    font-family: "Exo", Arial;
-    text-align: center;
-    width: 75px;
-    line-height: 30px;
-    vertical-align: middle;
-    padding: 15px 7.5px;
-    margin-right: 7.5px;
-    background: #7c9b8b;
-    border-radius: 7.5px;
-    color: white;
-    font-size: 15px; }
-.post .text .title {
-  font-family: "Exo", Arial;
+.contact .title {
+  font-family: "Exo-otf", "Exo-eot", Arial;
   font-size: 45px;
-  color: #5d7468; }
-.post .text .body {
-  text-align: justify; }
+  color: #5d7468;
+  display: block;
+  text-align: center;
+  margin: 25px 0; }
+.contact .web {
+  width: 100%;
+  margin-top: 10px; }
+  .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body {
+    padding: 10px;
+    font-size: 25px;
+    font-family: "ColabThi-otf", "ColabThi-eot", Arial;
+    margin-bottom: 10px;
+    outline: 0;
+    border: none;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #d2d2d2; }
+    @media (min-width: 580px) {
+      .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body {
+        margin: 10px 0; } }
+    @media (max-width: 950px) {
+      .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body {
+        font-size: 22.5px; } }
+  .contact .web .input:focus, .contact .web .row:focus, .contact .web .row1:focus, .contact .web .name:focus, .contact .web .email:focus, .contact .web .subject:focus, .contact .web .filter:focus, .contact .web .body:focus {
+    border-color: #7c9b8b; }
+  .contact .web .row1, .contact .web .name, .contact .web .email {
+    width: 49.5%; }
+    @media (max-width: 580px) {
+      .contact .web .row1, .contact .web .name, .contact .web .email {
+        width: 100%; } }
+  .contact .web .email {
+    float: right; }
+  .contact .web .subject {
+    width: 74.5%; }
+  .contact .web .filter {
+    width: 24.5%;
+    float: right; }
+  .contact .web .body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 350px;
+    min-height: 350px;
+    max-height: 350px;
+    display: block;
+    line-height: 28.75px; }
+  .contact .web .send {
+    display: block;
+    width: 90px;
+    height: 90px;
+    margin: auto;
+    margin-top: -45px;
+    border: none;
+    border-radius: 100vw;
+    outline: 0;
+    background-color: #5d7468;
+    cursor: pointer;
+    color: white;
+    font-size: 22.5px;
+    font-family: "Exo-otf", "Exo-eot", Arial;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #5d7468; }
+  .contact .web .send:active {
+    background: #7c9b8b; }
 
 .incompatible {
   width: 100%;
@@ -381,7 +434,7 @@
   .incompatible .text {
     width: 100%;
     text-align: center;
-    font-family: "Exo", Arial;
+    font-family: "Exo-otf", "Exo-eot", Arial;
     padding: 10px 20px; }
     .incompatible .text .title {
       margin-top: 5%;

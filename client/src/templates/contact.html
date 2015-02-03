@@ -1,3 +1,13 @@
-<div class="contact">
-  CONTACT
+<div class="contact" ng-controller="ContactController">
+  <div class="center">
+    <div class="title">I Would Love to Hear from You</div>
+    <form class="web">
+      <input class="name" type="text" placeholder="How may I refer to you?"></input>
+      <input class="email" type="email" placeholder="Where can I email you back?"></input>
+      <input class="subject" type="text" placeholder="What is this about?"></input>
+      <input class="filter" type="text" placeholder="{{ filter.one }} + {{ filter.two }} ="></input>
+      <textarea class="body" placeholder="What would you like to tell me?"></textarea>
+      <button class="send">Send</button>
+    </form>
+  </div>
 </div>
