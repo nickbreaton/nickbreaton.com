@@ -363,10 +363,23 @@
   display: block;
   text-align: center;
   margin: 25px 0; }
+.contact .bar {
+  width: 100%;
+  text-align: center;
+  color: #7c9b8b;
+  font-size: 27.5px;
+  font-family: "Exo-otf", "Exo-eot", Arial;
+  margin-top: 40px;
+  margin-bottom: 50px; }
+  .contact .bar .link {
+    text-decoration: none;
+    color: inherit; }
+  .contact .bar .link:hover {
+    opacity: .5; }
 .contact .web {
   width: 100%;
   margin-top: 10px; }
-  .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body {
+  .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body-container, .contact .web .body {
     padding: 10px;
     font-size: 25px;
     font-family: "ColabThi-otf", "ColabThi-eot", Arial;
@@ -377,12 +390,12 @@
     border-style: solid;
     border-color: #d2d2d2; }
     @media (min-width: 580px) {
-      .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body {
+      .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body-container, .contact .web .body {
         margin: 10px 0; } }
     @media (max-width: 950px) {
-      .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body {
+      .contact .web .input, .contact .web .row, .contact .web .row1, .contact .web .name, .contact .web .email, .contact .web .subject, .contact .web .filter, .contact .web .body-container, .contact .web .body {
         font-size: 22.5px; } }
-  .contact .web .input:focus, .contact .web .row:focus, .contact .web .row1:focus, .contact .web .name:focus, .contact .web .email:focus, .contact .web .subject:focus, .contact .web .filter:focus, .contact .web .body:focus {
+  .contact .web .input:focus, .contact .web .row:focus, .contact .web .row1:focus, .contact .web .name:focus, .contact .web .email:focus, .contact .web .subject:focus, .contact .web .filter:focus, .contact .web .body-container:focus, .contact .web .body:focus, .contact .web .active {
     border-color: #7c9b8b; }
   .contact .web .row1, .contact .web .name, .contact .web .email {
     width: 49.5%; }
@@ -396,15 +409,21 @@
   .contact .web .filter {
     width: 24.5%;
     float: right; }
-  .contact .web .body {
+  .contact .web .body-container {
     width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-    height: 350px;
-    min-height: 350px;
-    max-height: 350px;
+    background: white;
+    padding: 0;
+    padding-bottom: 50px; }
+  .contact .web .body {
+    margin: 0;
+    border: none;
+    width: 100%;
+    background: none;
+    min-height: 150px;
     display: block;
-    line-height: 28.75px; }
+    line-height: 28.75px;
+    resize: none;
+    overflow: hidden; }
   .contact .web .send {
     display: block;
     width: 90px;

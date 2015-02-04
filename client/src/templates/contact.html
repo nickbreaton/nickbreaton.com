@@ -1,12 +1,21 @@
 <div class="contact" ng-controller="ContactController">
   <div class="center">
-    <div class="title">I Would Love to Hear from You</div>
-    <form class="web">
-      <input class="name" type="text" placeholder="How may I refer to you?"></input>
-      <input class="email" type="email" placeholder="Where can I email you back?"></input>
-      <input class="subject" type="text" placeholder="What is this about?"></input>
-      <input class="filter" type="text" placeholder="{{ filter.one }} + {{ filter.two }} ="></input>
-      <textarea class="body" placeholder="What would you like to tell me?"></textarea>
+    <div class="bar">
+      <div class="title">You can find me here</div>
+      <span ng-repeat="link in links">
+        <a target="_blank" class="link" href="{{ link.href }}">{{ link.name }}</a>
+        <span class="bullet" ng-hide="link.last">•</span>
+      </span>
+    </div>
+    <form class="web" ng-submit="submit()" novalidate>
+      <div class="title">I would love to hear from you</div>
+      <input class="name"    type="text"  ng-model="message.name"    placeholder="How may I refer to you?"></input>
+      <input class="email"   type="email" ng-model="message.email"   placeholder="Where can I email you back?"></input>
+      <input class="subject" type="text"  ng-model="message.subject" placeholder="What is this about?"></input>
+      <input class="filter"  type="text"  ng-model="message.filter"  placeholder="{{ filter.one }} + {{ filter.two }} ="></input>
+      <div class="body-container" ng-class="{ active : bodyFocus }">
+        <textarea class="body" id="contact-textarea" ng-focus="bodyFocus = true" ng-trim="false" ng-blur="bodyFocus = false" ng-model="message.body" placeholder="What would you like to tell me?"></textarea>
+      </div>
       <button class="send">Send</button>
     </form>
   </div>
