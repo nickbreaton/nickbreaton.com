@@ -18,7 +18,8 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: transparent;
+  font-weight: normal; }
   * body {
     background-color: #E8E7E1; }
 
