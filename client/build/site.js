@@ -139,7 +139,7 @@ app.controller("ContactController", function ($scope) {
   ]
 
   $scope.inputs = [
-    new Input("name", "text", "How may I refer to you?"),
+    new Input("name", "text", "What is your name?"),
     new Input("email", "email", "Where can I email you back?"),
     new Input("subject", "text", "What is this about?"),
     new Input("filter", "text", $scope.filter.one + " + " + $scope.filter.two + " =")
@@ -158,6 +158,7 @@ app.controller("ContactController", function ($scope) {
 
     wsCheck("name");
     wsCheck("subject");
+    wsCheck("body");
 
     // check human life
     if ($scope.filter.one + $scope.filter.two != $scope.message.filter.text) {
@@ -166,7 +167,6 @@ app.controller("ContactController", function ($scope) {
 
     // check valid email
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 
     if (!re.test($scope.message.email.text)) {
       $scope.message.email.error = true;
