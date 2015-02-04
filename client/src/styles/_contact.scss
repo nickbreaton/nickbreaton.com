@@ -20,10 +20,35 @@
     .link {
       text-decoration:none;
       color:inherit;
+      display:inline-block;
     }
 
     .link:hover {
       opacity:.5;
+    }
+
+    @media (max-width: 700px) {
+      .bullet {
+        visibility:hidden;
+      }
+
+      .link {
+        display:block;
+        margin-top:-20px;
+      }
+    }
+  }
+
+  .thankyou {
+    @extend .bar;
+    color:black;
+    font-family:$body-font;
+    font-size:40px;
+
+    
+
+    @media (max-width: $header-break) {
+      font-size:30px;
     }
   }
 
@@ -49,6 +74,10 @@
       @media (max-width: $break-width) {
         font-size:$body-size * .9;
       }
+    }
+
+    .error {
+      border-color:red;
     }
 
     .input:focus {
@@ -88,7 +117,7 @@
       @extend .row;
 
       width:24.5%;
-      float: right;
+      margin-left:1%;
     }
 
     .body-container {

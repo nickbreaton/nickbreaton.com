@@ -123,14 +123,26 @@ app.controller("CompatibilityController", function ($scope) {
 
 app.controller("ContactController", function ($scope) {
   $scope.filter = new Filter();
-  $scope.message = {};
-  $scope.message.body = "";
+  $scope.submitted = false;
+  $scope.message = {
+    body : {
+      text : "",
+      error : false
+    }
+  };
 
   $scope.links = [
     new Link("contact@nickbreaton.com", "mailto:contact@nickbreaton.com"),
     new Link("LinkedIn", "https://www.linkedin.com/in/nbreaton"),
     new Link("GitHub", "https://github.com/nbreaton"),
     new Link("Twitter", "https://twitter.com/nicholasbreaton", true)
+  ]
+
+  $scope.inputs = [
+    new Input("name", "text", "How may I refer to you?"),
+    new Input("email", "email", "Where can I email you back?"),
+    new Input("subject", "text", "What is this about?"),
+    new Input("filter", "text", $scope.filter.one + " + " + $scope.filter.two + " =")
   ]
 
   // make textarea expand to content
@@ -142,10 +154,62 @@ app.controller("ContactController", function ($scope) {
   });
 
   $scope.submit = function () {
-    var fail = false;
+    // regex for email validation: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/g
 
-    if ($scope.message.email != /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/g ) {
-      console.log(fail);
+    wsCheck("name");
+    wsCheck("subject");
+
+    // check human life
+    if ($scope.filter.one + $scope.filter.two != $scope.message.filter.text) {
+      $scope.message.filter.error = true;
+    }
+
+    // check valid email
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
+    if (!re.test($scope.message.email.text)) {
+      $scope.message.email.error = true;
+    }
+
+    // don't submit if errors
+    for (var id in $scope.message) {
+      if ($scope.message[id].error) {
+        return;
+      }
+    }
+
+    // build submission json
+    var submit = {
+      name : $scope.message.name.text,
+      email : $scope.message.name.text,
+      subject : $scope.message.name.text,
+      body : $scope.message.name.text
+    }
+
+    // no errors means time to submit
+    // console.log(submit);
+
+    $scope.submitted = true;
+    window.scrollTo(0, 0);
+
+
+    // check for white space
+    function wsCheck (id) {
+      var text = $scope.message[id].text;
+
+      if (text == null) {
+        text = "";
+      }
+
+      while(text.indexOf(" ") > -1) {
+        text.replace(" ", "");
+      }
+
+      if (text == "") {
+        $scope.message[id].text = null;
+        $scope.message[id].error = true;
+      }
     }
   }
 
@@ -167,6 +231,33 @@ app.controller("ContactController", function ($scope) {
     this.href = href;
     this.last = last;
   }
+
+  function Input(identifier, type, placeholder) {
+    this.class = identifier;
+    this.name = identifier;
+    this.type = type;
+    this.placeholder = placeholder;
+
+    this.getClass = function () {
+      var err = "";
+
+      if ($scope.message[this.name].error) {
+        err = "error";
+      }
+
+      return this.class + " " + err;
+    }
+
+    this.removeError = function () {
+      $scope.message[this.name].error = false;
+    }
+
+    $scope.message[this.name] = {
+      text : "",
+      error : false
+    }
+  }
+
 });
 
 app.controller("HeaderController", function ($scope, $location, $rootScope, SiteInfo) {

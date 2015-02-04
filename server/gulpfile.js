@@ -24,6 +24,7 @@ gulp.task("scripts", function () {
     .pipe(plugin.concat("site.js"))
     .pipe(gulp.dest(paths.build))
     .pipe(plugin.ngAnnotate())
+    .on("error", error)
     .pipe(plugin.sourcemaps.init())
     .pipe(plugin.rename("site.min.js"))
     .pipe(plugin.uglify())
