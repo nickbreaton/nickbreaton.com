@@ -1,19 +1,19 @@
 var express = require("express");
 
-var routes = require("./routes");
 var api = require("./api");
+var routes = require("./routes");
+var database = require("./database");
 
 var app = express();
 
-api.connect();
+database.connect();
 
 app.set("port", 3000);
 app.set("env", process.env.NODE_ENV);
 app.set("dev", app.get("env") != "production");
-app.set("api", api);
 
 app.use(function (req, res, next) {
-  api.route(app);
+  database.route(app, api);
   routes(app);
   next();
 });
