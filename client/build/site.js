@@ -45,13 +45,11 @@ app.run(['$route', "$rootScope", function($route, $rootScope)  {
   $rootScope.lorem = "Bacon ipsum dolor amet flank cow short ribs salami biltong. Ball tip ham hock porchetta, turkey kielbasa beef boudin tongue. Kevin boudin ball tip, prosciutto tri-tip corned beef andouille. Pancetta ball tip sausage fatback. Ground round short loin turkey swine pork, frankfurter chuck rump beef pastrami. Kevin pig sausage, meatball beef venison capicola brisket ground round tongue leberkas turkey swine shoulder short ribs. Kevin jowl tongue shank spare ribs turducken shoulder short ribs ham hock meatball bacon chicken tail tenderloin biltong. Pork loin ribeye pork chop shank capicola cupim. Tenderloin doner pork chop corned beef, picanha filet mignon short loin prosciutto hamburger boudin drumstick turkey chicken bresaola. Ground round brisket hamburger shoulder, corned beef spare ribs beef ribs sirloin short loin ham hock tongue chuck jowl. Pork belly jerky bresaola prosciutto ribeye capicola doner cow landjaeger ground round cupim turkey tenderloin. Jowl rump fatback, tail tenderloin drumstick boudin frankfurter sausage capicola pancetta pork loin. Bacon filet mignon pork loin short ribs, hamburger shoulder beef ribs tenderloin sirloin ribeye pancetta."
 }]);
 
-app.controller("BlogController", ["$scope", function ($scope) {
+app.controller("BlogController", function ($scope) {
   $scope.date = new Date();
+});
 
-  $scope.lorem = "Contrary to poular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.";
-}]);
-
-app.controller("ClockController", ["$scope", function ($scope) {
+app.controller("ClockController", function ($scope) {
   createIntervals();
   createHands();
 
@@ -112,18 +110,18 @@ app.controller("ClockController", ["$scope", function ($scope) {
       this.transform = "rotate(" + this.rotation + "deg)";
     }
   }
-}]);
+});
 
-app.controller("CompatibilityController", ["$scope", function ($scope) {
+app.controller("CompatibilityController", function ($scope) {
   $scope.error = "Please update your browser to use this site.";
 
   var testCanvas = document.createElement("canvas");
 
   $scope.supported = !((testCanvas.getContext) ? true : false);
 
-}]);
+});
 
-app.controller("ContactController", ["$scope", function ($scope) {
+app.controller("ContactController", function ($scope) {
   $scope.filter = new Filter();
   $scope.message = {};
   $scope.message.body = "";
@@ -169,9 +167,9 @@ app.controller("ContactController", ["$scope", function ($scope) {
     this.href = href;
     this.last = last;
   }
-}]);
+});
 
-app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteInfo", function ($scope, $location, $rootScope, SiteInfo) {
+app.controller("HeaderController", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
     new PageButton("Skills", "/skills/"),
@@ -227,9 +225,9 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
     this.cssImage = "url('" + this.image + "')";
     this.link = pageLink;
   }
-}]);
+});
 
-app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", function ($scope, $rootScope, $window, MapStyle) {
+app.controller("MapController", function ($scope, $rootScope, $window, MapStyle) {
   map();
   pin();
 
@@ -312,7 +310,7 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
       }
     }
   }
-}]);
+});
 
 app.constant("MapStyle", function (color) {
  return [{"featureType":"all","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"visibility":"on"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":color},{"visibility":"on"}]}];

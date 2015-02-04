@@ -1,4 +1,4 @@
-app.controller("ClockController", ["$scope", function ($scope) {
+app.controller("ClockController", function ($scope) {
   createIntervals();
   createHands();
 
@@ -59,4 +59,4 @@ app.controller("ClockController", ["$scope", function ($scope) {
       this.transform = "rotate(" + this.rotation + "deg)";
     }
   }
-}]);
+});

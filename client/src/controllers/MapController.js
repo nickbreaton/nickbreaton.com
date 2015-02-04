@@ -1,4 +1,4 @@
-app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", function ($scope, $rootScope, $window, MapStyle) {
+app.controller("MapController", function ($scope, $rootScope, $window, MapStyle) {
   map();
   pin();
 
@@ -81,4 +81,4 @@ app.controller("MapController", ["$scope", "$rootScope", "$window", "MapStyle", 
       }
     }
   }
-}]);
+});

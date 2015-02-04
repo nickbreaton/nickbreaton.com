@@ -1,4 +1,4 @@
-app.controller("ContactController", ["$scope", function ($scope) {
+app.controller("ContactController", function ($scope) {
   $scope.filter = new Filter();
   $scope.message = {};
   $scope.message.body = "";
@@ -44,4 +44,4 @@ app.controller("ContactController", ["$scope", function ($scope) {
     this.href = href;
     this.last = last;
   }
-}]);
+});

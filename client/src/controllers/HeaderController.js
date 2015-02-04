@@ -1,4 +1,4 @@
-app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteInfo", function ($scope, $location, $rootScope, SiteInfo) {
+app.controller("HeaderController", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
     new PageButton("Skills", "/skills/"),
@@ -54,4 +54,4 @@ app.controller("HeaderController", ["$scope", "$location", "$rootScope", "SiteIn
     this.cssImage = "url('" + this.image + "')";
     this.link = pageLink;
   }
-}]);
+});
