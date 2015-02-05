@@ -23,12 +23,12 @@ gulp.task("scripts", function () {
   return gulp.src(scripts)
     .pipe(plugin.concat("site.js"))
     .pipe(gulp.dest(paths.build))
-    .pipe(plugin.ngAnnotate())
+    .pipe(plugin.jsvalidate())
     .on("error", error)
+    .pipe(plugin.ngAnnotate())
     .pipe(plugin.sourcemaps.init())
     .pipe(plugin.rename("site.min.js"))
     .pipe(plugin.uglify())
-    .on("error", error)
     .pipe(plugin.sourcemaps.write("."))
     .pipe(gulp.dest(paths.build));
 });
@@ -76,7 +76,20 @@ function error (error) {
   // make beep sound
   process.stdout.write('\x07');
 
-  console.log("\n" + error.toString() + "\n");
+
+  if (error.lineNumber && error.fileName) {
+    var str = "";
+
+    str += "\n[\033[31m" + "ERROR" + "\033[0m]"
+        + "\t" + error.description
+        + "\n\n\t" + path.basename(error.fileName) + " at line " + error.lineNumber + "\n";
+
+    console.log(str);
+
+  } else {
+    console.log("\n" + error + "\n");
+  }
+
 
   // send continue to watch
   this.emit("end");
