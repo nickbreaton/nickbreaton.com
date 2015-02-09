@@ -132,9 +132,9 @@ app.controller("ContactController", function ($scope) {
   };
 
   $scope.links = [
-    new Link("contact@nickbreaton.com", "mailto:contact@nickbreaton.com"),
-    new Link("LinkedIn", "https://www.linkedin.com/in/nbreaton"),
+    new Link("nick@breaton.com", "mailto:nick@breaton.com"),
     new Link("GitHub", "https://github.com/nbreaton"),
+    new Link("LinkedIn", "https://www.linkedin.com/in/nbreaton"),
     new Link("Twitter", "https://twitter.com/nicholasbreaton", true)
   ]
 
@@ -266,7 +266,7 @@ app.controller("HeaderController", function ($scope, $location, $rootScope, Site
     // new PageButton("Skills", "/skills/"),
     // new PageButton("Portfolio", "/portfolio/"),
     // new PageButton("Hire", "/hire/"),
-    // new PageButton("Contact", "/contact/"),
+    new PageButton("Contact", "/contact/"),
     // new PageButton("Blog", "/blog/"),
   ];
 

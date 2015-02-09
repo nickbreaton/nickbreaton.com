@@ -4,7 +4,7 @@ app.controller("HeaderController", function ($scope, $location, $rootScope, Site
     // new PageButton("Skills", "/skills/"),
     // new PageButton("Portfolio", "/portfolio/"),
     // new PageButton("Hire", "/hire/"),
-    // new PageButton("Contact", "/contact/"),
+    new PageButton("Contact", "/contact/"),
     // new PageButton("Blog", "/blog/"),
   ];
 

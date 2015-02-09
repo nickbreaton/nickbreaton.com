@@ -16,10 +16,6 @@ module.exports = function (app) {
   // provide resume at root
   app.use("/resume.pdf", express.static(path.join(paths.client, "resources", "resume.pdf")));
 
-  if (app.get("dev")) {
-    app.use("/dev/resume", express.static(path.join(paths.templates, "resume.html")))
-  }
-
   // robots.txt
   app.use("/robots.txt", express.static(path.join(paths.server, "robots.txt")));
 

@@ -9,9 +9,9 @@ app.controller("ContactController", function ($scope) {
   };
 
   $scope.links = [
-    new Link("contact@nickbreaton.com", "mailto:contact@nickbreaton.com"),
-    new Link("LinkedIn", "https://www.linkedin.com/in/nbreaton"),
+    new Link("nick@breaton.com", "mailto:nick@breaton.com"),
     new Link("GitHub", "https://github.com/nbreaton"),
+    new Link("LinkedIn", "https://www.linkedin.com/in/nbreaton"),
     new Link("Twitter", "https://twitter.com/nicholasbreaton", true)
   ]
 

@@ -13,7 +13,7 @@ module.exports.connect = function () {
   ready = false;
 
   function getCredential (credential) {
-    return (fs.readFileSync(path.join(paths.server, "credentials", credential), "utf8")).replace(/\n$/, '');
+    return (fs.readFileSync(path.join(paths.server, "credentials", "mongo", credential), "utf8")).replace(/\n$/, '');
   }
 
   var uri = "mongodb://" + username + ":" + password + "@" + hostname + "/" + "testdb";
