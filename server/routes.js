@@ -12,8 +12,13 @@ module.exports = function (app) {
   app.use("/static/vendor/", express.static(path.join(paths.client, "vendor")));
   app.use("/static/", express.static(path.join(paths.client, "resources")));
 
+
   // provide resume at root
   app.use("/resume.pdf", express.static(path.join(paths.client, "resources", "resume.pdf")));
+
+  if (app.get("dev")) {
+    app.use("/dev/resume", express.static(path.join(paths.templates, "resume.html")))
+  }
 
   // robots.txt
   app.use("/robots.txt", express.static(path.join(paths.server, "robots.txt")));

@@ -21,7 +21,7 @@ app.config(["$routeProvider", "$locationProvider",  function ($routeProvider, $l
     .when("/blog/", {
       templateUrl : "/static/templates/blog.html"
     })
-
+    
     // redirects
     .when("/about/", {
       redirectTo : "/"

@@ -508,3 +508,63 @@
     .incompatible .text .resume:active {
       background: #5d7468;
       color: #E8E7E1; }
+
+.resume {
+  background: rgba(0, 0, 0, 0.25); }
+  .resume .page {
+    width: 8.5in;
+    height: 11in;
+    background: white;
+    margin: .25in auto;
+    box-shadow: 0 0 5px 2px gray; }
+    @media print {
+      .resume .page {
+        box-shadow: none;
+        margin-top: 0;
+        margin-bottom: 0; } }
+  .resume .main-title {
+    font-family: "Exo-otf", "Exo-eot", Arial;
+    font-size: .45in;
+    width: 100%;
+    text-align: center;
+    margin-top: .25in;
+    display: inline-block;
+    color: #2980b9; }
+    .resume .main-title .sub {
+      color: black;
+      font-size: .23in;
+      font-family: "ColabThi-otf", "ColabThi-eot", Arial;
+      margin-top: .025in; }
+  .resume .body {
+    width: 92.5%;
+    margin: auto;
+    padding: .36in;
+    border-radius: .25in;
+    background: white; }
+  .resume .section {
+    font-family: "Exo-otf", "Exo-eot", Arial; }
+    .resume .section ul {
+      margin-left: .16in; }
+    .resume .section .title {
+      display: inline-block;
+      font-size: .3in;
+      color: #2980b9;
+      width: 100%; }
+    .resume .section .item {
+      margin-top: .1333in;
+      display: inline-block;
+      font-size: .2in; }
+      .resume .section .item .subtitle, .resume .section .item .about .welcome .text .position, .about .welcome .text .resume .section .item .position {
+        width: 2.3in;
+        vertical-align: top; }
+        .resume .section .item .subtitle p, .resume .section .item .about .welcome .text .position p, .about .welcome .text .resume .section .item .position p {
+          color: rgba(0, 0, 0, 0.35);
+          font-size: .175in; }
+      .resume .section .item .text {
+        vertical-align: top;
+        font-family: "ColabThi-otf", "ColabThi-eot", Arial;
+        line-height: .25in;
+        padding-left: .2in;
+        padding-bottom: .2in; }
+        .resume .section .item .text .indent li {
+          margin-left: .2in; }

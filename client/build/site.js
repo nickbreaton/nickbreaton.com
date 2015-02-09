@@ -21,7 +21,7 @@ app.config(["$routeProvider", "$locationProvider",  function ($routeProvider, $l
     .when("/blog/", {
       templateUrl : "/static/templates/blog.html"
     })
-
+    
     // redirects
     .when("/about/", {
       redirectTo : "/"
@@ -263,11 +263,11 @@ app.controller("ContactController", function ($scope) {
 app.controller("HeaderController", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
-    new PageButton("Skills", "/skills/"),
-    new PageButton("Portfolio", "/portfolio/"),
-    new PageButton("Hire", "/hire/"),
-    new PageButton("Contact", "/contact/"),
-    new PageButton("Blog", "/blog/"),
+    // new PageButton("Skills", "/skills/"),
+    // new PageButton("Portfolio", "/portfolio/"),
+    // new PageButton("Hire", "/hire/"),
+    // new PageButton("Contact", "/contact/"),
+    // new PageButton("Blog", "/blog/"),
   ];
 
   $scope.socialButtons = [

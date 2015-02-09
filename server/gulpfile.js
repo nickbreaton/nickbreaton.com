@@ -76,20 +76,26 @@ function error (error) {
   // make beep sound
   process.stdout.write('\x07');
 
+  console.log("\n");
 
   if (error.lineNumber && error.fileName) {
+    // jsvalidate
+
     var str = "";
 
-    str += "\n[\033[31m" + "ERROR" + "\033[0m]"
+    str += "\033[31m" + "Error" + "\033[0m"
         + "\t" + error.description
         + "\n\n\t" + path.basename(error.fileName) + " at line " + error.lineNumber + "\n";
 
     console.log(str);
 
   } else {
-    console.log("\n" + error + "\n");
+    // all other errors
+
+    console.log(error.tioString);
   }
 
+  console.log("\n");
 
   // send continue to watch
   this.emit("end");
