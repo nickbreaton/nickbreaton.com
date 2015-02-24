@@ -359,6 +359,11 @@
       height: 55px;
       margin-top: 120px; }
 
+.contact input[type=number]::-webkit-outer-spin-button, .contact input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+.contact input[type=number] {
+  -moz-appearance: textfield; }
 .contact .title {
   font-family: "Exo-otf", "Exo-eot", Arial;
   font-size: 45px;
