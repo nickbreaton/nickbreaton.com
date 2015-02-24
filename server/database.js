@@ -1,3 +1,5 @@
+var bodyParser = require("body-parser");
+
 var db, ready;
 
 module.exports.connect = function () {
@@ -30,6 +32,8 @@ module.exports.connect = function () {
 }
 
 module.exports.route = function (app, api) {
+  app.use(bodyParser.json());
+  
   // ensure API service is ready
   app.use("/api/*", function (req, res, next) {
     ready ? next() : res.writeHead(202);

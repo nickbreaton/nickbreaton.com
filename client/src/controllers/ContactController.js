@@ -1,4 +1,4 @@
-app.controller("ContactController", function ($scope) {
+app.controller("ContactController", function ($scope, $http) {
   $scope.filter = new Filter();
   $scope.submitted = false;
   $scope.message = {
@@ -33,6 +33,12 @@ app.controller("ContactController", function ($scope) {
   $scope.submit = function () {
     // regex for email validation: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/g
 
+    // clear errors from past fails
+    $scope.message["name"].error = false;
+    $scope.message["subject"].error = false;
+    $scope.message["body"].error = false;
+
+    // check all blank feilds besides body
     wsCheck("name");
     wsCheck("subject");
     wsCheck("body");
@@ -59,16 +65,17 @@ app.controller("ContactController", function ($scope) {
     // build submission json
     var submit = {
       name : $scope.message.name.text,
-      email : $scope.message.name.text,
-      subject : $scope.message.name.text,
-      body : $scope.message.name.text
+      email : $scope.message.email.text,
+      subject : $scope.message.subject.text,
+      body : $scope.message.body.text
     }
 
-    // no errors means time to submit
-    // console.log(submit);
-
-    $scope.submitted = true;
-    window.scrollTo(0, 0);
+    // send json
+    $http.post("/api/contact/", submit)
+      .success(function() {
+        $scope.submitted = true;
+        window.scrollTo(0, 0);
+      });
 
 
     // check for white space
@@ -77,10 +84,6 @@ app.controller("ContactController", function ($scope) {
 
       if (text == null) {
         text = "";
-      }
-
-      while(text.indexOf(" ") > -1) {
-        text.replace(" ", "");
       }
 
       if (text == "") {
