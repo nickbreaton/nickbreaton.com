@@ -9,7 +9,7 @@
     </div>
     <form class="web" ng-submit="submit()" novalidate ng-hide="submitted">
       <div class="title">I would love to hear from you</div>
-      <input ng-repeat="input in inputs" ng-class="input.getClass()" ng-model="message[input.name].text" ng-change="input.removeError()" placeholder="{{input.placeholder}}"></input>
+      <input ng-repeat="input in inputs" ng-class="input.getClass()" ng-model="message[input.name].text" ng-change="input.removeError()" placeholder="{{input.placeholder}}" type="{{ input.type }}"></input>
       <div class="body-container" ng-class="{ active : bodyFocus }">
         <textarea class="body" id="contact-textarea" ng-focus="bodyFocus = true" ng-trim="false" ng-blur="bodyFocus = false" ng-model="message.body.text" placeholder="What would you like to tell me?"></textarea>
       </div>
