@@ -142,7 +142,7 @@ app.controller("ContactController", function ($scope, $http) {
     new Input("name", "text", "What is your name?"),
     new Input("email", "email", "Where can I email you back?"),
     new Input("subject", "text", "What is this about?"),
-    new Input("filter", "text", $scope.filter.one + " + " + $scope.filter.two + " =")
+    new Input("filter", "number", $scope.filter.one + " + " + $scope.filter.two + " =")
   ]
 
   // make textarea expand to content
