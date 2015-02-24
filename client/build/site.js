@@ -153,6 +153,12 @@ app.controller("ContactController", function ($scope, $http) {
     el.style.height = el.scrollHeight + "px";
   });
 
+  // remove error on type on text area
+  $scope.message.body.removeError = function () {
+    $scope.bodyFocus = false;
+    $scope.message.body.error = false;
+  }
+
   $scope.submit = function () {
     // regex for email validation: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/g
 
@@ -199,26 +205,19 @@ app.controller("ContactController", function ($scope, $http) {
         $scope.submitted = true;
         window.scrollTo(0, 0);
       });
+  }
 
+  // check for white space
+  function wsCheck (id) {
+    var text = $scope.message[id].text;
 
-    // check for white space
-    function wsCheck (id) {
-      var text = $scope.message[id].text;
-
-      if (text == null) {
-        text = "";
-      }
-
-      if (text == "") {
-        $scope.message[id].text = null;
-        $scope.message[id].error = true;
-      }
+    if (text == null) {
+      text = "";
     }
 
-    // remove error on type on text area
-    $scope.message.body.removeError = function () {
-      wsCheck("body");
-      console.log($scope.message.body.error);
+    if (text == "") {
+      $scope.message[id].text = null;
+      $scope.message[id].error = true;
     }
   }
 
