@@ -1,13 +1,4 @@
-module.exports = function (app, db) {
-  // sample return
-  app.get("/api/say-my-name/", function (req, res, next) {
-    db.collection("testcoll", function (err, collection) {
-      collection.find().toArray(function (err, docs) {
-        res.end(docs[0].name);
-      });
-    });
-  });
-
+module.exports = function (app) {
   // email me with contact info
   app.post("/api/contact/", function (req, res, next) {
     if (req.body && req.body.name && req.body.email && req.body.subject) {
