@@ -268,11 +268,11 @@ app.controller("ContactController", function ($scope, $http) {
 app.controller("HeaderController", function ($scope, $location, $rootScope, SiteInfo) {
   $scope.pageButtons = [
     new PageButton("About", "/"),
-    new PageButton("Skills", "/skills/"),
-    new PageButton("Portfolio", "/portfolio/"),
-    new PageButton("Hire", "/hire/"),
+    // new PageButton("Skills", "/skills/"),
+    // new PageButton("Portfolio", "/portfolio/"),
+    // new PageButton("Hire", "/hire/"),
     new PageButton("Contact", "/contact/"),
-    new PageButton("Blog", "/blog/"),
+    // new PageButton("Blog", "/blog/"),
   ];
 
   $scope.socialButtons = [
