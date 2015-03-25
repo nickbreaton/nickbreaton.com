@@ -1,17 +1,28 @@
 app.controller("AboutController", function ($scope, $http) {
-  var urls = [];
-  var responses = [];
+  // No time = Sloppy code :(
 
-  $scope.getContent = function (url) {
-    if (urls.indexOf(url) == -1) {
-      console.log('Requesting from '+ url);
-      urls.push(url);
-      $http.get('/static/content/about/' + url + '.txt').
-        success(function(data, status, headers, config) {
-          responses.push('\n' + data);
-        });
-    }
-
-    return responses;
+  function url (file) {
+    return '/static/content/about/' + file + '.txt';
   }
+
+  $http.get(url('education'))
+    .success(function(data) {
+      $scope.education = '\n' + data;
+    });
+
+  $http.get(url('programming'))
+    .success(function(data) {
+      $scope.programming = '\n' + data;
+    });
+
+  $http.get(url('internship'))
+    .success(function(data) {
+      $scope.internship = '\n' + data;
+    });
+
+  $http.get(url('local'))
+    .success(function(data) {
+      console.log(data);
+      $scope.local = '\n' + data;
+    });
 });
