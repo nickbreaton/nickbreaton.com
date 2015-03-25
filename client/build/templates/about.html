@@ -1,4 +1,4 @@
-<div class="about">
+<div class="about" ng-controller="AboutController">
   <ng-include src="template('welcome')"></ng-include>
 
   <div class="about-intro">
@@ -16,7 +16,9 @@
           <a class="split">First off,</a> I am a student at UNC Charlotte
         </h3>
         <div class="body">
-          {{ lorem }}
+          <pre>
+            {{ getContent('education')[0] }}
+          </pre>
         </div>
       </div>
     </div>
@@ -24,14 +26,22 @@
     <div class="white">
       <div class="center">
         <h3 class="title">The other half of my life: <a class="split"> Programming</a></h3>
-        <div class="body">{{ lorem }}</div>
+        <div class="body">
+          <pre>
+            {{ getContent('programming')[1] }}
+          </pre>
+        </div>
       </div>
     </div>
 
     <div class="color">
       <div class="center">
         <h3 class="title">I am local to the RTP area</h3>
-        <div class="body">{{ lorem }}</div>
+        <div class="body">
+          <pre>
+            {{ getContent('local')[2] }}
+          </pre>
+        </div>
       </div>
     </div>
   </div>
@@ -52,7 +62,11 @@
     <div class="color">
       <div class="center">
         <h3 class="title">I would love to have a summer intership</h3>
-        <div class="body">{{ lorem }}</div>
+        <div class="body">
+          <pre>
+            {{ getContent('internship')[3] }}
+          </pre>
+        </div>
       </div>
     </div>
   </div>

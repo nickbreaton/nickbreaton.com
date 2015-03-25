@@ -5,6 +5,14 @@
     box-shadow:$main-shadow;
     position:relative;
 
+    .body {
+      margin-top:-30px;
+
+      pre {
+        font-family:inherit;
+      }
+    }
+
     .definition {
       font-size:$body-size;
       margin: 85px 0px;
@@ -85,9 +93,9 @@
 
       .body {
         @extend .text-format;
-
         position:relative;
         color:white;
+
       }
     }
 

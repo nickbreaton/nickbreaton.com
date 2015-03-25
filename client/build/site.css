@@ -256,6 +256,10 @@
   z-index: 1;
   box-shadow: 0 0 5px 2px rgba(55, 55, 55, 0.7);
   position: relative; }
+  .about .about-intro .body {
+    margin-top: -30px; }
+    .about .about-intro .body pre {
+      font-family: inherit; }
   .about .about-intro .definition {
     font-size: 25px;
     margin: 85px 0px;
