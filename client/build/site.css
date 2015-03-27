@@ -259,7 +259,10 @@
   .about .about-intro .body {
     margin-top: -30px; }
     .about .about-intro .body pre {
-      font-family: inherit; }
+      font-family: inherit;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      text-align: justify; }
   .about .about-intro .definition {
     font-size: 25px;
     margin: 85px 0px;

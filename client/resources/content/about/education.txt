@@ -1,1 +1,1 @@
-Education
+I am currently a freshman at UNC Charlotte pursuing a Bachelor's of Science in Computer Science degree. I have been staying active in the community by attending many talks and events. For example I recently attended a talk by Dr. Richard Hipp, the creator of SQLite. He inspired me to create a chess game which can be found on my GitHub page.
