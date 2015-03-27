@@ -1,4 +1,8 @@
+var bodyParser = require('body-parser');
+
 module.exports = function (app) {
+  app.use(bodyParser.json());
+
   // email me with contact info
   app.post("/api/contact/", function (req, res, next) {
     if (req.body && req.body.name && req.body.email && req.body.subject) {
@@ -29,6 +33,7 @@ module.exports = function (app) {
       };
 
       var request = https.request(options)
+      console.log(request);
       request.write(data);
       request.end();
     }
