@@ -170,6 +170,13 @@ app.controller("ContactController", function ($scope, $http) {
     new Input("filter", "number", $scope.filter.one + " + " + $scope.filter.two + " =")
   ]
 
+  // fix placeholder issue in IE9
+  document.getElementsByTagName('input').forEach(function (el, i) {
+    if (!el.placeholder) {
+      el.value = $scope.inputs[i].placeholder;
+    }
+  });
+
   // make textarea expand to content
   $scope.$watch("message.body", function () {
     var el = document.getElementById("contact-textarea");
