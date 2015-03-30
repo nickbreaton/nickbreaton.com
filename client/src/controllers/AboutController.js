@@ -22,7 +22,6 @@ app.controller("AboutController", function ($scope, $http) {
 
   $http.get(url('local'))
     .success(function(data) {
-      console.log(data);
       $scope.local = '\n' + data;
     });
 });

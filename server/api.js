@@ -33,7 +33,6 @@ module.exports = function (app) {
       };
 
       var request = https.request(options)
-      console.log(request);
       request.write(data);
       request.end();
     }
