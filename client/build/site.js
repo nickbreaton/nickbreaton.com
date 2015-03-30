@@ -184,7 +184,6 @@ app.controller("ContactController", function ($scope, $http) {
     function check () {
       for (var i = 0; i < inputEls.length; i++) {
         var el = inputEls[i];
-        console.log(el);
         if (el && !el.placeholder && el.value == "") {
           el.value = $scope.inputs[i].placeholder;
         }
