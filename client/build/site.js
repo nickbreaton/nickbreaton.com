@@ -171,16 +171,26 @@ app.controller("ContactController", function ($scope, $http) {
   ]
 
   // fix placeholder issue in IE9
-  var inputEls = document.getElementsByTagName('input');
+  setTimeout(function ( ){
+    var inputEls = document.getElementsByTagName('input');
 
-  for (var i = 0; i < inputEls.length; i++) {
-    var el = inputEls[i];
 
-    if (!el.placeholder) {
-      alert(el);  
-      el.value = $scope.inputs[i].placeholder;
+    for (var i = 0; i < inputEls.length; i++) {
+      inputEls[i].onblur = check;
     }
-  }
+
+    check();
+
+    function check () {
+      for (var i = 0; i < inputEls.length; i++) {
+        var el = inputEls[i];
+        console.log(el);
+        if (el && !el.placeholder && el.value == "") {
+          el.value = $scope.inputs[i].placeholder;
+        }
+      }
+    }
+  });
 
   // make textarea expand to content
   $scope.$watch("message.body", function () {
