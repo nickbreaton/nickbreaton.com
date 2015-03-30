@@ -177,6 +177,7 @@ app.controller("ContactController", function ($scope, $http) {
     var el = inputEls[i];
 
     if (!el.placeholder) {
+      alert(el);  
       el.value = $scope.inputs[i].placeholder;
     }
   }
