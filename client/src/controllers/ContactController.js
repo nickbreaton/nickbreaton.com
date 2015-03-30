@@ -26,7 +26,7 @@ app.controller("ContactController", function ($scope, $http) {
   var inputEls = document.getElementsByTagName('input');
 
   for (var i = 0; i < inputEls.length; i++) {
-    var el = inputsEls[i];
+    var el = inputEls[i];
 
     if (!el.placeholder) {
       el.value = $scope.inputs[i].placeholder;
