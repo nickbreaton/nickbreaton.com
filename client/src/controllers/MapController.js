@@ -48,11 +48,14 @@ app.controller("MapController", function ($scope, $rootScope, $window, MapStyle)
 
     function go () {
       canvas = document.getElementById("map-canvas");
-      parent = canvas.parentNode;
 
-      if ($rootScope.mapWidth != parent.getBoundingClientRect().width) {
-        create();
-        $rootScope.mapWidth = parent.getBoundingClientRect().width;
+      if (canvas) {
+        parent = canvas.parentNode;
+
+        if ($rootScope.mapWidth != parent.getBoundingClientRect().width) {
+          create();
+          $rootScope.mapWidth = parent.getBoundingClientRect().width;
+        }
       }
     }
 
