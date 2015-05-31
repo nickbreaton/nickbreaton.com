@@ -1,6 +1,6 @@
 {
   "name": "nickbreaton.com",
-  "version": "1.0.0",
+  "version": "1.0",
   "description": "My personal website. I encourage my employers and members of the open source community to look through my code.",
   "main": "index.js",
   "repository": {

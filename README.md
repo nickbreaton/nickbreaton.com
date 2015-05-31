@@ -1,8 +1,8 @@
-My Site
-=======
+### NickBreaton.com
+#####*Version 1.0*
 
-### [nickbreaton.com](http://nickbreaton.com)
+This was my first attempt at creating a website. I used Node (running Express) on the backend and AngularJS on the frontend. For my first site it was not bad. This will be branched off in order to save it, but all code will be scraped in the new release.
 
-Welcome to the repository for my personal website. I encourage my employers and members of the open source community to look through my code.
+The next release of NickBreaton.com will focus more on an audience of customers rather than employers. It will even feature a payment system with integration with Stripe.
 
-##### This is my old (and live) site written in JavaScript with Node and Angular. I will be rewritting my site with Rails in the future.
+You can visit [nickbreaton.com](http://nickbreaton.com) at anytime to see the current state of the site.

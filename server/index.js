@@ -14,4 +14,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.listen(app.get("port"));
+app.listen(app.get("port"), function () {
+  console.log('Starting nickbreaton.com (1.0) on http://localhost:%s', app.get('port'));
+});
