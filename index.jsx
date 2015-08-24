@@ -1,5 +1,6 @@
 import express from 'express';
 import React from 'react';
+import Router from 'react-router';
 
 import routes from './app/router';
 
@@ -15,8 +16,13 @@ let development = (env == 'development');
 let port = 3000;
 
 // define server routes
-server.use(function (req, res) {
-  res.render('index.ejs', { development, production });
+server.use((req, res) => {
+  Router.run(routes, req.originalURL, (Handler) => {
+    if (production) {
+      var app = React.renderToString(<Handler />);
+    }
+    res.render('index.ejs', { app, development, production });
+  });
 });
 
 // create the server on specified port
