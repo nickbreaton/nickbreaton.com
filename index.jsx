@@ -20,6 +20,6 @@ server.use(function (req, res) {
 });
 
 // create the server on specified port
-server.listen(port, function () {
+server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
 });

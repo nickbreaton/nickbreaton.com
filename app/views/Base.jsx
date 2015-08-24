@@ -6,6 +6,11 @@ export default class BaseView extends React.Component {
     return (
       <div>
         <h1>Base</h1>
+        <div>
+          <a href="/">Home</a>
+          <a> | </a>
+          <a href="/news">News</a>
+        </div>
         <RouteHandler />
       </div>
     );

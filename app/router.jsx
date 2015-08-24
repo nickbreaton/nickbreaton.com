@@ -11,11 +11,9 @@ let routes = (
 );
 
 if (typeof document !== 'undefined') {
-  Router.run(routes, function (Handler) {
+  Router.run(routes, Router.HistoryLocation, (Handler) => {
     React.render(<Handler />, document.getElementById('app'));
   });
 }
-
-// console.log(routes);
 
 export default routes;
