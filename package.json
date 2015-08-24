@@ -5,10 +5,10 @@
   "main": "index.jsx",
   "scripts": {
     "start": "NODE_ENV=production npm run babel",
-    "dev": "NODE_ENV=development npm run webpack | npm run nodemon",
+    "dev": "NODE_ENV=development npm run nodemon & npm run webpack",
     "babel": "node_modules/.bin/babel-node .",
-    "nodemon": "node_modules/.bin/nodemon --ignore app/ -x npm run babel -- index.jsx",
-    "webpack": "node_modules/.bin/webpack-dev-server --quiet",
+    "nodemon": "node_modules/.bin/nodemon -i app/ -x npm run babel -- index.jsx",
+    "webpack": "node_modules/.bin/webpack-dev-server -d"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/nbreaton/nickbreaton.com#readme",
   "dependencies": {
+    "ejs": "^2.3.3",
+    "express": "^4.13.3",
     "node-babel": "^0.1.2",
     "react": "^0.13.3",
     "react-router": "^0.13.3"

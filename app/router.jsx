@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import Router, { Route } from 'react-router';
 
 import BaseView from './views/Base';
 import HomeView from './views/Home';
@@ -15,5 +15,7 @@ if (typeof document !== 'undefined') {
     React.render(<Handler />, document.getElementById('app'));
   });
 }
+
+// console.log(routes);
 
 export default routes;

@@ -4,7 +4,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080/assets/',
     'webpack/hot/only-dev-server',
-    './app/router.jsx'
+    './app/router'
   ],
   output: {
     filename: 'bundle.js',
@@ -20,7 +20,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loaders: ['react-hot', 'babel'] }
+      { test: /\.jsx$/, include: /app/, loaders: ['react-hot', 'babel'] }
     ]
   }
 }
