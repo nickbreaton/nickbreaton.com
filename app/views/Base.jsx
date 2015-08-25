@@ -7,11 +7,9 @@ export default class BaseView extends React.Component {
       <div>
         <h1>Base</h1>
         <div>
-          <Link to="home">Home</Link>
-          <a> | </a>
-          <a href="/news">News</a>
-          <a> | </a>
-          <a href="/not-found">Not Found</a>
+          <Link to="home">Home</Link><a> | </a>
+          <Link to="news">News</Link><a> | </a>
+          <Link to="/random">Random</Link>
         </div>
         <RouteHandler />
       </div>
