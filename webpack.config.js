@@ -1,10 +1,8 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
 
-module.exports = {
+var config = {
   entry: [
-    'webpack-dev-server/client?http://localhost:8080/assets/',
-    'webpack/hot/only-dev-server',
     './app/router',
     './styles/main'
   ],
@@ -14,8 +12,6 @@ module.exports = {
     publicPath: 'http://localhost:8080/assets/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin('bundle.css')
   ],
   resolve: {
@@ -36,3 +32,17 @@ module.exports = {
     ]
   }
 }
+
+// add development scripts if not building
+if (process.env.NODE_ENV !== 'build') {
+  config.entry.concat([
+    'webpack-dev-server/client?http://localhost:8080/assets/',
+    'webpack/hot/only-dev-server'
+  ]);
+  config.plugins.concat([
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ]);
+}
+
+module.exports = config;

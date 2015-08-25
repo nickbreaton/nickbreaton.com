@@ -15,10 +15,16 @@ let development = (env == 'development');
 // define local variables
 let port = 3000;
 
-// define server routes
+// serve minified files for production
+server.use('/assets/', express.static('build'));
+
+// serve all files in public folder
+server.use('/', express.static('public'));
+
+// serve react app as default route
 server.use((req, res) => {
   // render react app at correct path
-  Router.run(routes, req.originalURL, (Handler) => {
+  Router.run(routes, req.originalUrl, (Handler) => {
     // determine environment variables
     let app = production ? React.renderToString(<Handler />) : '';
     let host = development ? 'http://localhost:8080' : '';
