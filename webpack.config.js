@@ -35,14 +35,14 @@ var config = {
 
 // add development scripts if not building
 if (process.env.NODE_ENV !== 'build') {
-  config.entry.concat([
+  config.entry.push(
     'webpack-dev-server/client?http://localhost:8080/assets/',
     'webpack/hot/only-dev-server'
-  ]);
-  config.plugins.concat([
+  );
+  config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
-  ]);
+  );
 }
 
 module.exports = config;
