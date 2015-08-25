@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Nick Breaton</title>
+  <link rel="stylesheet" href="<%= host %>/assets/bundle.css" />
 </head>
 <body>
   <div id="app">
@@ -9,7 +10,5 @@
       <%- app %>
     </div>
   </div>
-  <% if (development) { %>
-    <script type="text/javascript" src="http://localhost:8080/assets/bundle.js"></script>
-  <% } %>
+  <script type="text/javascript" src="<%= host %>/assets/bundle.js"></script>
 </body>

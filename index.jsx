@@ -17,11 +17,14 @@ let port = 3000;
 
 // define server routes
 server.use((req, res) => {
+  // render react app at correct path
   Router.run(routes, req.originalURL, (Handler) => {
-    if (production) {
-      var app = React.renderToString(<Handler />);
-    }
-    res.render('index.ejs', { app, development, production });
+    // determine environment variables
+    let app = production ? React.renderToString(<Handler />) : '';
+    let host = development ? 'http://localhost:8080' : '';
+
+    // render page
+    res.render('index.ejs', { app, host });
   });
 });
 
