@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production npm run babel",
     "dev": "NODE_ENV=development npm run nodemon & npm run webpack",
+    "build": "node_modules/.bin/webpack --optimize-minimize",
     "babel": "node_modules/.bin/babel-node .",
     "nodemon": "node_modules/.bin/nodemon -i app/ -x npm run babel -- index.jsx",
     "webpack": "node_modules/.bin/webpack-dev-server -d"
