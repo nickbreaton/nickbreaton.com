@@ -1,3 +1,4 @@
+import path from 'path';
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
@@ -10,10 +11,17 @@ config.entry.push(
 );
 
 // add development plugins to configuration
-config.plugins.push(
+config.plugins = [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin()
-);
+];
+
+// add sass compilation
+config.module.loaders.push({
+  test: /\.scss?$/,
+  include: path.join(__dirname, '..', 'styles'),
+  loaders: ['style', 'css', 'sass']
+});
 
 // create webpack server
 let server = new WebpackDevServer(webpack(config), {

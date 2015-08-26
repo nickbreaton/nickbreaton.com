@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Nick Breaton</title>
-  <link rel="stylesheet" href="<%= host %>/assets/bundle.css" />
+  <% if (!host) { %>
+    <link rel="stylesheet" href="<%= host %>/assets/bundle.css" />
+  <% } %>
 </head>
 <body>
   <div id="app">
