@@ -1,7 +1,7 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import path from 'path'
 
-module.exports = {
+export default {
   entry: [
     './app/router',
     './styles/main'
