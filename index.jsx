@@ -36,5 +36,5 @@ server.use((req, res) => {
 
 // create the server on specified port
 server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`)
+  console.log(`Express server running at http://localhost:${port}`)
 });
