@@ -4,6 +4,9 @@ import WebpackDevServer from 'webpack-dev-server'
 
 import config from './webpack'
 
+// add development settings
+config.devtool = 'source-map'
+
 // add development scripts to configuration
 config.entry.push(
   'webpack-dev-server/client?http://localhost:8080',
