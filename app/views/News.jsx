@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteHandler } from 'react-router';
 
-export default class NewsView extends React.Component {
+export React.createClass({
   render () {
     return (
       <div>
@@ -9,4 +9,4 @@ export default class NewsView extends React.Component {
       </div>
     );
   }
-}
+});

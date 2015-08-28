@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, RouteHandler } from 'react-router';
 
-export default class BaseView extends React.Component {
+export default React.createClass({
   render () {
     return (
       <div>
@@ -15,4 +15,4 @@ export default class BaseView extends React.Component {
       </div>
     );
   }
-}
+});

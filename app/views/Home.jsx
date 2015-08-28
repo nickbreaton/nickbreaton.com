@@ -1,12 +1,21 @@
 import React from 'react';
 import { RouteHandler } from 'react-router';
 
-export default class HomeView extends React.Component {
+export default React.createClass({
+  getInitialState () {
+    return { count: 0 }
+  },
+
+  _click () {
+    this.setState({ count: this.state.count + 1 })
+  },
+
   render () {
     return (
       <div>
-        <h2>Home</h2>
+        <button onClick={ this._click }>Click</button>
+        <h4>{ this.state.count }</h4>
       </div>
     );
   }
-}
+});
