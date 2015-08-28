@@ -9,11 +9,10 @@ let server = express();
 
 // translate environmental variables
 let env = process.env.NODE_ENV;
-let production = (env == 'production');
-let development = (env == 'development');
 
 // define local variables
-let port = 3000;
+let port = process.env.PORT || 3000;
+let production = (env == 'production');
 
 // serve minified files for production
 server.use('/assets/', express.static('build'));
@@ -25,9 +24,9 @@ server.use('/', express.static('public'));
 server.use((req, res) => {
   // render react app at correct path
   Router.run(routes, req.originalUrl, (Handler) => {
-    // determine environment variables
+    // determine developer environment variables
     let app = production ? React.renderToString(<Handler />) : '';
-    let host = development ? 'http://localhost:8080' : '';
+    let host = production ? '' : 'http://localhost:8080';
 
     // render page
     res.render('index.ejs', { app, host });
