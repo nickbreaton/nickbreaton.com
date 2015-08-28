@@ -7,10 +7,8 @@ import routes from './app/router';
 // create express server
 let server = express();
 
-// translate environmental variables
-let env = process.env.NODE_ENV;
-
 // define local variables
+let env = process.env.NODE_ENV;
 let port = process.env.PORT || 3000;
 let production = (env == 'production');
 
