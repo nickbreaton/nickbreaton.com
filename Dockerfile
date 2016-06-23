@@ -1,5 +1,13 @@
-FROM kyma/docker-nginx
+FROM      node
 
-ADD public/ /var/www
+ENV       PORT  80
 
-CMD 'nginx'
+RUN       npm install -g http-server
+
+WORKDIR   /var/www
+
+ADD       public/ .
+
+EXPOSE    $PORT
+
+CMD       http-server -p $PORT .
