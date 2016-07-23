@@ -6,7 +6,7 @@ RUN       npm install -g http-server
 
 WORKDIR   /var/www
 
-ADD       public/ .
+ADD       _site/ .
 
 EXPOSE    $PORT
 

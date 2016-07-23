@@ -1,4 +1,0 @@
-nickbreaton.com:
-  build: .
-  ports:
-    - "80:80"

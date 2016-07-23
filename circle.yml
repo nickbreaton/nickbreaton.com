@@ -1,0 +1,23 @@
+machine:
+  services:
+    - docker
+  ruby:
+    version: rbx-2.2.6
+
+dependencies:
+  override:
+    - gem install jekyll
+    - jekyll --version
+    - docker info
+
+test:
+  override:
+    - jekyll build
+    - docker build . -t nickbreaton/nickbreaton.com
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push nickbreaton/nickbreaton.com
