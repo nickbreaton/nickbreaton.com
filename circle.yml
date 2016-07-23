@@ -14,9 +14,16 @@ dependencies:
 test:
   override:
     - jekyll build
-    - docker build -t nickbreaton/nickbreaton.com . 
+    - docker build -t nickbreaton/nickbreaton.com .
 
 deployment:
+  automerge:
+    branch: develop
+    commands:
+      - git checkout master
+      - git merge develop
+      - git push
+
   hub:
     branch: master
     commands:
