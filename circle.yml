@@ -9,11 +9,12 @@ dependencies:
     - gem install jekyll
     - jekyll --version
     - docker info
+    - docker --version
 
 test:
   override:
     - jekyll build
-    - docker build . -t nickbreaton/nickbreaton.com
+    - docker build -t nickbreaton/nickbreaton.com . 
 
 deployment:
   hub:
