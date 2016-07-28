@@ -1,6 +1,4 @@
 machine:
-  services:
-    - docker
   ruby:
     version: 2.3.1
 
@@ -8,18 +6,16 @@ dependencies:
   override:
     - gem install jekyll
     - jekyll --version
-    - docker info
-    - docker --version
 
 test:
   override:
-    - jekyll build
-    - docker build -t nickbreaton/nickbreaton.com .
+    - echo 'skip'
 
 deployment:
   automerge:
     branch: develop
     commands:
+      - jekyll build
       - git checkout master
       - git merge develop
       - git push
@@ -27,9 +23,9 @@ deployment:
   autopublish:
     branch: master
     commands:
-      - git checkout --orphan gh-pages
-      - mv .git/ public/.git/
-      - cd public/
-      - git add -A
-      - git commit -m "Autopublish from Circle CI"
-      - git push --force
+      - jekyll build
+      - mv cirlce.yml .git/ _dist/
+      - cd _dist; git checkout --orphan gh-pages
+      - cd _dist; git add -A
+      - cd _dist; git commit -m "Publish gh-pages"
+      - cd _dist; git push --force
