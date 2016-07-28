@@ -24,7 +24,7 @@ deployment:
     branch: master
     commands:
       - jekyll build
-      - mv cirlce.yml .git/ _site/
+      - mv circle.yml .git/ _site/
       - cd _site; git checkout --orphan gh-pages
       - cd _site; git add -A
       - cd _site; git commit -m "Publish gh-pages"
