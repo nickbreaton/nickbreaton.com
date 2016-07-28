@@ -9,7 +9,7 @@ dependencies:
 
 test:
   override:
-    - echo 'skip
+    - echo skip
 
 deployment:
   automerge:
