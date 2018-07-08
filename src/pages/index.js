@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'gatsby'
 
 import Layout from '../components/layout'
 
@@ -16,7 +17,7 @@ const ProfileImage = styled.img`
   border-radius: 100%;
 `
 
-const Link = styled.a`
+const ExternalLink = styled.a`
   color: #16a085;
   text-decoration: none;
   &::after {
@@ -28,6 +29,8 @@ const Link = styled.a`
   }
 `
 
+const InteralLink = ExternalLink.withComponent(Link)
+
 const IndexPage = () => (
   <Layout>
     <Content>
@@ -38,15 +41,10 @@ const IndexPage = () => (
       />
       <h2>Software Engineer</h2>
       <div>
-        <Link href='https://github.com/nickbreaton'>
-          GitHub
-        </Link>
-        <Link href='https://www.linkedin.com/in/nickbreaton'>
-          LinkedIn
-        </Link>
-        <Link href='mailto:nick@breaton.com'>
-          Email
-        </Link>
+        <ExternalLink href='https://github.com/nickbreaton'>GitHub</ExternalLink>
+        <ExternalLink href='https://www.linkedin.com/in/nickbreaton'>LinkedIn</ExternalLink>
+        <InteralLink to='blog'>Blog</InteralLink>
+        <ExternalLink href='mailto:nick@breaton.com'>Email</ExternalLink>
       </div>
     </Content>
   </Layout>
