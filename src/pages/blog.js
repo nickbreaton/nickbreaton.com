@@ -1,5 +1,4 @@
 import React from 'react'
-import IndexPage from './index'
 
 import Layout from '../components/layout'
 
