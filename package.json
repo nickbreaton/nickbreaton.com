@@ -10,8 +10,6 @@
     "start": "gatsby develop"
   },
   "dependencies": {
-    "gatsby": "next",
-    "gatsby-plugin-react-helmet": "next",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-helmet": "^5.2.0",
@@ -19,7 +17,9 @@
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.5.1",
-    "gatsby-plugin-styled-components": "^3.0.0-beta.2"
+    "gatsby-plugin-react-helmet": "next",
+    "gatsby-plugin-styled-components": "^3.0.0-beta.2",
+    "gatsby": "next"
   },
   "repository": {
     "type": "git",
