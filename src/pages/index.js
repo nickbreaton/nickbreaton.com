@@ -41,9 +41,9 @@ const IndexPage = () => (
       />
       <h2>Software Engineer</h2>
       <div>
+        <InteralLink to='blog/'>Blog</InteralLink>
         <ExternalLink href='https://github.com/nickbreaton'>GitHub</ExternalLink>
         <ExternalLink href='https://www.linkedin.com/in/nickbreaton'>LinkedIn</ExternalLink>
-        <InteralLink to='blog'>Blog</InteralLink>
         <ExternalLink href='mailto:nick@breaton.com'>Email</ExternalLink>
       </div>
     </Content>
