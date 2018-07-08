@@ -1,0 +1,28 @@
+{
+  "name": "nickbreaton.com",
+  "private": true,
+  "license": "MIT",
+  "description": "The personal website of Nick Breaton.",
+  "version": "2.0.0",
+  "author": "Nick Breaton <nick@breaton.com>",
+  "scripts": {
+    "build": "gatsby build",
+    "start": "gatsby develop"
+  },
+  "dependencies": {
+    "gatsby": "next",
+    "gatsby-plugin-react-helmet": "next",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-helmet": "^5.2.0",
+    "styled-components": "^3.3.3"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.5.1",
+    "gatsby-plugin-styled-components": "^3.0.0-beta.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nickbreaton/nickbreaton.com"
+  }
+}
