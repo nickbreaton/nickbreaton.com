@@ -4,7 +4,7 @@ import Layout from '../components/layout'
 
 const NotFoundPage = () => (
   <Layout>
-    blog
+    {/* TODO */}
   </Layout>
 )
 
