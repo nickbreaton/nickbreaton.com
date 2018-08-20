@@ -3,24 +3,10 @@ module.exports = {
     title: 'Gatsby Default Starter',
   },
   plugins: [
-    {
-      resolve: 'gatsby-plugin-react-helmet'
-    },
-    {
-      resolve: 'gatsby-plugin-styled-components'
-    },
-    {
-      resolve: 'gatsby-plugin-netlify'
-    },
-    {
-      resolve: 'gatsby-plugin-offline'
-    },
-    {
-      resolve: 'gatsby-plugin-typography',
-      options: {
-        pathToConfigModule: 'src/utils/typography'
-      }
-    },
+    'gatsby-plugin-netlify',
+    'gatsby-plugin-offline',
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

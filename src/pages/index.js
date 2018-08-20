@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
+import me from '../assets/me.jpeg';
 
 const Content = styled.div`
   font-family: 'Open Sans', 'sans';
@@ -37,7 +38,7 @@ const IndexPage = () => (
       <h1>Hi, I'm Nick Breaton</h1>
       <ProfileImage
         alt='Nick Breaton'
-        src='https://avatars3.githubusercontent.com/u/3587605?v=3&s=460'
+        src={me}
       />
       <h2>Software Engineer</h2>
       <div>
