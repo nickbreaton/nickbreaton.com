@@ -1,0 +1,36 @@
+{
+    "name": "nickbreaton.com",
+    "version": "3.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "concurrently \"rollup -c -w\" \"serve dist\"",
+        "build": "rimraf dist && rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nickbreaton/nickbreaton.com.git"
+    },
+    "keywords": [],
+    "author": "nickbreaton",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/nickbreaton/nickbreaton.com/issues"
+    },
+    "homepage": "https://github.com/nickbreaton/nickbreaton.com#readme",
+    "description": "",
+    "devDependencies": {
+        "cheerio": "^1.0.0-rc.5",
+        "concurrently": "^5.3.0",
+        "glob": "^7.1.6",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.39.0",
+        "rollup-plugin-copy": "^3.3.0",
+        "rollup-plugin-svelte": "^7.1.0",
+        "serve": "^11.3.2"
+    },
+    "dependencies": {
+        "github-markdown-css": "^4.0.0",
+        "svelte": "^3.32.3"
+    }
+}
