@@ -24,14 +24,12 @@
 </ul>
 
 <h2>Articles</h2>
-<ul>
+<p>Check back soon... ✍️</p>
+<!-- <ul>
     <li>
-        check back soon...
-    </li>
-    <!-- <li>
         <a href="/posts/learning-svelte">Learning Svelte</a>
     </li>
     <li>
         <a href="/posts/writing-a-rollup-plugin">Writing a Rollup Plugin</a>
-    </li> -->
-</ul>
+    </li>
+</ul> -->
