@@ -104,6 +104,10 @@ const options = {
                     src: "node_modules/github-markdown-css/github-markdown.css",
                     dest: "dist",
                 },
+                {
+                    src: "public/*",
+                    dest: "dist",
+                },
             ],
         }),
     ],
