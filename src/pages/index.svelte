@@ -5,7 +5,7 @@
 </script>
 
 <h1>Nick Breaton</h1>
-<p>Front End Engineer working at <a href="https://creditkarma.com">Credit Karma</a></p>
+<p>Front End Engineer working at <a href="https://creditkarma.com">Credit Karma</a>.</p>
 
 <h2>Links</h2>
 <ul>
