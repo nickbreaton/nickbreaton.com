@@ -5,7 +5,7 @@
 </script>
 
 <h1>Nick Breaton</h1>
-<p>Front End Engineer working at <a href="https://creditkarma.com">Credit Karma</a>.</p>
+<p>Front End Engineer</p>
 
 <h2>Links</h2>
 <ul>
@@ -24,7 +24,7 @@
 </ul>
 
 <h2>Articles</h2>
-<p>Check back soon... ✍️</p>
+<!-- <p>Check back soon... ✍️</p> -->
 <!-- <ul>
     <li>
         <a href="/posts/learning-svelte">Learning Svelte</a>
