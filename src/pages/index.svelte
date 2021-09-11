@@ -23,7 +23,7 @@
     </li>
 </ul>
 
-<h2>Articles</h2>
+<!-- <h2>Articles</h2> -->
 <!-- <p>Check back soon... ✍️</p> -->
 <!-- <ul>
     <li>
