@@ -19,7 +19,7 @@
         <a href="https://www.linkedin.com/in/nickbreaton/">LinkedIn</a>
     </li>
     <li>
-        <a href="mailto:nick@breaton.com">Email</a>
+        <a href="mailto:nick@nickbreaton.com">Email</a>
     </li>
 </ul>
 
