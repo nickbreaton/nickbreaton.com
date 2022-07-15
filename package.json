@@ -31,6 +31,6 @@
     },
     "dependencies": {
         "github-markdown-css": "^4.0.0",
-        "svelte": "^3.32.3"
+        "svelte": "^3.49.0"
     }
 }
