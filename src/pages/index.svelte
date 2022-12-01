@@ -21,6 +21,11 @@
     <li>
         <a href="mailto:nick@nickbreaton.com">Email</a>
     </li>
+    <li>
+        <a rel="me" href="https://mastodon.social/@nickbreaton">Mastodon</a>
+    </li>
+    
+
 </ul>
 
 <!-- <h2>Articles</h2> -->
