@@ -1,5 +1,6 @@
 ---
-
+import { Image } from "astro:assets";
+import me from "../images/me.jpeg";
 ---
 
 <html lang="en">
@@ -10,10 +11,38 @@
     <meta name="generator" content={Astro.generator} />
     <title>Nick Breaton</title>
   </head>
-  <body>
-    <div class="w-64 bg-white rounded-lg shadow-lg overflow-hidden">
-      <div class="p-5">
-        <h3 class="text-xl font-semibold text-gray-800">Card Title</h3>
+  <body class="bg-primary-50 text-primary-900 font-serif">
+    <div class="mx-auto px-3 py-10 max-w-screen-md flex flex-wrap gap-3">
+      <div class="flex-1 flex flex-col items-start gap-4">
+        <div
+          class="rounded-lg overflow-hidden border border-primary-950 border-opacity-10 inline-flex bg-primary-100 bg-opacity-50"
+        >
+          <Image
+            src={me}
+            id="profile-picture"
+            alt=""
+            class="max-w-60 flex-grow opacity-95 transition-opacity timing ease-in"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <h1 class="text-4xl font-semibold">Nick Breaton</h1>
+          <p class="text-primary-900 text-opacity-80">
+            web dev doing web things
+          </p>
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col gap-4 text-primary-900">
+        <h2 class="text-2xl">the socials</h2>
+        <dl class="text-primary-900">
+          <div
+            class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white"
+          >
+            <dt>GitHub</dt>
+            <dd>nickbreaton</dd>
+          </div>
+        </dl>
       </div>
     </div>
   </body>
