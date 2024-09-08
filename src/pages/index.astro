@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import me from "../images/me.jpeg";
-import "@fontsource-variable/alegreya";
+import "@fontsource-variable/alegreya"; // TODO: not actually working
+import { icons } from "feather-icons";
 
 const name = "Nick Breaton";
 const moto = "web dev doing web things";
@@ -16,12 +17,14 @@ const socials = [
     site: "Bluesky",
     href: "https://bsky.app/profile/nickbreaton.com",
     username: "@nickbreaton.com",
+    copy: true,
   },
   {
     site: "Mastodon",
     href: "https://mastodon.social/@nickbreaton",
     username: "@nickbreaton@mastodon.social",
     rel: "me",
+    copy: true,
   },
   {
     site: "X",
@@ -39,9 +42,9 @@ const socials = [
     <meta name="generator" content={Astro.generator} />
     <title>{name}</title>
   </head>
-  <body class="bg-primary-50 text-primary-900 font-serif">
+  <body class="bg-primary-50 text-primary-900 font-serif touch-manipulation">
     <div
-      class="mx-auto px-3 py-10 max-w-screen-md flex flex-col sm:flex-row gap-8"
+      class="mx-auto px-3 py-5 sm:py-10 max-w-[100vw] md:max-w-screen-md flex flex-col sm:flex-row gap-8"
     >
       <header class="flex sm:flex-col items-start gap-4">
         <div
@@ -68,25 +71,48 @@ const socials = [
         </div>
       </header>
 
-      <main class="flex-1">
+      <div class="flex-1">
         <section class="flex flex-col gap-3 text-primary-900">
           <h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
-          <dl class="text-primary-900 flex flex-col gap-2">
+          <ul class="text-primary-900 flex flex-col gap-2">
             {
-              socials.map(({ site, href, username }) => (
-                <div class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white">
-                  <dt class="text-primary-800 text-opacity-70 text-sm">
-                    {site}
-                  </dt>
-                  <dd class="font-medium text-primary-900 text-opacity-90">
-                    {username}
-                  </dd>
-                </div>
+              socials.map(({ site, href, rel, username, copy }) => (
+                <li class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white flex gap-3">
+                  <a href={href} class="flex-1" target="_blank" rel={rel}>
+                    <p class="text-primary-800 text-opacity-70 text-sm flex items-center gap-2">
+                      {site}
+                      <span
+                        aria-hidden
+                        set:html={icons["link"].toSvg({
+                          width: "1em",
+                          stroke: "currentColor",
+                        })}
+                      />
+                    </p>
+                    <p class="font-medium text-primary-900 text-opacity-90">
+                      {username}
+                    </p>
+                  </a>
+                  {copy && (
+                    <span class="flex items-center">
+                      <!-- TODO: make it actually copy -->
+                      <button
+                        class="aspect-square w-10 grid place-items-center -mr-2 text-primary-900 text-opacity-90 text-xl"
+                        aria-label="copy username"
+                        data-copy={username}
+                        set:html={icons["copy"].toSvg({
+                          width: "1em",
+                          stroke: "currentColor",
+                        })}
+                      />
+                    </span>
+                  )}
+                </li>
               ))
             }
-          </dl>
+          </ul>
         </section>
-      </main>
+      </div>
     </div>
   </body>
 </html>

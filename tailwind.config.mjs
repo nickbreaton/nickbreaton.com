@@ -23,7 +23,8 @@ export default {
         },
       },
       fontFamily: {
-        serif: ["Alegreya", defaultTheme.fontFamily.serif],
+        // TODO: install a working font
+        serif: [defaultTheme.fontFamily.serif],
       },
     },
   },
