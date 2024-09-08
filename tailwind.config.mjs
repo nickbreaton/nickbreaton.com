@@ -1,3 +1,5 @@
+import defaultTheme from "tailwindcss/defaultTheme";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -19,6 +21,9 @@ export default {
           900: "oklch(24.93% 0.032 82.3 / <alpha-value>)",
           950: "oklch(18.38% 0.02 88.8 / <alpha-value>)",
         },
+      },
+      fontFamily: {
+        serif: ["Alegreya", defaultTheme.fontFamily.serif],
       },
     },
   },

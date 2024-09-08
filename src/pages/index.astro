@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import me from "../images/me.jpeg";
+import "@fontsource-variable/alegreya";
 ---
 
 <html lang="en">
@@ -10,31 +11,46 @@ import me from "../images/me.jpeg";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Nick Breaton</title>
+    <style>
+      /* TODO: this doesnt look great if image isn't cached */
+      @starting-style {
+        [data-start-translucent] {
+          opacity: 0;
+        }
+      }
+    </style>
   </head>
   <body class="bg-primary-50 text-primary-900 font-serif">
-    <div class="mx-auto px-3 py-10 max-w-screen-md flex flex-wrap gap-3">
-      <div class="flex-1 flex flex-col items-start gap-4">
+    <div
+      class="mx-auto px-3 py-10 max-w-screen-md flex flex-col sm:flex-row gap-10"
+    >
+      <div class="flex sm:flex-col items-start gap-4">
         <div
-          class="rounded-lg overflow-hidden border border-primary-950 border-opacity-10 inline-flex bg-primary-100 bg-opacity-50"
+          class="rounded-lg overflow-hidden inline-flex bg-primary-100 bg-opacity-50"
         >
           <Image
             src={me}
-            id="profile-picture"
-            alt=""
-            class="max-w-60 flex-grow opacity-95 transition-opacity timing ease-in"
+            width={300}
+            densities={[1, 1.5, 2]}
+            alt="Nick facing the camera"
+            format="avif"
+            class="w-32 sm:w-60 flex-grow opacity-95 transition-opacity timing ease-in delay-200"
           />
         </div>
-
         <div class="flex flex-col gap-1">
-          <h1 class="text-4xl font-semibold">Nick Breaton</h1>
-          <p class="text-primary-900 text-opacity-80">
+          <h1 class="text-3xl sm:text-4xl font-semibold text-nowrap">
+            Nick Breaton
+          </h1>
+          <p
+            class="text-md sm:text-lg text-primary-900 text-opacity-80 text-nowrap"
+          >
             web dev doing web things
           </p>
         </div>
       </div>
 
       <div class="flex-1 flex flex-col gap-4 text-primary-900">
-        <h2 class="text-2xl">the socials</h2>
+        <h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
         <dl class="text-primary-900">
           <div
             class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white"
