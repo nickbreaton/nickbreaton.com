@@ -63,6 +63,10 @@ const socials = [
 					}
 				}
 			}
+			img {
+				image-rendering: auto;
+				/* color-adjust: exact; */
+			}
 		</style>
 	</head>
 	<body
@@ -80,9 +84,9 @@ const socials = [
 						src={me}
 						width={300}
 						densities={[1, 1.5, 2]}
-						alt="Photo of Nick facing the camera"
+						alt="Nick facing camera with quaint street behind him"
 						format="avif"
-						class="w-32 sm:w-60 flex-grow opacity-95 transition-opacity timing ease-in delay-200"
+						class="w-32 sm:w-60 flex-grow"
 					/>
 				</div>
 				<div class="flex flex-col gap-1">
