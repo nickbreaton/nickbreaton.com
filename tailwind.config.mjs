@@ -6,7 +6,7 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				// https://www.tints.dev/purple/D3BB8B
+				// https://www.tints.dev/
 				// #D3BB8B at 400
 				primary: {
 					50: "oklch(97.38% 0.009 84.57 / <alpha-value>)",
