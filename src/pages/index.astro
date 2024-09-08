@@ -2,6 +2,33 @@
 import { Image } from "astro:assets";
 import me from "../images/me.jpeg";
 import "@fontsource-variable/alegreya";
+
+const name = "Nick Breaton";
+const moto = "web dev doing web things";
+
+const socials = [
+  {
+    site: "GitHub",
+    href: "https://github.com/nickbreaton",
+    username: "nickbreaton",
+  },
+  {
+    site: "Bluesky",
+    href: "https://bsky.app/profile/nickbreaton.com",
+    username: "@nickbreaton.com",
+  },
+  {
+    site: "Mastodon",
+    href: "https://mastodon.social/@nickbreaton",
+    username: "@nickbreaton@mastodon.social",
+    rel: "me",
+  },
+  {
+    site: "X",
+    href: "https://x.com/nickbreaton",
+    username: "@nickbreaton",
+  },
+];
 ---
 
 <html lang="en">
@@ -10,21 +37,13 @@ import "@fontsource-variable/alegreya";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Nick Breaton</title>
-    <style>
-      /* TODO: this doesnt look great if image isn't cached */
-      @starting-style {
-        [data-start-translucent] {
-          opacity: 0;
-        }
-      }
-    </style>
+    <title>{name}</title>
   </head>
   <body class="bg-primary-50 text-primary-900 font-serif">
     <div
-      class="mx-auto px-3 py-10 max-w-screen-md flex flex-col sm:flex-row gap-10"
+      class="mx-auto px-3 py-10 max-w-screen-md flex flex-col sm:flex-row gap-8"
     >
-      <div class="flex sm:flex-col items-start gap-4">
+      <header class="flex sm:flex-col items-start gap-4">
         <div
           class="rounded-lg overflow-hidden inline-flex bg-primary-100 bg-opacity-50"
         >
@@ -39,27 +58,35 @@ import "@fontsource-variable/alegreya";
         </div>
         <div class="flex flex-col gap-1">
           <h1 class="text-3xl sm:text-4xl font-semibold text-nowrap">
-            Nick Breaton
+            {name}
           </h1>
           <p
             class="text-md sm:text-lg text-primary-900 text-opacity-80 text-nowrap"
           >
-            web dev doing web things
+            {moto}
           </p>
         </div>
-      </div>
+      </header>
 
-      <div class="flex-1 flex flex-col gap-4 text-primary-900">
-        <h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
-        <dl class="text-primary-900">
-          <div
-            class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white"
-          >
-            <dt>GitHub</dt>
-            <dd>nickbreaton</dd>
-          </div>
-        </dl>
-      </div>
+      <main class="flex-1">
+        <section class="flex flex-col gap-3 text-primary-900">
+          <h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
+          <dl class="text-primary-900 flex flex-col gap-2">
+            {
+              socials.map(({ site, href, username }) => (
+                <div class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white">
+                  <dt class="text-primary-800 text-opacity-70 text-sm">
+                    {site}
+                  </dt>
+                  <dd class="font-medium text-primary-900 text-opacity-90">
+                    {username}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </section>
+      </main>
     </div>
   </body>
 </html>
