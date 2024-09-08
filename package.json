@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/check": "^0.9.3",
     "@astrojs/tailwind": "^5.1.0",
-    "@fontsource-variable/alegreya": "^5.0.15",
+    "@fontsource-variable/platypi": "^5.0.5",
     "@types/feather-icons": "^4.29.4",
     "astro": "^4.15.4",
     "feather-icons": "^4.29.2",
