@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import me from "../images/me.jpeg";
 import { icons } from "feather-icons";
+import ObfuscationOptOut from "../components/ObfuscationOptOut.astro";
 
 const name = "Nick Breaton";
 const moto = "web dev doing web things";
@@ -24,6 +25,7 @@ const socials = [
 		username: "@nickbreaton@mastodon.social",
 		rel: "me",
 		copy: true,
+		obfuscate: false,
 	},
 	{
 		site: "X",
@@ -32,8 +34,6 @@ const socials = [
 	},
 ];
 ---
-
-<!--email_off-->nickbreaton@mastodon.social<!--/email_off-->
 
 <html lang="en" class="bg-primary-50 text-primary-900">
 	<head>
@@ -108,7 +108,7 @@ const socials = [
 					<h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
 					<ul class="text-primary-900 flex flex-col gap-2">
 						{
-							socials.map(({ site, href, rel, username, copy }) => (
+							socials.map(({ site, href, rel, username, copy, obfuscate }) => (
 								<li class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white grid grid-cols-[minmax(0,1fr)_max-content] gap-3">
 									<a href={href} target="_blank" rel={rel}>
 										<p class="text-primary-800 text-opacity-70 text-sm flex items-center gap-2">
@@ -123,7 +123,11 @@ const socials = [
 											/>
 										</p>
 										<p class="font-medium text-primary-900 text-opacity-90 line-clamp-1 overflow-clip">
-											{username}
+											{obfuscate === false ? (
+												<ObfuscationOptOut>{username}</ObfuscationOptOut>
+											) : (
+												username
+											)}
 										</p>
 									</a>
 									{copy && (
