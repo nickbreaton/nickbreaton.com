@@ -33,7 +33,7 @@ const socials = [
 ];
 ---
 
-<html lang="en">
+<html lang="en" class="bg-primary-50 text-primary-900">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -58,19 +58,15 @@ const socials = [
 					pointer-events: none;
 
 					@media (prefers-reduced-motion: no-preference) {
-						transform: translateY(-0.5vh) scale(99.75%);
+						transform: translateY(-0.25vh) scale(99.75%);
 						transform-origin: 50%;
 					}
 				}
 			}
-			img {
-				image-rendering: auto;
-				/* color-adjust: exact; */
-			}
 		</style>
 	</head>
 	<body
-		class="bg-primary-50 text-primary-900 font-serif touch-manipulation min-w-80 transition-all duration-500"
+		class="font-serif touch-manipulation min-w-80 transition-all duration-500"
 	>
 		<div
 			class="mx-auto px-3 py-5 sm:py-10 max-w-[100vw] md:max-w-screen-md flex flex-col sm:flex-row gap-8"
