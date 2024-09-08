@@ -1,0 +1,182 @@
+---
+import { Image } from "astro:assets";
+import me from "../images/me.jpeg";
+import { icons } from "feather-icons";
+
+const name = "Nick Breaton";
+const moto = "web dev doing web things";
+
+const socials = [
+  {
+    site: "GitHub",
+    href: "https://github.com/nickbreaton",
+    username: "nickbreaton",
+  },
+  {
+    site: "Bluesky",
+    href: "https://bsky.app/profile/nickbreaton.com",
+    username: "@nickbreaton.com",
+    copy: true,
+  },
+  {
+    site: "Mastodon",
+    href: "https://mastodon.social/@nickbreaton",
+    username: "@nickbreaton@mastodon.social",
+    rel: "me",
+    copy: true,
+  },
+  {
+    site: "X",
+    href: "https://x.com/nickbreaton",
+    username: "@nickbreaton",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{name}</title>
+    <style>
+      @font-face {
+        font-family: "Platypi Variable";
+        font-style: normal;
+        font-display: block;
+        font-weight: 300 800;
+        src: url(@fontsource-variable/platypi/files/platypi-latin-wght-normal.woff2)
+          format("woff2-variations");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+          U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+          U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-primary-50 text-primary-900 font-serif touch-manipulation min-w-80"
+  >
+    <div
+      class="mx-auto px-3 py-5 sm:py-10 max-w-[100vw] md:max-w-screen-md flex flex-col sm:flex-row gap-8"
+    >
+      <header class="flex sm:flex-col items-start gap-4">
+        <div
+          class="rounded-lg overflow-hidden inline-flex bg-primary-100 bg-opacity-50"
+        >
+          <Image
+            src={me}
+            width={300}
+            densities={[1, 1.5, 2]}
+            alt="Nick facing the camera"
+            format="avif"
+            class="w-32 sm:w-60 flex-grow opacity-95 transition-opacity timing ease-in delay-200"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <h1 class="text-3xl sm:text-4xl font-semibold text-nowrap">
+            {name}
+          </h1>
+          <p
+            class="text-md sm:text-lg text-primary-900 text-opacity-80 text-nowrap"
+          >
+            {moto}
+          </p>
+        </div>
+      </header>
+
+      <div class="flex-1">
+        <section class="flex flex-col gap-3 text-primary-900">
+          <h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
+          <ul class="text-primary-900 flex flex-col gap-2">
+            {
+              socials.map(({ site, href, rel, username, copy }) => (
+                <li class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white grid grid-cols-[minmax(0,1fr)_max-content] gap-3">
+                  <a href={href} target="_blank" rel={rel}>
+                    <p class="text-primary-800 text-opacity-70 text-sm flex items-center gap-2">
+                      {site}
+                      <span
+                        class="translate-y-[0.1em]"
+                        aria-hidden
+                        set:html={icons["link"].toSvg({
+                          width: "1em",
+                          stroke: "currentColor",
+                        })}
+                      />
+                    </p>
+                    <p class="font-medium text-primary-900 text-opacity-90 line-clamp-1 overflow-clip">
+                      {username}
+                    </p>
+                  </a>
+                  {copy && (
+                    <span class="flex items-center">
+                      <button
+                        class="aspect-square w-10 grid place-items-center -mr-2 text-primary-900 text-opacity-90 text-xl"
+                        aria-label="copy username"
+                        data-copy={username}
+                      >
+                        <span
+                          data-copy-icon="default"
+                          set:html={icons["copy"].toSvg({
+                            width: "1em",
+                            stroke: "currentColor",
+                          })}
+                        />
+                        <span
+                          hidden
+                          data-copy-icon="success"
+                          set:html={icons["check"].toSvg({
+                            width: "1em",
+                            stroke: "currentColor",
+                          })}
+                        />
+                      </button>
+                    </span>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+    <script>
+      document
+        .querySelectorAll<HTMLButtonElement>("button[data-copy]")
+        .forEach((button) => {
+          button.addEventListener("click", async () => {
+            if (button.disabled) {
+              return;
+            }
+
+            await navigator.clipboard.writeText(button.dataset.copy!);
+
+            const defaultIcon = button.querySelector<HTMLElement>(
+              '[data-copy-icon="default"]',
+            )!;
+            const successIcon = button.querySelector<HTMLElement>(
+              '[data-copy-icon="success"]',
+            )!;
+
+            button.disabled = true;
+            defaultIcon.hidden = true;
+            successIcon.hidden = false;
+
+            const announcer = document.createElement("div");
+            announcer.classList.add("sr-only");
+            announcer.textContent = "username copied";
+            announcer.role = "alert";
+            announcer.ariaLive = "polite";
+            document.body.prepend(announcer);
+
+            await new Promise((res) => setTimeout(res, 1000));
+
+            button.disabled = false;
+            defaultIcon.hidden = false;
+            successIcon.hidden = true;
+            announcer.remove();
+          });
+        });
+    </script>
+  </body>
+</html>
