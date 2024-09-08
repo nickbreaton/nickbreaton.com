@@ -21,6 +21,21 @@ export default {
 					900: "oklch(24.93% 0.032 82.3 / <alpha-value>)",
 					950: "oklch(18.38% 0.02 88.8 / <alpha-value>)",
 				},
+				// https://www.tints.dev/
+				// #847B75 at 400
+				dark: {
+					50: "oklch(95.56% 0.002 67.8 / <alpha-value>)",
+					100: "oklch(89.96% 0.004 39.48 / <alpha-value>)",
+					200: "oklch(79.84% 0.007 53.42 / <alpha-value>)",
+					300: "oklch(70.04% 0.011 58.15 / <alpha-value>)",
+					400: "oklch(58.91% 0.014 56.1 / <alpha-value>)",
+					500: "oklch(51.96% 0.013 54.32 / <alpha-value>)",
+					600: "oklch(44.67% 0.01 56.12 / <alpha-value>)",
+					700: "oklch(36.05% 0.008 43.21 / <alpha-value>)",
+					800: "oklch(27.93% 0.006 56.15 / <alpha-value>)",
+					900: "oklch(19.32% 0.004 48.52 / <alpha-value>)",
+					950: "oklch(14.6% 0.002 17.35 / <alpha-value>)",
+				},
 			},
 			fontFamily: {
 				// TODO: install a working font

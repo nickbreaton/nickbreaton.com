@@ -35,7 +35,10 @@ const socials = [
 ];
 ---
 
-<html lang="en" class="bg-primary-50 text-primary-900">
+<html
+	lang="en"
+	class="bg-primary-50 dark:bg-dark-950 text-primary-900 dark:text-dark-50"
+>
 	<head>
 		<meta charset="utf-8" />
 		<meta
@@ -96,7 +99,7 @@ const socials = [
 						{name}
 					</h1>
 					<p
-						class="text-md sm:text-lg text-primary-900 text-opacity-80 text-nowrap"
+						class="text-md sm:text-lg text-primary-900 dark:text-dark-200 text-opacity-80 text-nowrap"
 					>
 						{moto}
 					</p>
@@ -104,14 +107,16 @@ const socials = [
 			</header>
 
 			<div class="flex-1">
-				<section class="flex flex-col gap-3 text-primary-900">
+				<section
+					class="flex flex-col gap-3 text-primary-900 dark:text-dark-100"
+				>
 					<h2 class="text-xl sm:text-2xl font-medium">follow me</h2>
-					<ul class="text-primary-900 flex flex-col gap-2">
+					<ul class="text-primary-900 dark:text-dark-200 flex flex-col gap-2">
 						{
 							socials.map(({ site, href, rel, username, copy, obfuscate }) => (
-								<li class="rounded-lg border border-primary-950 border-opacity-10 px-5 py-3 bg-white grid grid-cols-[minmax(0,1fr)_max-content] gap-3">
+								<li class="rounded-lg border border-primary-950 dark:border-dark-800 border-opacity-10 px-5 py-3 bg-white dark:bg-dark-900 grid grid-cols-[minmax(0,1fr)_max-content] gap-3">
 									<a href={href} target="_blank" rel={rel}>
-										<p class="text-primary-800 text-opacity-70 text-sm flex items-center gap-2">
+										<p class="text-primary-800 dark:text-dark-300 text-opacity-70 text-sm flex items-center gap-2">
 											{site}
 											<span
 												class="translate-y-[0.1em]"
@@ -122,7 +127,7 @@ const socials = [
 												})}
 											/>
 										</p>
-										<p class="font-medium text-primary-900 text-opacity-90 line-clamp-1 overflow-clip">
+										<p class="font-medium text-primary-900 dark:text-dark-100 text-opacity-90 line-clamp-1 overflow-clip">
 											{obfuscate === false ? (
 												<ObfuscationOptOut>{username}</ObfuscationOptOut>
 											) : (
@@ -133,7 +138,7 @@ const socials = [
 									{copy && (
 										<span class="flex items-center">
 											<button
-												class="aspect-square w-10 grid place-items-center -mr-2 text-primary-900 text-opacity-90 text-xl"
+												class="aspect-square w-10 grid place-items-center -mr-2 text-primary-900 dark:text-dark-100 text-opacity-90 text-xl"
 												aria-label="copy username"
 												data-copy={username}
 											>
