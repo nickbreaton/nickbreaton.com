@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import me from "../images/me.jpeg";
 import { icons } from "feather-icons";
 import ObfuscationOptOut from "../components/ObfuscationOptOut.astro";
+import "../styles/global.css";
 
 const name = "Nick Breaton";
 const moto = "web dev doing web things";
@@ -52,9 +53,10 @@ const socials = [
 				font-weight: 300 800;
 				src: url(@fontsource-variable/platypi/files/platypi-latin-wght-normal.woff2)
 					format("woff2-variations");
-				unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
-					U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
-					U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+				unicode-range:
+					U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+					U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+					U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 			}
 
 			@media (scripting: enabled) {
@@ -78,7 +80,7 @@ const socials = [
 		>
 			<header class="flex sm:flex-col items-start gap-4">
 				<div
-					class="rounded-lg overflow-hidden inline-flex bg-primary-100 bg-opacity-50 dark:outline dark:outline-1 dark:outline-dark-800"
+					class="rounded-lg overflow-hidden inline-flex bg-primary-100/50 dark:outline dark:outline-1 dark:outline-dark-800"
 				>
 					<Image
 						id="me"
@@ -95,7 +97,7 @@ const socials = [
 						{name}
 					</h1>
 					<p
-						class="text-md sm:text-lg text-primary-900 dark:text-dark-200 text-opacity-80 text-nowrap"
+						class="text-md sm:text-lg text-primary-900/80 dark:text-dark-200/80 text-nowrap"
 					>
 						{moto}
 					</p>
@@ -110,9 +112,9 @@ const socials = [
 					<ul class="text-primary-900 dark:text-dark-200 flex flex-col gap-2">
 						{
 							socials.map(({ site, href, rel, username, copy, obfuscate }) => (
-								<li class="rounded-lg border border-primary-950 dark:border-dark-800 border-opacity-10 px-5 py-3 bg-white dark:bg-dark-900 grid grid-cols-[minmax(0,1fr)_max-content] gap-3">
+								<li class="rounded-lg border border-primary-950/10 dark:border-dark-800/10 px-5 py-3 bg-white dark:bg-dark-900 grid grid-cols-[minmax(0,1fr)_max-content] gap-3">
 									<a href={href} target="_blank" rel={rel}>
-										<p class="text-primary-800 dark:text-dark-300 text-opacity-70 text-sm flex items-center gap-2">
+										<p class="text-primary-800/70 dark:text-dark-300/70 text-sm flex items-center gap-2">
 											{site}
 											<span
 												class="translate-y-[0.1em]"
@@ -123,7 +125,7 @@ const socials = [
 												})}
 											/>
 										</p>
-										<p class="font-medium text-primary-900 dark:text-dark-100 text-opacity-90 line-clamp-1 overflow-clip">
+										<p class="font-medium text-primary-900/90 dark:text-dark-100/90 line-clamp-1 overflow-clip">
 											{obfuscate === false ? (
 												<ObfuscationOptOut>{username}</ObfuscationOptOut>
 											) : (
@@ -134,7 +136,7 @@ const socials = [
 									{copy && (
 										<span class="flex items-center">
 											<button
-												class="aspect-square w-10 grid place-items-center -mr-2 text-primary-900 dark:text-dark-100 text-opacity-90 text-xl"
+												class="aspect-square w-10 grid place-items-center -mr-2 text-primary-900/90 dark:text-dark-100/90 text-xl"
 												aria-label="copy username"
 												data-copy={username}
 											>

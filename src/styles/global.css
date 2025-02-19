@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+	/* https://www.tints.dev/ */
+	/* #D3BB8B at 400 */
+	--color-primary-50: oklch(97.38% 0.009 84.57);
+	--color-primary-100: oklch(95.03% 0.018 86.15);
+	--color-primary-200: oklch(89.86% 0.035 82.91);
+	--color-primary-300: oklch(84.76% 0.053 85.08);
+	--color-primary-400: oklch(80.09% 0.069 84.33);
+	--color-primary-500: oklch(72.76% 0.093 83.59);
+	--color-primary-600: oklch(64.23% 0.098 82.72);
+	--color-primary-700: oklch(51.78% 0.077 82.86);
+	--color-primary-800: oklch(39.37% 0.057 82.44);
+	--color-primary-900: oklch(24.93% 0.032 82.3);
+	--color-primary-950: oklch(18.38% 0.02 88.8);
+
+	/* https://www.tints.dev/ */
+	/* #847B75 at 400 */
+	--color-dark-50: oklch(95.56% 0.002 67.8);
+	--color-dark-100: oklch(89.96% 0.004 39.48);
+	--color-dark-200: oklch(79.84% 0.007 53.42);
+	--color-dark-300: oklch(70.04% 0.011 58.15);
+	--color-dark-400: oklch(58.91% 0.014 56.1);
+	--color-dark-500: oklch(51.96% 0.013 54.32);
+	--color-dark-600: oklch(44.67% 0.01 56.12);
+	--color-dark-700: oklch(36.05% 0.008 43.21);
+	--color-dark-800: oklch(27.93% 0.006 56.15);
+	--color-dark-900: oklch(19.32% 0.004 48.52);
+	--color-dark-950: oklch(14.6% 0.002 17.35);
+
+	--font-serif:
+		"Platypi Variable", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+		serif;
+}
