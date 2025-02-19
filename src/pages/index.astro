@@ -218,11 +218,9 @@ const socials = [
 			});
 
 			Promise.race([ready, readyTimeout]).finally(() => {
-				requestAnimationFrame(() => {
-					requestAnimationFrame(() => {
-						document.body.dataset.ready = "true";
-					});
-				});
+				setTimeout(() => {
+					document.body.dataset.ready = "true";
+				}, 100);
 			});
 		</script>
 	</body>
