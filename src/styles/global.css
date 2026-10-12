@@ -5,7 +5,7 @@
 
 	--background: light-dark(var(--color-neutral-50), var(--color-neutral-900));
 	--foreground: light-dark(var(--color-neutral-900), var(--color-neutral-200));
-	--muted-foreground: light-dark(var(--color-neutral-700), var(--color-neutral-400));
+	--muted-foreground: light-dark(var(--color-neutral-600), var(--color-neutral-300));
 }
 
 @theme inline {
