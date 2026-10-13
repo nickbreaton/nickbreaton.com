@@ -1,28 +1,38 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import IconBrandBluesky from "@tabler/icons/outline/brand-bluesky.svg";
+import IconBrandGithub from "@tabler/icons/outline/brand-github.svg";
+import IconBrandMastodon from "@tabler/icons/outline/brand-mastodon.svg";
+import IconBrandX from "@tabler/icons/outline/brand-x.svg";
+import me from "../images/me.jpeg";
 import Layout from "../layouts/Layout.astro";
 
 const name = "Nick Breaton";
 
-// const socials = [
-// 	{
-// 		site: "GitHub",
-// 		href: "https://github.com/nickbreaton",
-// 	},
-// 	{
-// 		site: "X",
-// 		href: "https://x.com/nickbreaton",
-// 	},
-// 	{
-// 		site: "Bluesky",
-// 		href: "https://bsky.app/profile/nickbreaton.com",
-// 	},
-// 	{
-// 		site: "Mastodon",
-// 		href: "https://mastodon.social/@nickbreaton",
-// 		rel: "me",
-// 	},
-// ];
+const socials = [
+	{
+		site: "GitHub",
+		href: "https://github.com/nickbreaton",
+		icon: IconBrandGithub,
+	},
+	{
+		site: "X",
+		href: "https://x.com/nickbreaton",
+		icon: IconBrandX,
+	},
+	{
+		site: "Bluesky",
+		href: "https://bsky.app/profile/nickbreaton.com",
+		icon: IconBrandBluesky,
+	},
+	{
+		site: "Mastodon",
+		href: "https://mastodon.social/@nickbreaton",
+		rel: "me",
+		icon: IconBrandMastodon,
+	},
+];
 
 const posts = (await getCollection("posts"))
 	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -30,20 +40,46 @@ const posts = (await getCollection("posts"))
 ---
 
 <Layout title={name}>
-	<h1 class="sr-only">{name}</h1>
+	<Image
+		src={me}
+		width={240}
+		densities={[1, 1.5, 2]}
+		alt="Nick facing camera with quaint street behind him"
+		format="avif"
+		class="w-32 rounded-xl bg-neutral-200 [corner-shape:squircle] sm:w-60 dark:bg-neutral-950"
+	/>
+	<section class="mt-6 mb-10">
+		<h1 class="text-title">{name}</h1>
+		<p class="mt-3 text-body">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+			tempor incididunt ut labore. Ut enim ad minim veniam, quis nostrud
+			exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+		</p>
+		<div class="mt-4 flex gap-3">
+			{socials.map(({ site, href, rel, icon: Icon }) => (
+				<a
+					href={href}
+					rel={rel}
+					target="_blank"
+					title={site}
+					class="hover:text-foreground"
+				>
+					<Icon aria-hidden="true" class="size-5" />
+				</a>
+			))}
+		</div>
+	</section>
 	<h2 class="text-heading">Posts</h2>
 	<ul class="mt-2 flex flex-col gap-1">
-		{
-			posts.map(({ title, href }) => (
-				<li>
-					<a
-						href={href}
-						class="text-body text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-					>
-						{title}
-					</a>
-				</li>
-			))
-		}
+		{posts.map(({ title, href }) => (
+			<li>
+				<a
+					href={href}
+					class="text-body text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+				>
+					{title}
+				</a>
+			</li>
+		))}
 	</ul>
 </Layout>
