@@ -1,5 +1,6 @@
 ---
-import { Font } from "astro:assets";
+import { Font, getImage } from "astro:assets";
+import mePhoto from "../images/me.jpeg";
 import "../styles/global.css";
 
 interface Props {
@@ -8,6 +9,17 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site);
+
+// Social crawlers can't read data URIs or reliably decode AVIF, so link preview
+// cards get a separately hosted JPEG.
+const ogImageWidth = 1200;
+const ogImage = await getImage({
+	src: mePhoto,
+	width: ogImageWidth,
+	height: ogImageWidth,
+	format: "jpeg",
+});
 ---
 
 <html lang="en">
@@ -21,6 +33,18 @@ const { title, description } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={url} />
+		<meta property="og:title" content={title} />
+		{description && <meta property="og:description" content={description} />}
+		<meta property="og:image" content={new URL(ogImage.src, Astro.site)} />
+		<meta property="og:image:width" content={String(ogImageWidth)} />
+		<meta property="og:image:height" content={String(ogImageWidth)} />
+		<meta
+			property="og:image:alt"
+			content="Nick facing camera with quaint street behind him"
+		/>
+		<meta name="twitter:card" content="summary" />
 		<Font cssVariable="--font-lexend" preload />
 	</head>
 	<body class="bg-background leading-relaxed mx-auto max-w-lg px-5 py-8">
