@@ -8,7 +8,7 @@ import Layout from "../layouts/Layout.astro";
 
 const name = "Nick Breaton";
 const bio =
-	"Software developer with more than ten years of experience building web applications in an ever-changing world.";
+	"Software developer with more than 10 years of experience building web applications in an ever-changing world.";
 
 // Inlined so the photo renders with the HTML instead of waiting on a request.
 // Encoded at 3x the largest display width so it stays sharp on retina screens.
@@ -56,7 +56,7 @@ const socials = [
 	/>
 	<main class="mt-6 mb-10">
 		<h1 class="text-title">{name}</h1>
-		<p class="mt-3 text-body">{bio}</p>
+		<p class="mt-3 text-body leading-6">{bio}</p>
 		<div class="mt-4 flex gap-3">
 			{socials.map(({ site, href, rel, icon: Icon }) => (
 				<a
