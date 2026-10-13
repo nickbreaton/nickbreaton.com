@@ -5,7 +5,7 @@
 
 	--background: light-dark(var(--color-neutral-50), var(--color-neutral-900));
 	--foreground: light-dark(var(--color-neutral-900), var(--color-neutral-200));
-	--muted-foreground: light-dark(var(--color-neutral-600), var(--color-neutral-300));
+	--muted-foreground: light-dark(var(--color-neutral-700), var(--color-neutral-300));
 }
 
 @theme inline {
@@ -33,16 +33,12 @@
 	--text-subheading--font-weight: var(--font-weight-medium);
 
 	--text-body: var(--text-base);
-	--text-body--line-height: var(--leading-relaxed);
+	--text-body--line-height: 1.45;
 	--text-body--letter-spacing: var(--tracking-normal);
 	--text-body--font-weight: var(--font-weight-light);
 }
 
 @layer base {
-	body {
-		color: var(--color-muted-foreground);
-	}
-
 	h1,
 	h2,
 	h3,
@@ -50,26 +46,5 @@
 	h5,
 	h6 {
 		color: var(--color-foreground);
-	}
-}
-
-/* Long-form content rendered from Markdown, where elements can't take classes. */
-@layer components {
-	.article {
-		& h2 {
-			@apply mt-10 text-heading;
-		}
-
-		& h3 {
-			@apply mt-8 text-subheading;
-		}
-
-		& p {
-			@apply mt-3 text-body;
-		}
-
-		& :is(h1, h2, h3) + p {
-			@apply mt-4;
-		}
 	}
 }

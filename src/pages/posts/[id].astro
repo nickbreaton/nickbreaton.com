@@ -12,8 +12,12 @@ const { Content } = await render(post);
 ---
 
 <Layout title={post.data.title}>
-	<article class="article">
-		<h1 class="text-title">{post.data.title}</h1>
+	{/* The Markdown body can't take classes, so its elements are styled from here.
+	    Spacing relies on margin collapsing, so each element sets its own top and bottom. */}
+	<article
+		class="*:first:mt-0 *:last:mb-0 [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-heading [&_h3]:mt-6 [&_h3]:mb-3 [&_h3]:text-subheading [&_p]:mb-5 [&_p]:text-body"
+	>
+		<h1 class="mb-6 text-title">{post.data.title}</h1>
 		<Content />
 	</article>
 </Layout>
