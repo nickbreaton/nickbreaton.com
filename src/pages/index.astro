@@ -11,12 +11,12 @@ const bio =
 	"Software developer with more than ten years of experience building web applications in an ever-changing world.";
 
 // Inlined so the photo renders with the HTML instead of waiting on a request.
-// Encoded at 2x the largest display width so it stays sharp on retina screens.
+// Encoded at 3x the largest display width so it stays sharp on retina screens.
 const photoWidth = 240;
 const photo = await sharp("src/images/me.jpeg")
 	.rotate()
-	.resize(photoWidth * 2)
-	.avif({ quality: 50 })
+	.resize(photoWidth * 3)
+	.avif({ quality: 75, chromaSubsampling: "4:4:4" })
 	.toBuffer();
 const photoSrc = `data:image/avif;base64,${photo.toString("base64")}`;
 
