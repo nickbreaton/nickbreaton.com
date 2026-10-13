@@ -39,12 +39,6 @@
 }
 
 @layer base {
-	*,
-	::before,
-	::after {
-		outline-color: var(--color-sky-400);
-	}
-
 	body {
 		color: var(--color-muted-foreground);
 	}
