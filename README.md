@@ -1,7 +1,3 @@
 # nickbreaton.com
 
-## Running
-
-```sh
-npm run dev
-```
+The personal website for me, Nick Breaton.
