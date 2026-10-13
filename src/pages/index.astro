@@ -1,6 +1,6 @@
 ---
-import { Font } from "astro:assets";
-import "../styles/global.css";
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
 
 const name = "Nick Breaton";
 
@@ -23,76 +23,27 @@ const name = "Nick Breaton";
 // 		rel: "me",
 // 	},
 // ];
+
+const posts = (await getCollection("posts"))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.map((post) => ({ title: post.data.title, href: `/posts/${post.id}` }));
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
-		/>
-		<meta name="color-scheme" content="light dark" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{name}</title>
-		<Font cssVariable="--font-lexend" preload />
-	</head>
-	<body class="bg-background leading-relaxed mx-auto max-w-lg px-5 py-8">
-		{/*
-		<h1>{name}</h1>
-		<ul>
-			{
-				socials.map(({ site, href, rel }) => (
-					<li>
-						<a href={href} rel={rel}>
-							{site}
-						</a>
-					</li>
-				))
-			}
-		</ul>
-		*/}
-
-		<h1 class="text-title">On setting type for the screen</h1>
-		<p class="mt-2 text-body">
-			Most of what we read on the web is set by default. The browser picks a
-			size, a line height, and a measure, and the words land wherever they
-			land. It works, mostly, but it rarely feels considered.
-		</p>
-		<p class="mt-4 text-body">
-			A page that is meant to be read deserves a little more care. Not
-			ornament, just attention: a comfortable line length, enough space
-			between lines for the eye to find its way back, and a clear sense of
-			what matters most.
-		</p>
-
-		<h2 class="mt-10 text-heading">Start with the measure</h2>
-		<p class="mt-2 text-body">
-			The measure is the length of a line of text. Too long and the reader
-			loses their place on the return trip; too short and the rhythm turns
-			choppy. Somewhere around sixty to seventy characters is a good place to
-			begin, and the rest of the page can be built around it.
-		</p>
-
-		<h3 class="mt-6 text-subheading">A note on line height</h3>
-		<p class="mt-2 text-body">
-			Line height and measure work together. Longer lines want a little more
-			leading so the eye can track back to the start of the next line. Shorter
-			lines can afford to be set tighter.
-		</p>
-
-		<h3 class="mt-6 text-subheading">Hierarchy without noise</h3>
-		<p class="mt-2 text-body">
-			Headings should guide, not shout. A modest change in size or weight is
-			usually enough to signal a new section, especially when the body text
-			around it is calm and consistent.
-		</p>
-
-		<h2 class="mt-10 text-heading">Then let the color recede</h2>
-		<p class="mt-2 text-body">
-			Text and background should sit comfortably together in both light and
-			dark. Near-black on near-white, and the reverse, with nothing competing
-			for attention. The words do the work.
-		</p>
-	</body>
-</html>
+<Layout title={name}>
+	<h1 class="sr-only">{name}</h1>
+	<h2 class="text-heading">Posts</h2>
+	<ul class="mt-2 flex flex-col gap-1">
+		{
+			posts.map(({ title, href }) => (
+				<li>
+					<a
+						href={href}
+						class="text-body text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+					>
+						{title}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</Layout>
