@@ -1,14 +1,23 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import IconBrandBluesky from "@tabler/icons/outline/brand-bluesky.svg";
 import IconBrandGithub from "@tabler/icons/outline/brand-github.svg";
 import IconBrandMastodon from "@tabler/icons/outline/brand-mastodon.svg";
 import IconBrandX from "@tabler/icons/outline/brand-x.svg";
-import me from "../images/me.jpeg";
+import sharp from "sharp";
 import Layout from "../layouts/Layout.astro";
 
 const name = "Nick Breaton";
+
+// Inlined so the photo renders with the HTML instead of waiting on a request.
+// Encoded at 2x the largest display width so it stays sharp on retina screens.
+const photoWidth = 240;
+const photo = await sharp("src/images/me.jpeg")
+	.rotate()
+	.resize(photoWidth * 2)
+	.avif({ quality: 50 })
+	.toBuffer();
+const photoSrc = `data:image/avif;base64,${photo.toString("base64")}`;
 
 const socials = [
 	{
@@ -40,12 +49,11 @@ const posts = (await getCollection("posts"))
 ---
 
 <Layout title={name}>
-	<Image
-		src={me}
-		width={240}
-		densities={[1, 1.5, 2]}
+	<img
+		src={photoSrc}
+		width={photoWidth}
+		height={photoWidth}
 		alt="Nick facing camera with quaint street behind him"
-		format="avif"
 		class="w-32 rounded-xl bg-neutral-200 [corner-shape:squircle] sm:w-60 dark:bg-neutral-950"
 	/>
 	<section class="mt-6 mb-10">
