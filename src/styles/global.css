@@ -52,3 +52,24 @@
 		color: var(--color-foreground);
 	}
 }
+
+/* Long-form content rendered from Markdown, where elements can't take classes. */
+@layer components {
+	.article {
+		& h2 {
+			@apply mt-10 text-heading;
+		}
+
+		& h3 {
+			@apply mt-8 text-subheading;
+		}
+
+		& p {
+			@apply mt-3 text-body;
+		}
+
+		& :is(h1, h2, h3) + p {
+			@apply mt-4;
+		}
+	}
+}

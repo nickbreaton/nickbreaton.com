@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import IconBrandBluesky from "@tabler/icons/outline/brand-bluesky.svg";
 import IconBrandGithub from "@tabler/icons/outline/brand-github.svg";
 import IconBrandMastodon from "@tabler/icons/outline/brand-mastodon.svg";
@@ -43,6 +44,10 @@ const socials = [
 		icon: IconBrandMastodon,
 	},
 ];
+
+const posts = (await getCollection("posts"))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.map((post) => ({ title: post.data.title, href: `/posts/${post.id}` }));
 ---
 
 <Layout title={name} description={bio}>
@@ -71,4 +76,17 @@ const socials = [
 			))}
 		</div>
 	</main>
+	<h2 class="text-heading">Posts</h2>
+	<ul class="mt-2 flex flex-col gap-1">
+		{posts.map(({ title, href }) => (
+			<li>
+				<a
+					href={href}
+					class="text-body text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+				>
+					{title}
+				</a>
+			</li>
+		))}
+	</ul>
 </Layout>
