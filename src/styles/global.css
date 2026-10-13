@@ -34,7 +34,7 @@
 
 	--text-body: var(--text-base);
 	--text-body--line-height: var(--leading-relaxed);
-	--text-body--letter-spacing: var(--tracking-tight);
+	--text-body--letter-spacing: var(--tracking-normal);
 	--text-body--font-weight: var(--font-weight-light);
 }
 
@@ -67,15 +67,15 @@
 		}
 
 		& h3 {
-			@apply mt-6 text-subheading;
+			@apply mt-8 text-subheading;
 		}
 
 		& p {
-			@apply mt-4 text-body;
+			@apply mt-3 text-body;
 		}
 
 		& :is(h1, h2, h3) + p {
-			@apply mt-2;
+			@apply mt-4;
 		}
 	}
 }
