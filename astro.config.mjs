@@ -15,7 +15,7 @@ export default defineConfig({
       weights: ["100 900"],
       styles: ["normal"],
       subsets: ["latin"],
-      display: "optional",
+      display: "block",
     },
   ],
 
