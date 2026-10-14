@@ -6,10 +6,7 @@ import IconBrandMastodon from "@tabler/icons/outline/brand-mastodon.svg";
 import IconBrandX from "@tabler/icons/outline/brand-x.svg";
 import sharp from "sharp";
 import Layout from "../layouts/Layout.astro";
-
-const name = "Nick Breaton";
-const bio =
-	"Software developer with more than 10 years of experience building web applications in an ever-changing world.";
+import { bio, name } from "../site";
 
 // Inlined so the photo renders with the HTML instead of waiting on a request.
 // Encoded at 3x the largest display width so it stays sharp on retina screens.
@@ -55,7 +52,7 @@ const posts = (await getCollection("posts"))
 		src={photoSrc}
 		width={photoWidth}
 		height={photoWidth}
-		alt="Profile picture of Nick Breaton"
+		alt={`Profile picture of ${name}`}
 		draggable="false"
 		class="w-32 rounded-xl bg-neutral-200 [corner-shape:squircle] select-none sm:w-60 dark:bg-neutral-950 brightness-110"
 	/>
