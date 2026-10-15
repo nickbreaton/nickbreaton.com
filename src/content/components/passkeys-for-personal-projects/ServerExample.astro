@@ -4,20 +4,28 @@ import Figure from "../../../components/Figure.astro";
 const rows = 4;
 
 const cell = "transition-colors hover:bg-neutral-500/5";
-const nameCell = [cell, "flex w-32 shrink-0 items-center border-r border-neutral-200/60 px-4 dark:border-neutral-800/75"];
+const nameCell = [cell, "flex w-32 shrink-0 border-r border-neutral-200/60 px-4 dark:border-neutral-800/75"];
 ---
 
 <Figure flush>
 	<div class="divide-y divide-neutral-200/60 font-mono text-sm dark:divide-neutral-800/75">
-		<label class="flex h-10">
-			<span class:list={nameCell}><span class="[text-box:trim-both_cap_alphabetic]">PASSKEY</span></span>
-			<input
-				class:list={[cell, "min-w-0 flex-1 bg-transparent px-3 outline-none select-text"]}
+		{/* Not a <label>, since hovering a label also applies :hover to its input. */}
+		<div class="flex min-h-10">
+			<span id="passkey-name" class:list={nameCell}>
+				<span class="flex h-10 items-center"><span class="[text-box:trim-both_cap_alphabetic]">PASSKEY</span></span>
+			</span>
+			{/* field-sizing lets the textarea grow with its content, so long keys wrap onto new lines. */}
+			<textarea
+				class:list={[
+					cell,
+					"min-w-0 flex-1 resize-none bg-transparent px-3 py-2.5 break-all outline-none select-text field-sizing-content",
+				]}
+				rows="1"
+				aria-labelledby="passkey-name"
 				autocomplete="off"
 				autocapitalize="off"
-				spellcheck="false"
-			/>
-		</label>
+				spellcheck="false"></textarea>
+		</div>
 		{
 			Array.from({ length: rows - 1 }, () => (
 				<div class="flex h-10">
