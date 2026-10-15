@@ -3,8 +3,8 @@ title: Passkeys for personal projects
 date: 2026-10-15
 ---
 
-import Figure from "../../components/Figure.astro";
 import BrowserExample from "../components/passkeys-for-personal-projects/BrowserExample.astro";
+import ServerExample from "../components/passkeys-for-personal-projects/ServerExample.astro";
 
 We've all been there building a personal project that just requires a little bit of auth, not a whole database or user system, but perhaps just a simple `PASSWORD` environment variable attached to the deploy.
 
@@ -24,6 +24,11 @@ Before we start, let's explore what this looks like in practice. This will add a
 
 ### Server
 
-<Figure>
+<ServerExample />
 
-</Figure>
+Lets chat through what we just saw.
+
+1. The client showed as passkey dialog.
+2. The client then presented a public credential which can be securely, or insecurely, copied to our server.
+3. The server reployed with a new `PASSKEY` environment variable.
+4. The browser was able to authenticate.

@@ -1,0 +1,30 @@
+---
+import Figure from "../../../components/Figure.astro";
+
+const rows = 4;
+
+const cell = "transition-colors hover:bg-neutral-500/5";
+const nameCell = [cell, "flex w-32 shrink-0 items-center border-r border-neutral-100 px-4 dark:border-neutral-800/50"];
+---
+
+<Figure flush>
+	<div class="divide-y divide-neutral-100 font-mono text-sm dark:divide-neutral-800/50">
+		<label class="flex h-10">
+			<span class:list={nameCell}><span class="[text-box:trim-both_cap_alphabetic]">PASSKEY</span></span>
+			<input
+				class:list={[cell, "min-w-0 flex-1 bg-transparent px-3 outline-none select-text"]}
+				autocomplete="off"
+				autocapitalize="off"
+				spellcheck="false"
+			/>
+		</label>
+		{
+			Array.from({ length: rows - 1 }, () => (
+				<div class="flex h-10">
+					<span class:list={nameCell} />
+					<span class:list={[cell, "flex-1"]} />
+				</div>
+			))
+		}
+	</div>
+</Figure>
