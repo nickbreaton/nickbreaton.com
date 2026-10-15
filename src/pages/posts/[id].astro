@@ -21,8 +21,6 @@ const { Content } = await render(post);
 <style is:global>
 	@reference "../../styles/global.css";
 
-	/* The Markdown body can't take classes, so its elements are styled from here.
-	   Spacing relies on margin collapsing, so each element sets its own top and bottom. */
 	.post {
 		h2 {
 			@apply mt-8 mb-3 text-heading;

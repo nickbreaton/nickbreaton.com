@@ -1,0 +1,14 @@
+---
+import Figure from "../../../components/Figure.astro";
+import Button from "./Button.astro";
+---
+
+<Figure center>
+	<Button data-create-passkey>Create passkey</Button>
+</Figure>
+
+<script>
+	const button = document.querySelector<HTMLButtonElement>("[data-create-passkey]");
+
+	button?.addEventListener("click", async () => {});
+</script>

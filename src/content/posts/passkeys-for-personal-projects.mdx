@@ -1,0 +1,29 @@
+---
+title: Passkeys for personal projects
+date: 2026-10-15
+---
+
+import Figure from "../../components/Figure.astro";
+import BrowserExample from "../components/passkeys-for-personal-projects/BrowserExample.astro";
+
+We've all been there building a personal project that just requires a little bit of auth, not a whole database or user system, but perhaps just a simple `PASSWORD` environment variable attached to the deploy.
+
+This method always leaves me feeling a little uneasy as now I have to securely get this to my clients. I might shove it in a password manager, but if I'm deploying a shared-origin host like Cloudflare or Netlify, I might accidently autofill that on a different project.
+
+Enter passkeys, this is a lot easier to set up than you might be thinking and we can retain just a single environment variable, but this time its information isn't sensitive at all.
+
+The best part about implementing this is we'll learn how passkeys actually work together.
+
+## Show me the money
+
+Before we start, let's explore what this looks like in practice. This will add a passkey to this site, don't worry we'll clean it up later.
+
+### Browser
+
+<BrowserExample />
+
+### Server
+
+<Figure>
+
+</Figure>
