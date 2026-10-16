@@ -16,13 +16,40 @@ const nameCell = [
 <Figure center>
 	<div class="grid w-full place-items-center *:col-start-1 *:row-start-1">
 		<Button data-create-passkey>Create passkey</Button>
-		<Button data-login-passkey color="purple" class="invisible">
-			Login with passkey
-		</Button>
+		<div
+			data-login
+			hidden
+			class="relative transition-[opacity,translate] duration-500 ease-out starting:translate-y-1 starting:opacity-0"
+		>
+			<Button data-login-passkey color="neutral">
+				Login with passkey
+			</Button>
+			<div
+				data-login-mismatch
+				hidden
+				class="absolute top-full left-1/2 mt-3 -translate-x-1/2 text-sm font-light whitespace-nowrap text-muted-foreground"
+			>
+				That passkey doesn't match.
+			</div>
+		</div>
+		<div
+			data-signed-in
+			hidden
+			class="flex flex-col items-center gap-2 text-body transition-[opacity,translate] duration-500 ease-out starting:translate-y-1 starting:opacity-0"
+		>
+			You've signed in with your passkey.
+			<button
+				type="button"
+				data-start-over
+				class="cursor-pointer text-sm font-light text-neutral-400 underline underline-offset-2 transition-[opacity,translate] delay-150 duration-500 ease-out starting:translate-y-1 starting:opacity-0 dark:text-neutral-500"
+			>
+				Start over
+			</button>
+		</div>
 		<div data-passkey-result class="invisible w-full">
 			<p class="text-sm!">
-				Provide this to your administrator (copy it into the environment
-				variable field below).
+				Our passkey has been generated! Go ahead and paste it into the
+				environment variable table below so we can use it to sign in.
 			</p>
 			<pre class="rounded-md bg-neutral-500/15 p-3 font-mono text-sm break-all whitespace-pre-wrap select-all"><code data-passkey>{"0".repeat(122)}</code></pre>
 		</div>
@@ -62,7 +89,7 @@ const nameCell = [
 </Figure>
 
 <script>
-	const button = document.querySelector<HTMLButtonElement>(
+	const createButton = document.querySelector<HTMLButtonElement>(
 		"[data-create-passkey]",
 	);
 	const result = document.querySelector<HTMLElement>("[data-passkey-result]");
@@ -71,30 +98,40 @@ const nameCell = [
 		"[data-login-passkey]",
 	);
 	const field = document.querySelector<HTMLTextAreaElement>("#passkey-value");
+	const login = document.querySelector<HTMLElement>("[data-login]");
+	const mismatch = document.querySelector<HTMLElement>("[data-login-mismatch]");
+	const signedIn = document.querySelector<HTMLElement>("[data-signed-in]");
+	const startOver =
+		document.querySelector<HTMLButtonElement>("[data-start-over]");
 
 	let created = false;
+	let verified: boolean | undefined;
 
 	const render = () => {
 		const filled = field!.value.length > 0;
-		button!.classList.toggle("invisible", filled || created);
+		createButton!.classList.toggle("invisible", filled || created);
 		result!.classList.toggle("invisible", filled || !created);
-		loginButton!.classList.toggle("invisible", !filled);
+		login!.hidden = !filled || verified === true;
+		mismatch!.hidden = verified !== false;
+		signedIn!.hidden = !filled || verified !== true;
 	};
 
 	field?.addEventListener("input", () => {
 		created = false;
+		verified = undefined;
 		render();
 	});
 	render();
 
-	const toBase64Url = (buffer: ArrayBuffer) =>
-		btoa(String.fromCharCode(...new Uint8Array(buffer)))
-			.replace(/\+/g, "-")
-			.replace(/\//g, "_")
-			.replace(/=+$/, "");
+	startOver?.addEventListener("click", () => {
+		field!.value = "";
+		created = false;
+		verified = undefined;
+		render();
+	});
 
-	button?.addEventListener("click", async () => {
-		const credential = (await navigator.credentials.create({
+	createButton?.addEventListener("click", async () => {
+		const credential = await navigator.credentials.create({
 			publicKey: {
 				// The public key is trusted as-is, so there's no server challenge or attestation to verify.
 				challenge: crypto.getRandomValues(new Uint8Array(32)),
@@ -104,28 +141,116 @@ const nameCell = [
 					name: "Passkeys for personal projects",
 					displayName: "Passkeys for personal projects",
 				},
-				// ES256 and RS256 cover every common authenticator.
-				pubKeyCredParams: [
-					{ type: "public-key", alg: -7 },
-					{ type: "public-key", alg: -257 },
-				],
-				authenticatorSelection: {
-					residentKey: "required",
-					userVerification: "preferred",
-				},
-				attestation: "none",
+				pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+				authenticatorSelection: { residentKey: "required" },
 			},
-		})) as PublicKeyCredential | null;
+		});
 
-		if (!credential) return;
+		if (
+			!(credential instanceof PublicKeyCredential) ||
+			!(credential.response instanceof AuthenticatorAttestationResponse)
+		) {
+			alert("Failed to generate passkey");
+			return;
+		}
 
-		const response = credential.response as AuthenticatorAttestationResponse;
-		const publicKey = response.getPublicKey();
+		const publicKey = credential.response.getPublicKey();
 
-		if (!publicKey) return;
+		if (!publicKey) {
+			alert("Failed to generate passkey");
+			return;
+		}
 
-		passkey!.textContent = toBase64Url(publicKey);
+		passkey!.textContent = new Uint8Array(publicKey).toBase64({
+			alphabet: "base64url",
+			omitPadding: true,
+		});
 		created = true;
+		render();
+	});
+
+	const derToRaw = (der: Uint8Array<ArrayBuffer>) => {
+		const raw = new Uint8Array(64);
+		let offset = 2;
+		for (const index of [0, 1]) {
+			const length = der[offset + 1] ?? 0;
+			const integer = der.subarray(offset + 2, offset + 2 + length);
+			const trimmed = integer.subarray(Math.max(0, integer.length - 32));
+			raw.set(trimmed, 32 * (index + 1) - trimmed.length);
+			offset += 2 + length;
+		}
+		return raw;
+	};
+
+	const verify = async (
+		encodedKey: string,
+		signature: Uint8Array<ArrayBuffer>,
+		data: Uint8Array<ArrayBuffer>,
+	) => {
+		try {
+			const key = await crypto.subtle.importKey(
+				"spki",
+				Uint8Array.fromBase64(encodedKey, { alphabet: "base64url" }),
+				{ name: "ECDSA", namedCurve: "P-256" },
+				false,
+				["verify"],
+			);
+			return await crypto.subtle.verify(
+				{ name: "ECDSA", hash: "SHA-256" },
+				key,
+				derToRaw(signature),
+				data,
+			);
+		} catch {
+			return false;
+		}
+	};
+
+	loginButton?.addEventListener("click", async () => {
+		// A real server would issue this challenge, remember it, and only accept a
+		// signature over that exact value, which stops old logins being replayed.
+		// The browser is playing both sides here, so a random value stands in.
+		const challenge = crypto.getRandomValues(new Uint8Array(32));
+
+		const credential = await navigator.credentials.get({
+			publicKey: { challenge },
+		});
+
+		if (
+			!(credential instanceof PublicKeyCredential) ||
+			!(credential.response instanceof AuthenticatorAssertionResponse)
+		) {
+			alert("Failed to log in with passkey");
+			return;
+		}
+
+		const { authenticatorData, clientDataJSON, signature } =
+			credential.response;
+		const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
+
+		if (
+			clientData.type !== "webauthn.get" ||
+			clientData.challenge !==
+				challenge.toBase64({ alphabet: "base64url", omitPadding: true })
+		) {
+			alert("Failed to log in with passkey");
+			return;
+		}
+
+		const clientDataHash = await crypto.subtle.digest(
+			"SHA-256",
+			clientDataJSON,
+		);
+		const signed = new Uint8Array([
+			...new Uint8Array(authenticatorData),
+			...new Uint8Array(clientDataHash),
+		]);
+
+		verified = await verify(
+			field!.value.trim(),
+			new Uint8Array(signature),
+			signed,
+		);
 		render();
 	});
 </script>
