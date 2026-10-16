@@ -9,19 +9,55 @@ We've all been there building a personal project that just requires a little bit
 
 This method always leaves me feeling a little uneasy as now I have to securely get this to my clients. I might shove it in a password manager, but if I'm deploying a shared-origin host like Cloudflare or Netlify, I might accidently autofill that on a different project.
 
-Enter passkeys, this is a lot easier to set up than you might be thinking and we can retain just a single environment variable, but this time its information isn't sensitive at all.
+Enter passkeys. This is a lot easier to set up than you might be thinking and we can retain just a single environment variable, but this time its information isn't sensitive at all.
 
 The best part about implementing this is we'll learn how passkeys actually work together.
 
 ## Show me the money
 
-Before we start, let's explore what this looks like in practice. This will add a passkey to this site, don't worry we'll clean it up later.
+Before we start, let's explore what this looks like in practice. This will add a passkey for this site, don't worry we'll clean it up later.
 
 <PasskeyDemo />
 
-Lets chat through what we just saw.
+So at a high level, what just happened?
 
-1. The client showed as passkey dialog.
-2. The client then presented a public credential which can be securely, or insecurely, copied to our server.
-3. The server reployed with a new `PASSKEY` environment variable.
-4. The browser was able to authenticate.
+1. We had the browser present a button to create a passkey, which ultimately presents a browser or OS-level creation screen.
+2. Once the passkey is created, we told the browser to output the public part of its generated credential so that it could be copied.
+3. Once copied to the server's environment variables, the server restarts.
+4. Then we can visit the page once again, now seeing a login button.
+5. Logging in uses a challenge provided by the server to prove that the public credential it now knows of was indeed created by us.
+
+For those of us familiar with generating and using SSH keys, this process probably looks fairly familiar as its also a form of asymmetric cryptography.
+
+## Let’s zoom in
+
+### Passkey creation
+
+Typically our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we are saving the public credential by hand we will not need this protection.
+
+Instead we can start by initiating the passkey creation process via `navigator.credentials.create`:
+
+```js
+const credential = await navigator.credentials.create({
+  publicKey: {
+    // Normally issued by the server, but random bytes 
+    // will do for our usecase.
+    challenge: crypto.getRandomValues(new Uint8Array(32)),
+    
+    // The "relying party", which is the site this passkey 
+    // belongs to.
+    rp: { name: "My Project" },
+
+    // Who the passkey is for, shown when picking a passkey 
+    // to sign in with.
+    user: {
+      id: crypto.getRandomValues(new Uint8Array(16)),
+      name: "admin",
+      displayName: "Admin",
+    },
+
+    // Allow the browser to use its default params.
+    pubKeyCredParams: [],
+  },
+});
+```

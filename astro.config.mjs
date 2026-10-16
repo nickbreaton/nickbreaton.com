@@ -11,6 +11,10 @@ export default defineConfig({
 
   integrations: [mdx()],
 
+  markdown: {
+    syntaxHighlight: "prism",
+  },
+
   fonts: [
     {
       provider: fontProviders.fontsource(),

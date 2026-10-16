@@ -141,7 +141,10 @@ const nameCell = [
 					name: "Passkeys for personal projects",
 					displayName: "Passkeys for personal projects",
 				},
-				pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+				pubKeyCredParams: [
+					{ type: "public-key", alg: -7 },
+					{ type: "public-key", alg: -257 },
+				],
 				authenticatorSelection: { residentKey: "required" },
 			},
 		});
@@ -182,25 +185,38 @@ const nameCell = [
 		return raw;
 	};
 
+	const importPublicKey = (spki: Uint8Array<ArrayBuffer>) =>
+		crypto.subtle
+			.importKey("spki", spki, { name: "ECDSA", namedCurve: "P-256" }, false, [
+				"verify",
+			])
+			.catch(() =>
+				crypto.subtle.importKey(
+					"spki",
+					spki,
+					{ name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+					false,
+					["verify"],
+				),
+			);
+
 	const verify = async (
 		encodedKey: string,
 		signature: Uint8Array<ArrayBuffer>,
 		data: Uint8Array<ArrayBuffer>,
 	) => {
 		try {
-			const key = await crypto.subtle.importKey(
-				"spki",
+			const key = await importPublicKey(
 				Uint8Array.fromBase64(encodedKey, { alphabet: "base64url" }),
-				{ name: "ECDSA", namedCurve: "P-256" },
-				false,
-				["verify"],
 			);
-			return await crypto.subtle.verify(
-				{ name: "ECDSA", hash: "SHA-256" },
-				key,
-				derToRaw(signature),
-				data,
-			);
+			return key.algorithm.name === "ECDSA"
+				? await crypto.subtle.verify(
+						{ name: "ECDSA", hash: "SHA-256" },
+						key,
+						derToRaw(signature),
+						data,
+					)
+				: await crypto.subtle.verify("RSASSA-PKCS1-v1_5", key, signature, data);
 		} catch {
 			return false;
 		}

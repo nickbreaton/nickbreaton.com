@@ -51,6 +51,44 @@ const { Content } = await render(post);
 			@apply mb-1 pl-1 marker:text-muted-foreground;
 		}
 
+		a {
+			@apply text-neutral-600 underline decoration-neutral-300 underline-offset-2 hover:decoration-current dark:text-neutral-400 dark:decoration-neutral-600;
+		}
+
+		pre[class*="language-"] {
+			@apply mb-5 overflow-x-auto rounded-md bg-neutral-500/8 p-4 font-mono text-xs/relaxed;
+		}
+
+		.token.comment {
+			@apply text-neutral-400 dark:text-neutral-500;
+		}
+
+		.token.keyword,
+		.token.interpolation-punctuation {
+			@apply text-blue-600 dark:text-blue-400;
+		}
+
+		.token.string,
+		.token.template-string,
+		.token.regex {
+			@apply text-emerald-700 dark:text-emerald-400;
+		}
+
+		.token.function {
+			@apply text-violet-600 dark:text-violet-400;
+		}
+
+		.token.class-name,
+		.token.builtin {
+			@apply text-sky-700 dark:text-sky-300;
+		}
+
+		.token.number,
+		.token.boolean,
+		.token.constant {
+			@apply text-amber-700 dark:text-amber-400;
+		}
+
 		:not(pre) > code {
 			@apply rounded-md bg-neutral-500/15 px-[0.4em] py-[0.2em] font-mono text-[85%] font-normal;
 		}
