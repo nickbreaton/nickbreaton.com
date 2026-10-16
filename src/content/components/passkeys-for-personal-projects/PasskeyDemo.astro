@@ -1,0 +1,131 @@
+---
+import Figure from "../../../components/Figure.astro";
+import Button from "./Button.astro";
+
+const rows = 4;
+
+const cell = "hover:bg-neutral-500/5";
+const nameCell = [
+	cell,
+	"flex w-32 shrink-0 border-r border-neutral-200/60 px-4 dark:border-neutral-800/75",
+];
+---
+
+<h3>Browser</h3>
+
+<Figure center>
+	<div class="grid w-full place-items-center *:col-start-1 *:row-start-1">
+		<Button data-create-passkey>Create passkey</Button>
+		<Button data-login-passkey color="purple" class="invisible">
+			Login with passkey
+		</Button>
+		<div data-passkey-result class="invisible w-full">
+			<p class="text-sm!">
+				Provide this to your administrator (copy it into the environment
+				variable field below).
+			</p>
+			<pre class="rounded-md bg-neutral-500/15 p-3 font-mono text-sm break-all whitespace-pre-wrap select-all"><code data-passkey>{"0".repeat(122)}</code></pre>
+		</div>
+	</div>
+</Figure>
+
+<h3>Server</h3>
+
+<Figure flush>
+	<div class="divide-y divide-neutral-200/60 font-mono text-sm dark:divide-neutral-800/75">
+		<div class="flex min-h-10">
+			<label for="passkey-value" class:list={["peer", nameCell]}>
+				<span class="flex h-10 items-center">
+					<span class="[text-box:trim-both_cap_alphabetic]">PASSKEY</span>
+				</span>
+			</label>
+			<textarea
+				id="passkey-value"
+				class:list={[
+					cell,
+					"peer-hover:bg-transparent!",
+					"min-w-0 flex-1 resize-none bg-transparent px-3 py-2.5 break-all outline-none select-text field-sizing-content",
+				]}
+				rows="1"
+				autocomplete="off"
+				autocapitalize="off"
+				spellcheck="false"
+			></textarea>
+		</div>
+		{Array.from({ length: rows - 1 }, () => (
+			<div class="flex h-10">
+				<span class:list={nameCell} />
+				<span class:list={[cell, "flex-1"]} />
+			</div>
+		))}
+	</div>
+</Figure>
+
+<script>
+	const button = document.querySelector<HTMLButtonElement>(
+		"[data-create-passkey]",
+	);
+	const result = document.querySelector<HTMLElement>("[data-passkey-result]");
+	const passkey = document.querySelector<HTMLElement>("[data-passkey]");
+	const loginButton = document.querySelector<HTMLButtonElement>(
+		"[data-login-passkey]",
+	);
+	const field = document.querySelector<HTMLTextAreaElement>("#passkey-value");
+
+	let created = false;
+
+	const render = () => {
+		const filled = field!.value.length > 0;
+		button!.classList.toggle("invisible", filled || created);
+		result!.classList.toggle("invisible", filled || !created);
+		loginButton!.classList.toggle("invisible", !filled);
+	};
+
+	field?.addEventListener("input", () => {
+		created = false;
+		render();
+	});
+	render();
+
+	const toBase64Url = (buffer: ArrayBuffer) =>
+		btoa(String.fromCharCode(...new Uint8Array(buffer)))
+			.replace(/\+/g, "-")
+			.replace(/\//g, "_")
+			.replace(/=+$/, "");
+
+	button?.addEventListener("click", async () => {
+		const credential = (await navigator.credentials.create({
+			publicKey: {
+				// The public key is trusted as-is, so there's no server challenge or attestation to verify.
+				challenge: crypto.getRandomValues(new Uint8Array(32)),
+				rp: { name: location.hostname },
+				user: {
+					id: crypto.getRandomValues(new Uint8Array(16)),
+					name: "Passkeys for personal projects",
+					displayName: "Passkeys for personal projects",
+				},
+				// ES256 and RS256 cover every common authenticator.
+				pubKeyCredParams: [
+					{ type: "public-key", alg: -7 },
+					{ type: "public-key", alg: -257 },
+				],
+				authenticatorSelection: {
+					residentKey: "required",
+					userVerification: "preferred",
+				},
+				attestation: "none",
+			},
+		})) as PublicKeyCredential | null;
+
+		if (!credential) return;
+
+		const response = credential.response as AuthenticatorAttestationResponse;
+		const publicKey = response.getPublicKey();
+
+		if (!publicKey) return;
+
+		passkey!.textContent = toBase64Url(publicKey);
+		created = true;
+		render();
+	});
+</script>
