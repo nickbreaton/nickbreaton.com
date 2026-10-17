@@ -1,13 +1,13 @@
 ---
 title: Passkeys for personal projects
-date: 2026-10-15
+date: 2026-10-18
 ---
 
 import PasskeyDemo from "../components/passkeys-for-personal-projects/PasskeyDemo.astro";
 
 We've all been there: building a personal project that just requires a little bit of auth, not a whole database or user system, but perhaps just a simple `PASSWORD` environment variable attached to the deploy.
 
-This method always leaves me feeling a little uneasy, as now I have to securely get this to my clients. I might shove it in a password manager, but if I'm deploying to a shared-origin host like Cloudflare or Netlify, I might accidentally autofill that on a different project.
+This method always leaves me feeling a little uneasy, as now I have to securely get this to my browser. I might shove it in a password manager, but if I'm deploying to a shared-origin host like Cloudflare or Netlify, I might accidentally autofill that on a different project.
 
 Enter passkeys. This is a lot easier to set up than you might be thinking, and we can retain just a single environment variable, but this time its information isn't sensitive at all.
 
@@ -100,7 +100,7 @@ Let's look at the code for this half.
 
 Let's talk about step 1.
 
-On our server side, let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the client will use to prove they have the private credential for our saved `PASSKEY` public credential.
+On our server side, let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private credential for our saved `PASSKEY` public credential.
 
 ```js
 const challenge = crypto.getRandomValues(new Uint8Array(32))
