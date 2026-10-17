@@ -81,4 +81,139 @@ It's good to know that the contents of this value are indeed public, and as such
 
 ### Passkey verification
 
-Now that we've got our passkey save to our server,
+Now that we've got our passkey saved to our server, we just need to implement the normal passkey authentication flow. 
+
+This consists of three parts:
+
+1. The server generates a challenge.
+2. The browser signs the challenge using its stored private key, after user verification.
+3. The server verifies the signed challenge.
+
+Let's look at the code for this half.
+
+#### Step 1
+
+Let's talk about step 1. 
+
+On our server side, lets assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the client will use to prove they have the private credentiaal for our saved `PASSKEY` public credential.
+
+```js
+const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
+  alphabet: "base64url",
+  omitPadding: true,
+});
+```
+
+We will need to retain this challenge for step 3 above. 
+
+If we've got a persistent store like Redis, we could save it in there, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this. 
+
+This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
+
+We'll first generate a determinstic key based on this secret.
+
+```js
+const secret = await crypto.subtle.importKey(
+  "raw",
+  Uint8Array.from(process.env.SESSION_SECRET),
+  { name: "HMAC", hash: "SHA-256" },
+  false,
+  ["sign", "verify"],
+);
+```
+
+Then we'll use that to sign both the challenge and an expiry. 
+
+Signing it allows us to prove in a subsequent request this was the challenge and expiry we generated. Adding an expiry prevents replay attacks at a later time.
+
+```js
+const FIVE_MINUTES = 5 * 60 * 1000
+
+const expires = Date.now() + FIVE_MINUTES;
+
+const mac = await crypto.subtle.sign(
+  "HMAC",
+  secret,
+  new TextEncoder().encode(`${challenge}.${expires}`),
+);
+
+return Response.json({
+  challenge,
+  expires,
+  mac: new Uint8Array(mac).toBase64({ alphabet: "base64url" }),
+});
+```
+
+#### Browser
+
+For step 2, the browser will show its passkey interface so that we can prove we are the passkey owner via biometrics or similar. Its then signed and sent back to our server.
+
+```js
+const { challenge, expires, mac } = await fetch("/challenge")
+  .then((res) => res.json());
+
+const credential = await navigator.credentials.get({
+  publicKey: {
+    challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+  },
+});
+
+await fetch("/login", {
+  method: "POST",
+  body: JSON.stringify({ credential, expires, mac }),
+});
+```
+
+#### Server
+
+Finally step 3 needs to verify a couple things which we'll assume to be done in the `POST` `/login` handler.
+
+1. The challenge presented is indeed what we generated in step 1.
+2. The challenge was used to correctly prove the requester holds the private credential.
+
+First we'll check the challenge was not tampered with by verifying the MAC from earlier.
+
+```js
+import { createPublicKey, verify } from "node:crypto";
+
+const { credential, expires, mac } = await request.json();
+
+// Everything arrives as Base64URL text, so turn it back into bytes
+const bytes = (value) => Uint8Array.fromBase64(value, { alphabet: "base64url" });
+
+const authenticatorData = bytes(credential.response.authenticatorData);
+const clientDataJSON = bytes(credential.response.clientDataJSON);
+const signature = bytes(credential.response.signature);
+
+// The browser's record of the request, including the challenge
+const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
+
+// Check our own signature to make sure we issued the challenge
+// the passkey signed, with this expiry
+const issued = await crypto.subtle.verify(
+  "HMAC",
+  secret,
+  bytes(mac),
+  new TextEncoder().encode(`${clientData.challenge}.${expires}`),
+);
+
+// Reject a challenge we didn't issue, or one that has expired
+if (!issued || Date.now() > Number(expires)) {
+  throw new Error("Invalid challenge");
+}
+
+// The passkey signed its authenticator data followed by a
+// hash of the client data
+const clientDataHash = await crypto.subtle.digest("SHA-256", clientDataJSON);
+const signed = await new Blob([authenticatorData, clientDataHash]).arrayBuffer();
+
+// The public key we saved to our environment variable
+const publicKey = createPublicKey({
+  key: bytes(process.env.PASSKEY),
+  format: "der",
+  type: "spki",
+});
+
+// Check the passkey's signature, whichever algorithm it used
+const verified = verify("sha256", signed, publicKey, signature);
+```
