@@ -106,7 +106,7 @@ const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
 
 We will need to retain this challenge for step 3 above. 
 
-If we've got a persistent store like Redis, we could save it in there, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this. 
+If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this. 
 
 This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
 
@@ -155,6 +155,7 @@ const { challenge, expires, mac } = await fetch("/challenge")
 const credential = await navigator.credentials.get({
   publicKey: {
     challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+    userVerification: "required",
   },
 });
 
@@ -181,7 +182,7 @@ const secret = await crypto.subtle.importKey(
 );
 ```
 
-Then we'll use that secret to verify the challenge has not been tampered with.
+Then we'll check that the browser produced this on our own site, and use that secret to verify the challenge has not been tampered with.
 
 ```js
 const { credential, expires, mac } = await request.json();
@@ -194,6 +195,10 @@ const signature = bytes(credential.response.signature);
 
 const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
 
+if (clientData.origin !== "https://example.com") {
+  throw new Error("Invalid origin");
+}
+
 const issued = await crypto.subtle.verify(
   "HMAC",
   secret,
@@ -205,6 +210,8 @@ if (!issued || Date.now() > Number(expires)) {
   throw new Error("Invalid challenge");
 }
 ```
+
+The origin check is worth hardcoding rather than reading from the request. A passkey can also be used by subdomains of the site it was created on, and some hosts serve preview deployments from exactly those subdomains. Without this check, a preview deployment could fetch a challenge from our real site, ask us to sign it, and log in on our behalf.
 
 Now we can move on to verifying that public key from the provided client data. 
 

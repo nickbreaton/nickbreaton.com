@@ -293,6 +293,10 @@ const nameCell = [
 
 		const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
 
+		if (clientData.origin !== location.origin) {
+			throw new Error("Invalid origin");
+		}
+
 		const issued = await crypto.subtle.verify(
 			"HMAC",
 			secret,
@@ -334,6 +338,7 @@ const nameCell = [
 		const credential = await navigator.credentials.get({
 			publicKey: {
 				challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+				userVerification: "required",
 			},
 		});
 
