@@ -93,7 +93,7 @@ const nameCell = [
 		"[data-create-passkey]",
 	);
 	const result = document.querySelector<HTMLElement>("[data-passkey-result]");
-	const passkey = document.querySelector<HTMLElement>("[data-passkey]");
+	const element = document.querySelector<HTMLElement>("[data-passkey]");
 	const loginButton = document.querySelector<HTMLButtonElement>(
 		"[data-login-passkey]",
 	);
@@ -104,11 +104,18 @@ const nameCell = [
 	const startOver =
 		document.querySelector<HTMLButtonElement>("[data-start-over]");
 
+	const process = {
+		env: {
+			PASSKEY: "",
+			SESSION_SECRET: crypto.getRandomValues(new Uint8Array(32)).toBase64(),
+		},
+	};
+
 	let created = false;
 	let verified: boolean | undefined;
 
 	const render = () => {
-		const filled = field!.value.length > 0;
+		const filled = process.env.PASSKEY.length > 0;
 		createButton!.classList.toggle("invisible", filled || created);
 		result!.classList.toggle("invisible", filled || !created);
 		login!.hidden = !filled || verified === true;
@@ -117,6 +124,7 @@ const nameCell = [
 	};
 
 	field?.addEventListener("input", () => {
+		process.env.PASSKEY = field.value.trim();
 		created = false;
 		verified = undefined;
 		render();
@@ -125,6 +133,7 @@ const nameCell = [
 
 	startOver?.addEventListener("click", () => {
 		field!.value = "";
+		process.env.PASSKEY = "";
 		created = false;
 		verified = undefined;
 		render();
@@ -133,15 +142,25 @@ const nameCell = [
 	createButton?.addEventListener("click", async () => {
 		const credential = await navigator.credentials.create({
 			publicKey: {
-				// The public key is trusted as-is, so there's no server challenge or attestation to verify.
+				// Normally issued by the server, but random bytes
+				// will do for our use case
 				challenge: crypto.getRandomValues(new Uint8Array(32)),
+
+				// The "relying party", which is the site this passkey
+				// belongs to
 				rp: { name: location.origin },
+
+				// Who the passkey is for, shown when picking a passkey
+				// to sign in with
 				user: {
 					id: crypto.getRandomValues(new Uint8Array(16)),
 					name: "admin",
 					displayName: "admin",
 				},
+
+				// Allow the browser to use its default algorithm
 				pubKeyCredParams: [],
+
 				authenticatorSelection: { residentKey: "required" },
 			},
 		});
@@ -161,7 +180,7 @@ const nameCell = [
 			return;
 		}
 
-		passkey!.textContent = new Uint8Array(publicKey).toBase64({
+		element!.textContent = new Uint8Array(publicKey).toBase64({
 			alphabet: "base64url",
 			omitPadding: true,
 		});
@@ -169,6 +188,40 @@ const nameCell = [
 		render();
 	});
 
+	const importSecret = () =>
+		crypto.subtle.importKey(
+			"raw",
+			new TextEncoder().encode(process.env.SESSION_SECRET),
+			{ name: "HMAC", hash: "SHA-256" },
+			false,
+			["sign", "verify"],
+		);
+
+	// Stands in for `createPublicKey` from `node:crypto`. Web Crypto needs the
+	// key's algorithm up front, so try ECDSA (ES256) first and fall back to RSA (RS256).
+	const createPublicKey = ({
+		key,
+	}: {
+		key: Uint8Array<ArrayBuffer>;
+		format: "der";
+		type: "spki";
+	}) =>
+		crypto.subtle
+			.importKey("spki", key, { name: "ECDSA", namedCurve: "P-256" }, false, [
+				"verify",
+			])
+			.catch(() =>
+				crypto.subtle.importKey(
+					"spki",
+					key,
+					{ name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+					false,
+					["verify"],
+				),
+			);
+
+	// WebAuthn ECDSA signatures are DER encoded, while Web Crypto expects the raw
+	// r || s form that `node:crypto` would otherwise convert for us.
 	const derToRaw = (der: Uint8Array<ArrayBuffer>) => {
 		const raw = new Uint8Array(64);
 		let offset = 2;
@@ -182,88 +235,119 @@ const nameCell = [
 		return raw;
 	};
 
-	const importPublicKey = (spki: Uint8Array<ArrayBuffer>) =>
-		crypto.subtle
-			.importKey("spki", spki, { name: "ECDSA", namedCurve: "P-256" }, false, [
-				"verify",
-			])
-			.catch(() =>
-				crypto.subtle.importKey(
-					"spki",
-					spki,
-					{ name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-					false,
-					["verify"],
-				),
-			);
-
-	const verify = async (
-		encodedKey: string,
+	// Stands in for `verify` from `node:crypto`, picking the matching Web Crypto
+	// algorithm for the imported key.
+	const verify = (
+		_algorithm: "sha256",
+		data: ArrayBuffer,
+		key: CryptoKey,
 		signature: Uint8Array<ArrayBuffer>,
-		data: Uint8Array<ArrayBuffer>,
-	) => {
-		try {
-			const key = await importPublicKey(
-				Uint8Array.fromBase64(encodedKey, { alphabet: "base64url" }),
-			);
-			return key.algorithm.name === "ECDSA"
-				? await crypto.subtle.verify(
-						{ name: "ECDSA", hash: "SHA-256" },
-						key,
-						derToRaw(signature),
-						data,
-					)
-				: await crypto.subtle.verify("RSASSA-PKCS1-v1_5", key, signature, data);
-		} catch {
-			return false;
-		}
-	};
+	) =>
+		key.algorithm.name === "ECDSA"
+			? crypto.subtle.verify(
+					{ name: "ECDSA", hash: "SHA-256" },
+					key,
+					derToRaw(signature),
+					data,
+				)
+			: crypto.subtle.verify("RSASSA-PKCS1-v1_5", key, signature, data);
 
-	loginButton?.addEventListener("click", async () => {
-		// A real server would issue this challenge, remember it, and only accept a
-		// signature over that exact value, which stops old logins being replayed.
-		// The browser is playing both sides here, so a random value stands in.
-		const challenge = crypto.getRandomValues(new Uint8Array(32));
-
-		const credential = await navigator.credentials.get({
-			publicKey: { challenge },
+	// GET /challenge
+	const getChallenge = async () => {
+		const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
+			alphabet: "base64url",
+			omitPadding: true,
 		});
 
-		if (
-			!(credential instanceof PublicKeyCredential) ||
-			!(credential.response instanceof AuthenticatorAssertionResponse)
-		) {
-			alert("Failed to log in with passkey");
-			return;
-		}
+		const secret = await importSecret();
 
-		const { authenticatorData, clientDataJSON, signature } =
-			credential.response;
+		const FIVE_MINUTES = 5 * 60 * 1000;
+
+		const expires = Date.now() + FIVE_MINUTES;
+
+		const mac = await crypto.subtle.sign(
+			"HMAC",
+			secret,
+			new TextEncoder().encode(`${challenge}.${expires}`),
+		);
+
+		return Response.json({
+			challenge,
+			expires,
+			mac: new Uint8Array(mac).toBase64({ alphabet: "base64url" }),
+		});
+	};
+
+	// POST /login
+	const postLogin = async (request: Request) => {
+		const secret = await importSecret();
+
+		const { credential, expires, mac } = await request.json();
+
+		const bytes = (value: string) =>
+			Uint8Array.fromBase64(value, { alphabet: "base64url" });
+
+		const authenticatorData = bytes(credential.response.authenticatorData);
+		const clientDataJSON = bytes(credential.response.clientDataJSON);
+		const signature = bytes(credential.response.signature);
+
 		const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
 
-		if (
-			clientData.type !== "webauthn.get" ||
-			clientData.challenge !==
-				challenge.toBase64({ alphabet: "base64url", omitPadding: true })
-		) {
-			alert("Failed to log in with passkey");
-			return;
+		const issued = await crypto.subtle.verify(
+			"HMAC",
+			secret,
+			bytes(mac),
+			new TextEncoder().encode(`${clientData.challenge}.${expires}`),
+		);
+
+		if (!issued || Date.now() > Number(expires)) {
+			throw new Error("Invalid challenge");
 		}
+
+		const publicKey = await createPublicKey({
+			key: bytes(process.env.PASSKEY),
+			format: "der",
+			type: "spki",
+		});
 
 		const clientDataHash = await crypto.subtle.digest(
 			"SHA-256",
 			clientDataJSON,
 		);
-		const signed = new Uint8Array([
-			...new Uint8Array(authenticatorData),
-			...new Uint8Array(clientDataHash),
-		]);
+		const signed = await new Blob([
+			authenticatorData,
+			clientDataHash,
+		]).arrayBuffer();
 
-		verified = await verify(
-			field!.value.trim(),
-			new Uint8Array(signature),
-			signed,
+		const verified = await verify("sha256", signed, publicKey, signature);
+
+		if (!verified) {
+			throw new Error("Invalid login");
+		}
+	};
+
+	loginButton?.addEventListener("click", async () => {
+		const { challenge, expires, mac } = await getChallenge().then((res) =>
+			res.json(),
 		);
+
+		const credential = await navigator.credentials.get({
+			publicKey: {
+				challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+			},
+		});
+
+		try {
+			await postLogin(
+				new Request("/login", {
+					method: "POST",
+					body: JSON.stringify({ credential, expires, mac }),
+				}),
+			);
+			verified = true;
+		} catch {
+			verified = false;
+		}
 		render();
 	});
 </script>
