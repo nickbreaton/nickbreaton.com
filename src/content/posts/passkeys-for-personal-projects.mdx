@@ -42,15 +42,15 @@ Instead, we can start by initiating the passkey creation process.
 ```js
 const credential = await navigator.credentials.create({
   publicKey: {
-    // Normally issued by the server, but random bytes 
+    // Normally issued by the server, but random bytes
     // will do for our use case
     challenge: crypto.getRandomValues(new Uint8Array(32)),
-    
-    // The "relying party", which is the site this passkey 
+
+    // The "relying party", which is the site this passkey
     // belongs to
     rp: { name: location.origin },
 
-    // Who the passkey is for, shown when picking a passkey 
+    // Who the passkey is for, shown when picking a passkey
     // to sign in with
     user: {
       id: crypto.getRandomValues(new Uint8Array(16)),
@@ -60,6 +60,10 @@ const credential = await navigator.credentials.create({
 
     // Allow the browser to use its default algorithm
     pubKeyCredParams: [],
+
+    // Store the passkey on the authenticator so it can be
+    // found at sign in without the server remembering its ID
+    authenticatorSelection: { residentKey: "required" },
   },
 });
 ```
@@ -70,18 +74,18 @@ Now we must extract the public portion of `credential` so it can be copied to th
 const publicKey = credential.response.getPublicKey();
 
 element.textContent = new Uint8Array(publicKey).toBase64({
-	alphabet: "base64url",
-	omitPadding: true,
+  alphabet: "base64url",
+  omitPadding: true,
 });
 ```
 
-Finally, once this value is visible to the project owner, it's up to them to add it to their server's environment variable store.  
+Finally, once this value is visible to the project owner, it's up to them to add it to their server's environment variable store.
 
 It's good to know that the contents of this value are indeed public, and as such do not need to be treated as a secret.
 
 ### Passkey verification
 
-Now that we've got our passkey saved to our server, we just need to implement the normal passkey authentication flow. 
+Now that we've got our passkey saved to our server, we just need to implement the normal passkey authentication flow.
 
 This consists of three parts:
 
@@ -93,7 +97,7 @@ Let's look at the code for this half.
 
 #### Server
 
-Let's talk about step 1. 
+Let's talk about step 1.
 
 On our server side, let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the client will use to prove they have the private credential for our saved `PASSKEY` public credential.
 
@@ -104,9 +108,9 @@ const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
 });
 ```
 
-We will need to retain this challenge for step 3 above. 
+We will need to retain this challenge for step 3 above.
 
-If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this. 
+    If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this.
 
 This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
 
@@ -122,12 +126,12 @@ const secret = await crypto.subtle.importKey(
 );
 ```
 
-Then we'll use that to sign both the challenge and an expiry. 
+Then we'll use that to sign both the challenge and an expiry.
 
 Signing it allows us to prove in a subsequent request that this was the challenge and expiry we generated. Adding an expiry prevents replay attacks at a later time.
 
 ```js
-const FIVE_MINUTES = 5 * 60 * 1000
+const FIVE_MINUTES = 5 * 60 * 1000;
 
 const expires = Date.now() + FIVE_MINUTES;
 
@@ -140,7 +144,10 @@ const mac = await crypto.subtle.sign(
 return Response.json({
   challenge,
   expires,
-  mac: new Uint8Array(mac).toBase64({ alphabet: "base64url" }),
+  mac: new Uint8Array(mac).toBase64({
+    alphabet: "base64url",
+    omitPadding: true,
+  }),
 });
 ```
 
@@ -167,7 +174,7 @@ await fetch("/login", {
 
 #### Server
 
-For step 3, let's create a handler for `POST` `/login`. Before verifying the public key, 
+For step 3, let's create a handler for `POST` `/login`. Before verifying the public key,
 we must make sure our challenge was what we originally generated.
 
 We can restore the secret the same way we had earlier.
@@ -213,7 +220,7 @@ if (!issued || Date.now() > Number(expires)) {
 
 The origin check is worth hardcoding rather than reading from the request. A passkey can also be used by subdomains of the site it was created on, and some hosts serve preview deployments from exactly those subdomains. Without this check, a preview deployment could fetch a challenge from our real site, ask us to sign it, and log in on our behalf.
 
-Now we can move on to verifying that public key from the provided client data. 
+Now we can move on to verifying that public key from the provided client data.
 
 For the sake of keeping complexity low, we'll use the `node:crypto` package here, but this can be done with standard cryptography tools in any backend.
 
@@ -244,13 +251,13 @@ if (!verified) {
 }
 ```
 
-Success! Now we know for certain this request is our authorized admin user.
+Success! Now we know for certain this request was made by our authorized admin user.
 
 From here we'll need to keep track of this in a session, potentially using something like [iron-session](https://www.npmjs.com/package/iron-session), but this goes beyond passkeys.
 
 ## Recap
 
-Alright, maybe this was a little more work than just a shared secret, but we now understand how passkey registration and verification flows work! 
+Alright, maybe this was a little more work than just a shared secret, but we now understand how passkey registration and verification flows work!
 
 To build this understanding, we dove into the nitty-gritty of the Web Crypto API, but there are some abstractions like [simplewebauthn.dev](https://simplewebauthn.dev/) and [passwordless.id](https://webauthn.passwordless.id/) that can help simplify this setup.
 

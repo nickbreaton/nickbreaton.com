@@ -274,7 +274,10 @@ const nameCell = [
 		return Response.json({
 			challenge,
 			expires,
-			mac: new Uint8Array(mac).toBase64({ alphabet: "base64url" }),
+			mac: new Uint8Array(mac).toBase64({
+				alphabet: "base64url",
+				omitPadding: true,
+			}),
 		});
 	};
 
