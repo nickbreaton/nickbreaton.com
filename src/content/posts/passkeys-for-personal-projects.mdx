@@ -103,11 +103,10 @@ Let's talk about step 1.
 On our server side, let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private credential for our saved `PASSKEY` public credential.
 
 ```js
-const challenge = crypto.getRandomValues(new Uint8Array(32))
-  .toBase64({
-    alphabet: "base64url",
-    omitPadding: true,
-  });
+const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
+  alphabet: "base64url",
+  omitPadding: true,
+});
 ```
 
 We will need to retain this challenge for step 3 above.
@@ -146,10 +145,7 @@ const mac = await crypto.subtle.sign(
 return Response.json({
   challenge,
   expires,
-  mac: new Uint8Array(mac).toBase64({
-    alphabet: "base64url",
-    omitPadding: true,
-  }),
+  mac: new Uint8Array(mac).toBase64({ alphabet: "base64url", omitPadding: true }),
 });
 ```
 
@@ -164,9 +160,7 @@ const { challenge, expires, mac } = await fetch(
 
 const credential = await navigator.credentials.get({
   publicKey: {
-    challenge: Uint8Array.fromBase64(challenge, {
-      alphabet: "base64url",
-    }),
+    challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
     userVerification: "required",
   },
 });
@@ -203,12 +197,8 @@ const bytes = (value) => Uint8Array.fromBase64(value, {
   alphabet: "base64url",
 });
 
-const authenticatorData = bytes(
-  credential.response.authenticatorData,
-);
-const clientDataJSON = bytes(
-  credential.response.clientDataJSON,
-);
+const authenticatorData = bytes(credential.response.authenticatorData);
+const clientDataJSON = bytes(credential.response.clientDataJSON);
 const signature = bytes(credential.response.signature);
 
 const clientData = JSON.parse(
@@ -242,8 +232,12 @@ We'll need to materialize a public key from the `PASSKEY` environment variable s
 ```js
 import { createPublicKey } from "node:crypto";
 
+const key = Uint8Array.fromBase64(process.env.PASSKEY, {
+  alphabet: "base64url",
+});
+
 const publicKey = createPublicKey({
-  key: bytes(process.env.PASSKEY),
+  key,
   format: "der",
   type: "spki",
 });
@@ -258,6 +252,7 @@ const clientDataHash = await crypto.subtle.digest(
   "SHA-256",
   clientDataJSON,
 );
+
 const signed = await new Blob([
   authenticatorData,
   clientDataHash,
