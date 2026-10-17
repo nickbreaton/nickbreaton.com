@@ -115,7 +115,7 @@ We'll first generate a determinstic key based on this secret.
 ```js
 const secret = await crypto.subtle.importKey(
   "raw",
-  Uint8Array.from(process.env.SESSION_SECRET),
+  new TextEncoder().encode(process.env.SESSION_SECRET),
   { name: "HMAC", hash: "SHA-256" },
   false,
   ["sign", "verify"],
