@@ -47,8 +47,8 @@ const credential = await navigator.credentials.create({
     challenge: crypto.getRandomValues(new Uint8Array(32)),
 
     // The "relying party", which is the site this passkey
-    // belongs to
-    rp: { name: location.origin },
+    // belongs to and can be a specific subdomain
+    rp: { id: "example.com", name: "Example" },
 
     // Who the passkey is for, shown when picking a passkey
     // to sign in with
@@ -62,7 +62,8 @@ const credential = await navigator.credentials.create({
     pubKeyCredParams: [],
 
     // Store the passkey on the authenticator so it can be
-    // found at sign-in without the server remembering its ID
+    // found at sign-in without the server remembering
+    // its ID
     authenticatorSelection: { residentKey: "required" },
   },
 });
@@ -102,15 +103,16 @@ Let's talk about step 1.
 On our server side, let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the client will use to prove they have the private credential for our saved `PASSKEY` public credential.
 
 ```js
-const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
-  alphabet: "base64url",
-  omitPadding: true,
-});
+const challenge = crypto.getRandomValues(new Uint8Array(32))
+  .toBase64({
+    alphabet: "base64url",
+    omitPadding: true,
+  });
 ```
 
 We will need to retain this challenge for step 3 above.
 
-    If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this.
+If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this.
 
 This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
 
@@ -156,12 +158,15 @@ return Response.json({
 For step 2, the browser will show its passkey interface so that we can prove we are the passkey owner via biometrics or similar. It's then signed and sent back to our server.
 
 ```js
-const { challenge, expires, mac } = await fetch("/challenge")
-  .then((res) => res.json());
+const { challenge, expires, mac } = await fetch(
+  "/challenge",
+).then((res) => res.json());
 
 const credential = await navigator.credentials.get({
   publicKey: {
-    challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+    challenge: Uint8Array.fromBase64(challenge, {
+      alphabet: "base64url",
+    }),
     userVerification: "required",
   },
 });
@@ -194,13 +199,21 @@ Then we'll check that the browser produced this on our own site, and use that se
 ```js
 const { credential, expires, mac } = await request.json();
 
-const bytes = (value) => Uint8Array.fromBase64(value, { alphabet: "base64url" });
+const bytes = (value) => Uint8Array.fromBase64(value, {
+  alphabet: "base64url",
+});
 
-const authenticatorData = bytes(credential.response.authenticatorData);
-const clientDataJSON = bytes(credential.response.clientDataJSON);
+const authenticatorData = bytes(
+  credential.response.authenticatorData,
+);
+const clientDataJSON = bytes(
+  credential.response.clientDataJSON,
+);
 const signature = bytes(credential.response.signature);
 
-const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
+const clientData = JSON.parse(
+  new TextDecoder().decode(clientDataJSON),
+);
 
 if (clientData.origin !== "https://example.com") {
   throw new Error("Invalid origin");
@@ -210,7 +223,9 @@ const issued = await crypto.subtle.verify(
   "HMAC",
   secret,
   bytes(mac),
-  new TextEncoder().encode(`${clientData.challenge}.${expires}`),
+  new TextEncoder().encode(
+    `${clientData.challenge}.${expires}`,
+  ),
 );
 
 if (!issued || Date.now() > Number(expires)) {
@@ -241,10 +256,21 @@ And finally we can actually use that public key to verify the authentication dat
 ```js
 import { verify } from "node:crypto";
 
-const clientDataHash = await crypto.subtle.digest("SHA-256", clientDataJSON);
-const signed = await new Blob([authenticatorData, clientDataHash]).arrayBuffer();
+const clientDataHash = await crypto.subtle.digest(
+  "SHA-256",
+  clientDataJSON,
+);
+const signed = await new Blob([
+  authenticatorData,
+  clientDataHash,
+]).arrayBuffer();
 
-const verified = verify("sha256", signed, publicKey, signature);
+const verified = verify(
+  "sha256",
+  signed,
+  publicKey,
+  signature,
+);
 
 if (!verified) {
   throw new Error("Invalid login");
@@ -259,6 +285,6 @@ From here we'll need to keep track of this in a session, potentially using somet
 
 Alright, maybe this was a little more work than just a shared secret, but we now understand how passkey registration and verification flows work!
 
-To build this understanding, we dove into the nitty-gritty of the Web Crypto API, but there are some abstractions like [simplewebauthn.dev](https://simplewebauthn.dev/) and [passwordless.id](https://webauthn.passwordless.id/) that can help simplify this setup.
+To build this understanding, we dove into the nitty-gritty of the Web Crypto API, but it's also good to know there are some abstractions like [simplewebauthn.dev](https://simplewebauthn.dev/) and [passwordless.id](https://webauthn.passwordless.id/) that can help simplify this setup.
 
 Now go build that personal project. Happy hacking!

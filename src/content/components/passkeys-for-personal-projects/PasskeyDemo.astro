@@ -147,8 +147,8 @@ const nameCell = [
 				challenge: crypto.getRandomValues(new Uint8Array(32)),
 
 				// The "relying party", which is the site this passkey
-				// belongs to
-				rp: { name: location.origin },
+				// belongs to and can be a specific subdomain
+				rp: { id: location.hostname, name: "Example" },
 
 				// Who the passkey is for, shown when picking a passkey
 				// to sign in with
