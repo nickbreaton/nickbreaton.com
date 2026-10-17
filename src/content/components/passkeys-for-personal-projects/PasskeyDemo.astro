@@ -135,16 +135,13 @@ const nameCell = [
 			publicKey: {
 				// The public key is trusted as-is, so there's no server challenge or attestation to verify.
 				challenge: crypto.getRandomValues(new Uint8Array(32)),
-				rp: { name: location.hostname },
+				rp: { name: location.origin },
 				user: {
 					id: crypto.getRandomValues(new Uint8Array(16)),
-					name: "Passkeys for personal projects",
-					displayName: "Passkeys for personal projects",
+					name: "admin",
+					displayName: "admin",
 				},
-				pubKeyCredParams: [
-					{ type: "public-key", alg: -7 },
-					{ type: "public-key", alg: -257 },
-				],
+				pubKeyCredParams: [],
 				authenticatorSelection: { residentKey: "required" },
 			},
 		});

@@ -15,7 +15,7 @@ The best part about implementing this is we'll learn how passkeys actually work 
 
 ## Show me the money
 
-Before we start, let's explore what this looks like in practice. This will add a passkey for this site, don't worry we'll clean it up later.
+Before we begin, let's explore what this looks like in practice. We'll add a passkey for this site, feel free to delete it later.
 
 <PasskeyDemo />
 
@@ -29,35 +29,56 @@ So at a high level, what just happened?
 
 For those of us familiar with generating and using SSH keys, this process probably looks fairly familiar as its also a form of asymmetric cryptography.
 
+Before we continue further, lets clean up the passkeys above so we can feel at ease as we take in the details.
+
 ## Let’s zoom in
 
 ### Passkey creation
 
 Typically our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we are saving the public credential by hand we will not need this protection.
 
-Instead we can start by initiating the passkey creation process via `navigator.credentials.create`:
+Instead we can start by initiating the passkey creation process.
 
 ```js
 const credential = await navigator.credentials.create({
   publicKey: {
     // Normally issued by the server, but random bytes 
-    // will do for our usecase.
+    // will do for our usecase
     challenge: crypto.getRandomValues(new Uint8Array(32)),
     
     // The "relying party", which is the site this passkey 
-    // belongs to.
-    rp: { name: "My Project" },
+    // belongs to
+    rp: { name: location.origin },
 
     // Who the passkey is for, shown when picking a passkey 
-    // to sign in with.
+    // to sign in with
     user: {
       id: crypto.getRandomValues(new Uint8Array(16)),
       name: "admin",
-      displayName: "Admin",
+      displayName: "admin",
     },
 
-    // Allow the browser to use its default params.
+    // Allow the browser to use its default algorithm
     pubKeyCredParams: [],
   },
 });
 ```
+
+Now we must extract the public portion of `credential` so it can be copied to the server. A reasonable way is to print it in Base64URL format, but this is up to the implementor.
+
+```js
+const publicKey = credential.response.getPublicKey();
+
+element.textContent = new Uint8Array(publicKey).toBase64({
+	alphabet: "base64url",
+	omitPadding: true,
+});
+```
+
+Finally, once this value is visible to the project owner, its up to them to add it to their server's environment variable store.  
+
+It's good to know that the contents of this value are indeed public, and as such do not need to be treated as a secret.
+
+### Passkey verification
+
+Now that we've got our passkey save to our server,
