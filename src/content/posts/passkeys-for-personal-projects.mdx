@@ -61,9 +61,9 @@ const credential = await navigator.credentials.create({
     // Allow the browser to use its default algorithm
     pubKeyCredParams: [],
 
-    // Store the passkey on the authenticator so it can be
-    // found at sign-in without the server remembering
-    // its ID
+    // Store the passkey on the authenticator so it
+    // can be found at sign-in without the server
+    // remembering its ID
     authenticatorSelection: { residentKey: "required" },
   },
 });
@@ -223,9 +223,7 @@ const issued = await crypto.subtle.verify(
   "HMAC",
   secret,
   bytes(mac),
-  new TextEncoder().encode(
-    `${clientData.challenge}.${expires}`,
-  ),
+  new TextEncoder().encode(`${clientData.challenge}.${expires}`),
 );
 
 if (!issued || Date.now() > Number(expires)) {
