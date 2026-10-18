@@ -1,5 +1,5 @@
 ---
-title: Passkey auth with just an environment variable
+title: Passkey auth with just environment variables
 date: 2026-10-17
 ---
 
@@ -11,7 +11,7 @@ This method always leaves me feeling a little uneasy, as now I have to securely 
 
 Enter passkeys. They're easier to set up than you might think, and with the setup described in this article, we can retain just a single environment variable, but this time its information isn't sensitive at all.
 
-The best part about implementing this is we'll learn together how passkeys actually work.
+The best part about implementing this is we'll learn how passkeys actually work together.
 
 ## Show me the money
 
@@ -105,9 +105,9 @@ const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
 });
 ```
 
-We'll need to retain this challenge for step 3 above.
+We'll need to retain this challenge for step 3.
 
-If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this.
+If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this without any additional infrastructure.
 
 This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
 
@@ -217,8 +217,6 @@ if (!issued || Date.now() > Number(expires)) {
 }
 ```
 
-The origin check is worth hardcoding rather than reading from the request. A passkey can also be used by subdomains of the site it was created on, and some hosts serve preview deployments from exactly those subdomains. Without this check, a preview deployment could fetch a challenge from our real site, ask us to sign it, and log in on our behalf.
-
 Now we can move on to verifying the signature using our public key.
 
 For the sake of keeping complexity low, we'll use the `node:crypto` package here, but this can be done with standard cryptography tools in any backend.
@@ -268,12 +266,12 @@ if (!verified) {
 
 Success! Now we know for certain this request was made by our authorized admin user.
 
-From here we'll need to keep track of this in a session, potentially using something like [iron-session](https://www.npmjs.com/package/iron-session), but this goes beyond passkeys.
+From here we'll need to keep track of this in a session, potentially using something like [iron-session](https://www.npmjs.com/package/iron-session), but this goes beyond passkeys, so we won't get into it.
 
 ## Recap
 
 Alright, maybe this was a little more work than just a shared secret, but we now understand how passkey registration and verification flows work!
 
-To build this understanding, we dove into the nitty-gritty of the Web Crypto API, but it's also good to know there are some abstractions like [simplewebauthn.dev](https://simplewebauthn.dev/) and [passwordless.id](https://webauthn.passwordless.id/) that can help simplify this setup.
+To build this understanding, we dove into the nitty-gritty of the Web Crypto API, but it's also good to know there are some abstractions like [simplewebauthn.dev](https://simplewebauthn.dev/) and [passwordless.id](https://webauthn.passwordless.id/) that can help simplify this setup as well.
 
 Now go build that personal project. Happy hacking!
