@@ -25,6 +25,16 @@ export default defineConfig({
       subsets: ["latin"],
       display: "block",
     },
+    {
+      provider: fontProviders.fontsource(),
+      name: "IBM Plex Mono",
+      cssVariable: "--font-ibm-plex-mono",
+      fallbacks: ["monospace"],
+      weights: ["400", "700"],
+      styles: ["normal"],
+      subsets: ["latin"],
+      display: "block",
+    },
   ],
 
   vite: {

@@ -16,6 +16,7 @@
 
 @theme {
 	--font-sans: var(--font-lexend);
+	--font-mono: var(--font-ibm-plex-mono);
 
 	--text-title: var(--text-3xl);
 	--text-title--line-height: 1.05;
