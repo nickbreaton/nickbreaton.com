@@ -2,13 +2,15 @@
 import type { HTMLAttributes } from "astro/types";
 
 type Props = HTMLAttributes<"button"> & {
-	color?: "blue" | "neutral";
+	color?: "blue" | "violet" | "neutral";
 };
 
 const { class: className, color = "blue", ...rest } = Astro.props;
 
 const colors = {
 	blue: "from-blue-500 to-blue-700 text-white text-shadow-black/30 focus-visible:outline-blue-500",
+	violet:
+		"from-violet-400 to-violet-600 text-white text-shadow-black/30 focus-visible:outline-violet-400",
 	neutral:
 		"from-neutral-700 to-neutral-950 text-white text-shadow-black/30 focus-visible:outline-neutral-500 dark:from-neutral-100 dark:to-neutral-300 dark:text-neutral-900 dark:text-shadow-white/50",
 };
