@@ -23,7 +23,7 @@ const published = post.data.date.toLocaleDateString("en-US", {
 		<h1 class="mb-6 text-title">{post.data.title}</h1>
 		<Content />
 	</article>
-	<footer class="pb-16">
+	<footer class="pb-11">
 		<p class="mt-8 text-sm font-light text-neutral-500">
 			<time datetime={post.data.date.toISOString().slice(0, 10)}>{published}</time>
 		</p>
