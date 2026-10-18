@@ -109,7 +109,7 @@ We'll need to retain this challenge for step 3.
 
 If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this without any additional infrastructure.
 
-This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
+This does come with a compromise: a second environment variable, `SESSION_SECRET`. I know I said just one, but I think it'll prove its worth. It's nothing more than a random value that must remain consistent across requests, and it never leaves the server.
 
 We'll first generate a deterministic key based on this secret.
 
