@@ -5,7 +5,7 @@
 
 	--background: light-dark(var(--color-neutral-50), var(--color-neutral-900));
 	--foreground: light-dark(var(--color-neutral-900), var(--color-neutral-200));
-	--muted-foreground: light-dark(var(--color-neutral-600), var(--color-neutral-300));
+	--muted-foreground: light-dark(var(--color-neutral-700), var(--color-neutral-300));
 }
 
 @theme inline {
@@ -16,6 +16,7 @@
 
 @theme {
 	--font-sans: var(--font-lexend);
+	--font-mono: var(--font-ibm-plex-mono);
 
 	--text-title: var(--text-3xl);
 	--text-title--line-height: 1.05;
@@ -32,17 +33,18 @@
 	--text-subheading--letter-spacing: var(--tracking-tight);
 	--text-subheading--font-weight: var(--font-weight-medium);
 
+	--text-minorheading: var(--text-base);
+	--text-minorheading--line-height: 1.25;
+	--text-minorheading--letter-spacing: var(--tracking-tight);
+	--text-minorheading--font-weight: var(--font-weight-medium);
+
 	--text-body: var(--text-base);
-	--text-body--line-height: var(--leading-relaxed);
+	--text-body--line-height: 1.45;
 	--text-body--letter-spacing: var(--tracking-normal);
 	--text-body--font-weight: var(--font-weight-light);
 }
 
 @layer base {
-	body {
-		color: var(--color-muted-foreground);
-	}
-
 	h1,
 	h2,
 	h3,

@@ -1,0 +1,361 @@
+---
+import Figure from "../../../components/Figure.astro";
+import Button from "./Button.astro";
+
+const rows = 4;
+
+const cell = "hover:bg-neutral-500/5";
+const nameCell = [
+	cell,
+	"flex w-32 shrink-0 border-r border-neutral-200/60 px-4 dark:border-neutral-800/75",
+];
+---
+
+<h3>Browser</h3>
+
+<Figure center>
+	<div class="grid w-full place-items-center *:col-start-1 *:row-start-1">
+		<Button data-create-passkey>Create passkey</Button>
+		<div
+			data-login
+			hidden
+			class="relative transition-[opacity,translate] duration-500 ease-out starting:translate-y-1 starting:opacity-0"
+		>
+			<Button data-login-passkey color="violet">
+				Login with passkey
+			</Button>
+			<div
+				data-login-mismatch
+				hidden
+				class="absolute top-full left-1/2 mt-3 -translate-x-1/2 text-sm font-light whitespace-nowrap text-muted-foreground"
+			>
+				That passkey doesn't match.
+			</div>
+		</div>
+		<div
+			data-signed-in
+			hidden
+			class="flex flex-col items-center gap-2 text-body transition-[opacity,translate] duration-500 ease-out starting:translate-y-1 starting:opacity-0"
+		>
+			You've signed in with your passkey.
+			<button
+				type="button"
+				data-start-over
+				class="cursor-pointer text-sm font-light text-neutral-400 underline underline-offset-2 transition-[opacity,translate] delay-150 duration-500 ease-out starting:translate-y-1 starting:opacity-0 dark:text-neutral-500"
+			>
+				Start over
+			</button>
+		</div>
+		<div data-passkey-result class="invisible w-full">
+			<p class="text-sm!">
+				Our passkey has been generated! Go ahead and paste it into the
+				environment variable table below so we can use it to sign in.
+			</p>
+			<pre class="rounded-md bg-neutral-500/15 p-3 font-mono text-sm break-all whitespace-pre-wrap select-all"><code data-passkey>{"0".repeat(122)}</code></pre>
+		</div>
+	</div>
+</Figure>
+
+<h3>Server</h3>
+
+<Figure flush>
+	<div class="divide-y divide-neutral-200/60 font-mono text-sm dark:divide-neutral-800/75">
+		<div class="flex min-h-10">
+			<label for="passkey-value" class:list={["peer", nameCell]}>
+				<span class="flex h-10 items-center">
+					<span class="[text-box:trim-both_cap_alphabetic]">PASSKEY</span>
+				</span>
+			</label>
+			<textarea
+				id="passkey-value"
+				class:list={[
+					cell,
+					"peer-hover:bg-transparent!",
+					"min-w-0 flex-1 resize-none bg-transparent px-3 py-2.5 break-all outline-none select-text field-sizing-content",
+				]}
+				rows="1"
+				autocomplete="off"
+				autocapitalize="off"
+				spellcheck="false"
+			></textarea>
+		</div>
+		{Array.from({ length: rows - 1 }, () => (
+			<div class="flex h-10">
+				<span class:list={nameCell} />
+				<span class:list={[cell, "flex-1"]} />
+			</div>
+		))}
+	</div>
+</Figure>
+
+<script>
+	const createButton = document.querySelector<HTMLButtonElement>(
+		"[data-create-passkey]",
+	);
+	const result = document.querySelector<HTMLElement>("[data-passkey-result]");
+	const element = document.querySelector<HTMLElement>("[data-passkey]");
+	const loginButton = document.querySelector<HTMLButtonElement>(
+		"[data-login-passkey]",
+	);
+	const field = document.querySelector<HTMLTextAreaElement>("#passkey-value");
+	const login = document.querySelector<HTMLElement>("[data-login]");
+	const mismatch = document.querySelector<HTMLElement>("[data-login-mismatch]");
+	const signedIn = document.querySelector<HTMLElement>("[data-signed-in]");
+	const startOver =
+		document.querySelector<HTMLButtonElement>("[data-start-over]");
+
+	const process = {
+		env: {
+			PASSKEY: "",
+			SESSION_SECRET: crypto.getRandomValues(new Uint8Array(32)).toBase64(),
+		},
+	};
+
+	let created = false;
+	let verified: boolean | undefined;
+
+	const render = () => {
+		const filled = process.env.PASSKEY.length > 0;
+		createButton!.classList.toggle("invisible", filled || created);
+		result!.classList.toggle("invisible", filled || !created);
+		login!.hidden = !filled || verified === true;
+		mismatch!.hidden = verified !== false;
+		signedIn!.hidden = !filled || verified !== true;
+	};
+
+	field?.addEventListener("input", () => {
+		process.env.PASSKEY = field.value.trim();
+		created = false;
+		verified = undefined;
+		render();
+	});
+	render();
+
+	startOver?.addEventListener("click", () => {
+		field!.value = "";
+		process.env.PASSKEY = "";
+		created = false;
+		verified = undefined;
+		render();
+	});
+
+	createButton?.addEventListener("click", async () => {
+		const credential = await navigator.credentials.create({
+			publicKey: {
+				// Normally issued by the server, but random bytes
+				// will do for our use case
+				challenge: crypto.getRandomValues(new Uint8Array(32)),
+
+				// The "relying party", which is the site this passkey
+				// belongs to and can be a specific subdomain
+				rp: { id: location.hostname, name: "Example" },
+
+				// Who the passkey is for, shown when picking a passkey
+				// to sign in with
+				user: {
+					id: crypto.getRandomValues(new Uint8Array(16)),
+					name: "admin",
+					displayName: "admin",
+				},
+
+				// Allow the browser to use its default algorithm
+				pubKeyCredParams: [],
+
+				authenticatorSelection: { residentKey: "required" },
+			},
+		});
+
+		if (
+			!(credential instanceof PublicKeyCredential) ||
+			!(credential.response instanceof AuthenticatorAttestationResponse)
+		) {
+			alert("Failed to generate passkey");
+			return;
+		}
+
+		const publicKey = credential.response.getPublicKey();
+
+		if (!publicKey) {
+			alert("Failed to generate passkey");
+			return;
+		}
+
+		element!.textContent = new Uint8Array(publicKey).toBase64({
+			alphabet: "base64url",
+			omitPadding: true,
+		});
+		created = true;
+		render();
+	});
+
+	const importSecret = () =>
+		crypto.subtle.importKey(
+			"raw",
+			new TextEncoder().encode(process.env.SESSION_SECRET),
+			{ name: "HMAC", hash: "SHA-256" },
+			false,
+			["sign", "verify"],
+		);
+
+	// Stands in for `createPublicKey` from `node:crypto`. Web Crypto needs the
+	// key's algorithm up front, so try ECDSA (ES256) first and fall back to RSA (RS256).
+	const createPublicKey = ({
+		key,
+	}: {
+		key: Uint8Array<ArrayBuffer>;
+		format: "der";
+		type: "spki";
+	}) =>
+		crypto.subtle
+			.importKey("spki", key, { name: "ECDSA", namedCurve: "P-256" }, false, [
+				"verify",
+			])
+			.catch(() =>
+				crypto.subtle.importKey(
+					"spki",
+					key,
+					{ name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+					false,
+					["verify"],
+				),
+			);
+
+	// WebAuthn ECDSA signatures are DER encoded, while Web Crypto expects the raw
+	// r || s form that `node:crypto` would otherwise convert for us.
+	const derToRaw = (der: Uint8Array<ArrayBuffer>) => {
+		const raw = new Uint8Array(64);
+		let offset = 2;
+		for (const index of [0, 1]) {
+			const length = der[offset + 1] ?? 0;
+			const integer = der.subarray(offset + 2, offset + 2 + length);
+			const trimmed = integer.subarray(Math.max(0, integer.length - 32));
+			raw.set(trimmed, 32 * (index + 1) - trimmed.length);
+			offset += 2 + length;
+		}
+		return raw;
+	};
+
+	// Stands in for `verify` from `node:crypto`, picking the matching Web Crypto
+	// algorithm for the imported key.
+	const verify = (
+		_algorithm: "sha256",
+		data: ArrayBuffer,
+		key: CryptoKey,
+		signature: Uint8Array<ArrayBuffer>,
+	) =>
+		key.algorithm.name === "ECDSA"
+			? crypto.subtle.verify(
+					{ name: "ECDSA", hash: "SHA-256" },
+					key,
+					derToRaw(signature),
+					data,
+				)
+			: crypto.subtle.verify("RSASSA-PKCS1-v1_5", key, signature, data);
+
+	// GET /challenge
+	const getChallenge = async () => {
+		const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
+			alphabet: "base64url",
+			omitPadding: true,
+		});
+
+		const secret = await importSecret();
+
+		const FIVE_MINUTES = 5 * 60 * 1000;
+
+		const expires = Date.now() + FIVE_MINUTES;
+
+		const mac = await crypto.subtle.sign(
+			"HMAC",
+			secret,
+			new TextEncoder().encode(`${challenge}.${expires}`),
+		);
+
+		return Response.json({
+			challenge,
+			expires,
+			mac: new Uint8Array(mac).toBase64({
+				alphabet: "base64url",
+				omitPadding: true,
+			}),
+		});
+	};
+
+	// POST /login
+	const postLogin = async (request: Request) => {
+		const secret = await importSecret();
+
+		const { credential, expires, mac } = await request.json();
+
+		const bytes = (value: string) =>
+			Uint8Array.fromBase64(value, { alphabet: "base64url" });
+
+		const authenticatorData = bytes(credential.response.authenticatorData);
+		const clientDataJSON = bytes(credential.response.clientDataJSON);
+		const signature = bytes(credential.response.signature);
+
+		const clientData = JSON.parse(new TextDecoder().decode(clientDataJSON));
+
+		if (clientData.origin !== location.origin) {
+			throw new Error("Invalid origin");
+		}
+
+		const issued = await crypto.subtle.verify(
+			"HMAC",
+			secret,
+			bytes(mac),
+			new TextEncoder().encode(`${clientData.challenge}.${expires}`),
+		);
+
+		if (!issued || Date.now() > Number(expires)) {
+			throw new Error("Invalid challenge");
+		}
+
+		const publicKey = await createPublicKey({
+			key: bytes(process.env.PASSKEY),
+			format: "der",
+			type: "spki",
+		});
+
+		const clientDataHash = await crypto.subtle.digest(
+			"SHA-256",
+			clientDataJSON,
+		);
+		const signed = await new Blob([
+			authenticatorData,
+			clientDataHash,
+		]).arrayBuffer();
+
+		const verified = await verify("sha256", signed, publicKey, signature);
+
+		if (!verified) {
+			throw new Error("Invalid login");
+		}
+	};
+
+	loginButton?.addEventListener("click", async () => {
+		const { challenge, expires, mac } = await getChallenge().then((res) =>
+			res.json(),
+		);
+
+		const credential = await navigator.credentials.get({
+			publicKey: {
+				challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+				userVerification: "required",
+			},
+		});
+
+		try {
+			await postLogin(
+				new Request("/login", {
+					method: "POST",
+					body: JSON.stringify({ credential, expires, mac }),
+				}),
+			);
+			verified = true;
+		} catch {
+			verified = false;
+		}
+		render();
+	});
+</script>

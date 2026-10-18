@@ -1,6 +1,7 @@
 ---
 import { Font, getImage } from "astro:assets";
 import mePhoto from "../images/me.jpeg";
+import { name } from "../site";
 import "../styles/global.css";
 
 interface Props {
@@ -40,11 +41,12 @@ const ogImage = await getImage({
 		<meta property="og:image" content={new URL(ogImage.src, Astro.site)} />
 		<meta property="og:image:width" content={String(ogImageWidth)} />
 		<meta property="og:image:height" content={String(ogImageWidth)} />
-		<meta property="og:image:alt" content="Profile picture of Nick Breaton" />
+		<meta property="og:image:alt" content={`Profile picture of ${name}`} />
 		<meta name="twitter:card" content="summary" />
 		<Font cssVariable="--font-lexend" preload />
+		<Font cssVariable="--font-ibm-plex-mono" preload />
 	</head>
-	<body class="bg-background leading-relaxed mx-auto max-w-lg px-5 py-8">
+	<body class="bg-background text-muted-foreground leading-relaxed mx-auto max-w-lg px-5 py-8">
 		<slot />
 	</body>
 </html>

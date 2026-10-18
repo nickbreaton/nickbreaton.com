@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"button"> & {
+	color?: "blue" | "violet" | "neutral";
+};
+
+const { class: className, color = "blue", ...rest } = Astro.props;
+
+const colors = {
+	blue: "from-blue-500 to-blue-700 text-white text-shadow-black/30 focus-visible:outline-blue-500",
+	violet:
+		"from-violet-400 to-violet-600 text-white text-shadow-black/30 focus-visible:outline-violet-400",
+	neutral:
+		"from-neutral-700 to-neutral-950 text-white text-shadow-black/30 focus-visible:outline-neutral-500 dark:from-neutral-100 dark:to-neutral-300 dark:text-neutral-900 dark:text-shadow-white/50",
+};
+---
+
+<button
+	class:list={[
+		"cursor-pointer rounded-full [-webkit-tap-highlight-color:transparent] bg-linear-to-b px-5 py-2 text-base font-normal text-shadow-xs transition-[filter,translate,box-shadow] duration-100 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 active:translate-y-px active:brightness-95",
+		// A glossy top edge and a soft drop shadow that tightens when pressed.
+		"shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-2px_rgb(0_0_0/0.25)] active:shadow-[inset_0_1px_2px_rgb(0_0_0/0.25),0_1px_1px_rgb(0_0_0/0.2)]",
+		colors[color],
+		className,
+	]}
+	{...rest}
+>
+	<slot />
+</button>
+
+<script>
+	// iOS Safari only applies :active to elements with a touch listener somewhere above them.
+	document.addEventListener("touchstart", () => {}, { passive: true });
+</script>

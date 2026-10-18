@@ -1,0 +1,19 @@
+---
+interface Props {
+	center?: boolean;
+	/** Drops the padding so content can run edge to edge. */
+	flush?: boolean;
+}
+
+const { center = false, flush = false } = Astro.props;
+---
+
+<figure
+	class:list={[
+		"mb-5 min-h-40 touch-manipulation select-none rounded-lg border border-neutral-200 bg-white *:first:mt-0 *:last:mb-0 dark:border-neutral-800 dark:bg-neutral-800/25",
+		flush ? "overflow-hidden" : "p-5",
+		center && "flex flex-col items-center justify-center",
+	]}
+>
+	<slot />
+</figure>

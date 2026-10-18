@@ -1,14 +1,12 @@
 ---
+import { getCollection } from "astro:content";
 import IconBrandBluesky from "@tabler/icons/outline/brand-bluesky.svg";
 import IconBrandGithub from "@tabler/icons/outline/brand-github.svg";
 import IconBrandMastodon from "@tabler/icons/outline/brand-mastodon.svg";
 import IconBrandX from "@tabler/icons/outline/brand-x.svg";
 import sharp from "sharp";
 import Layout from "../layouts/Layout.astro";
-
-const name = "Nick Breaton";
-const bio =
-	"Software engineer with nearly 10 years of experience building web applications in an ever-changing world.";
+import { bio, name } from "../site";
 
 // Inlined so the photo renders with the HTML instead of waiting on a request.
 // Encoded at 3x the largest display width so it stays sharp on retina screens.
@@ -43,6 +41,10 @@ const socials = [
 		icon: IconBrandMastodon,
 	},
 ];
+
+const posts = (await getCollection("posts"))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.map((post) => ({ title: post.data.title, href: `/posts/${post.id}` }));
 ---
 
 <Layout title={name} description={bio}>
@@ -50,7 +52,7 @@ const socials = [
 		src={photoSrc}
 		width={photoWidth}
 		height={photoWidth}
-		alt="Profile picture of Nick Breaton"
+		alt={`Profile picture of ${name}`}
 		draggable="false"
 		class="w-32 rounded-xl bg-neutral-200 [corner-shape:squircle] select-none sm:w-60 dark:bg-neutral-950 brightness-110"
 	/>
@@ -71,4 +73,17 @@ const socials = [
 			))}
 		</div>
 	</main>
+	<h2 class="text-heading">Posts</h2>
+	<ul class="mt-2 flex flex-col gap-1">
+		{posts.map(({ title, href }) => (
+			<li>
+				<a
+					href={href}
+					class="text-body text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+				>
+					{title}
+				</a>
+			</li>
+		))}
+	</ul>
 </Layout>

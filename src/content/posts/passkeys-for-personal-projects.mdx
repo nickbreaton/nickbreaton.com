@@ -1,0 +1,277 @@
+---
+title: Passkey auth with just environment variables
+date: 2026-10-17
+---
+
+import PasskeyDemo from "../components/passkeys-for-personal-projects/PasskeyDemo.astro";
+
+We've all been there: building a personal project that just requires a little bit of auth, not a whole database or user system, but perhaps just a simple `PASSWORD` environment variable attached to the deploy.
+
+This method always leaves me feeling a little uneasy, as now I have to securely get that password to my browser. I might shove it in a password manager, but if I'm deploying to a shared-origin host like Cloudflare or Netlify, I might accidentally autofill that on a different project.
+
+Enter passkeys. They're easier to set up than you might think, and with the setup described in this article, we can retain just a single environment variable, but this time its information isn't sensitive at all.
+
+The best part about implementing this is we'll learn how passkeys actually work together.
+
+## Show me the money
+
+Before we begin, let's explore what this looks like in practice. We'll add a passkey for this site; feel free to delete it later.
+
+<PasskeyDemo />
+
+So at a high level, what just happened?
+
+1. We had the browser present a button to create a passkey, which ultimately presents a browser-level creation screen.
+2. Once the passkey is created, we told the browser to output the public part of its generated credential so that it could be copied.
+3. Once we copied it to the server's environment variables, the server restarted.
+4. Then we visited the page once again, now seeing a login button.
+5. Logging in used a challenge provided by the server to prove that the public key it now knew of was indeed created by us.
+
+For those of us familiar with generating and using SSH keys, this process probably looks fairly familiar as it's also a form of asymmetric cryptography.
+
+## Let's zoom in
+
+### Passkey creation
+
+Typically, our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we're saving the public key by hand, we won't need this protection.
+
+Instead, we can start by initiating the passkey creation process in the browser.
+
+```js
+const credential = await navigator.credentials.create({
+  publicKey: {
+    // Normally issued by the server, but random bytes
+    // will do for our use case
+    challenge: crypto.getRandomValues(new Uint8Array(32)),
+
+    // The "relying party", which is the site this passkey
+    // belongs to and can be a specific subdomain
+    rp: { id: "example.com", name: "Example" },
+
+    // Who the passkey is for, shown when picking a passkey
+    // to sign in with
+    user: {
+      id: crypto.getRandomValues(new Uint8Array(16)),
+      name: "admin",
+      displayName: "admin",
+    },
+
+    // Allow the browser to use its default algorithm
+    pubKeyCredParams: [],
+
+    // Store the passkey on the authenticator so it
+    // can be found at sign-in without the server
+    // remembering its ID
+    authenticatorSelection: { residentKey: "required" },
+  },
+});
+```
+
+Now we must extract the public portion of `credential` so it can be copied to the server. A reasonable way is to print it in Base64URL format, but this is up to the implementer.
+
+```js
+const publicKey = credential.response.getPublicKey();
+
+element.textContent = new Uint8Array(publicKey).toBase64({
+  alphabet: "base64url",
+  omitPadding: true,
+});
+```
+
+Finally, once this value is visible, it's up to us to add it to our server's environment variable store.
+
+It's good to know that the contents of this value are indeed public, and as such don't need to be treated as a secret, so we can just email it to ourselves, or even post it online.
+
+### Passkey verification
+
+Now that we've got our passkey saved to our server, we just need to implement the normal passkey authentication flow.
+
+This consists of three parts:
+
+1. The server generates a challenge.
+2. The browser signs the challenge using its stored private key, after user verification.
+3. The server verifies the signed challenge.
+
+Let's look at the code for verification.
+
+#### Server
+
+This time we'll start off on our server side. Let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private key for our saved `PASSKEY` public key.
+
+```js
+const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
+  alphabet: "base64url",
+  omitPadding: true,
+});
+```
+
+We'll need to retain this challenge for step 3.
+
+If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this without any additional infrastructure.
+
+This can be done by using a second environment variable to act as a secret – `SESSION_SECRET`. This is just a random value that must remain consistent across requests, but it will never leave the server.
+
+We'll first generate a deterministic key based on this secret.
+
+```js
+const secret = await crypto.subtle.importKey(
+  "raw",
+  new TextEncoder().encode(process.env.SESSION_SECRET),
+  { name: "HMAC", hash: "SHA-256" },
+  false,
+  ["sign", "verify"],
+);
+```
+
+Then we'll use that to sign both the challenge and an expiry.
+
+Signing it allows us to prove in a subsequent request that this was the challenge and expiry we generated. Adding an expiry prevents replay attacks at a later time.
+
+```js
+const FIVE_MINUTES = 5 * 60 * 1000;
+
+const expires = Date.now() + FIVE_MINUTES;
+
+const mac = await crypto.subtle.sign(
+  "HMAC",
+  secret,
+  new TextEncoder().encode(`${challenge}.${expires}`),
+);
+
+return Response.json({
+  challenge,
+  expires,
+  mac: new Uint8Array(mac).toBase64({ alphabet: "base64url", omitPadding: true }),
+});
+```
+
+#### Browser
+
+For step 2, the browser will show its passkey interface so that we can prove we're the passkey owner via biometrics or similar. The challenge is then signed and sent back to our server.
+
+```js
+const { challenge, expires, mac } = await fetch("/challenge",).then((res) => {
+  return res.json()
+});
+
+const credential = await navigator.credentials.get({
+  publicKey: {
+    challenge: Uint8Array.fromBase64(challenge, { alphabet: "base64url" }),
+    userVerification: "required",
+  },
+});
+
+await fetch("/login", {
+  method: "POST",
+  body: JSON.stringify({ credential, expires, mac }),
+});
+```
+
+#### Server
+
+For step 3, let's create a handler for `POST` `/login`. Before verifying the signature,
+we must make sure our challenge was what we originally generated.
+
+We can restore the secret the same way we did earlier.
+
+```js
+const secret = await crypto.subtle.importKey(
+  "raw",
+  new TextEncoder().encode(process.env.SESSION_SECRET),
+  { name: "HMAC", hash: "SHA-256" },
+  false,
+  ["sign", "verify"],
+);
+```
+
+Then we'll check that the browser produced this on our own site, and use that secret to verify the challenge hasn't been tampered with.
+
+```js
+const { credential, expires, mac } = await request.json();
+
+const bytes = (value) => Uint8Array.fromBase64(value, {
+  alphabet: "base64url",
+});
+
+const authenticatorData = bytes(credential.response.authenticatorData);
+const clientDataJSON = bytes(credential.response.clientDataJSON);
+const signature = bytes(credential.response.signature);
+
+const clientData = JSON.parse(
+  new TextDecoder().decode(clientDataJSON),
+);
+
+if (clientData.origin !== "https://example.com") {
+  throw new Error("Invalid origin");
+}
+
+const issued = await crypto.subtle.verify(
+  "HMAC",
+  secret,
+  bytes(mac),
+  new TextEncoder().encode(`${clientData.challenge}.${expires}`),
+);
+
+if (!issued || Date.now() > Number(expires)) {
+  throw new Error("Invalid challenge");
+}
+```
+
+Now we can move on to verifying the signature using our public key.
+
+For the sake of keeping complexity low, we'll use the `node:crypto` package here, but this can be done with standard cryptography tools in any backend.
+
+We'll need to materialize a public key from the `PASSKEY` environment variable saved earlier.
+
+```js
+import { createPublicKey } from "node:crypto";
+
+const key = Uint8Array.fromBase64(process.env.PASSKEY, {
+  alphabet: "base64url",
+});
+
+const publicKey = createPublicKey({
+  key,
+  format: "der",
+  type: "spki",
+});
+```
+
+And finally we can actually use that public key to verify the authentication data generated by our browser.
+
+```js
+import { verify } from "node:crypto";
+
+const clientDataHash = await crypto.subtle.digest(
+  "SHA-256",
+  clientDataJSON,
+);
+
+const signed = await new Blob([
+  authenticatorData,
+  clientDataHash,
+]).arrayBuffer();
+
+const verified = verify(
+  "sha256",
+  signed,
+  publicKey,
+  signature,
+);
+
+if (!verified) {
+  throw new Error("Invalid login");
+}
+```
+
+Success! Now we know for certain this request was made by our authorized admin user.
+
+From here we'll need to keep track of this in a session, potentially using something like [iron-session](https://www.npmjs.com/package/iron-session), but this goes beyond passkeys, so we won't get into it.
+
+## Recap
+
+Alright, maybe this was a little more work than just a shared secret, but we now understand how passkey registration and verification flows work!
+
+To build this understanding, we dove into the nitty-gritty of the Web Crypto API, but it's also good to know there are some abstractions like [simplewebauthn.dev](https://simplewebauthn.dev/) and [passwordless.id](https://webauthn.passwordless.id/) that can help simplify this setup as well.
+
+Now go build that personal project. Happy hacking!
