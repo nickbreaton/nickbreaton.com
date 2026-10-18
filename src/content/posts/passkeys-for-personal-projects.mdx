@@ -1,17 +1,17 @@
 ---
 title: Passkeys for personal projects
-date: 2026-10-18
+date: 2026-10-17
 ---
 
 import PasskeyDemo from "../components/passkeys-for-personal-projects/PasskeyDemo.astro";
 
 We've all been there: building a personal project that just requires a little bit of auth, not a whole database or user system, but perhaps just a simple `PASSWORD` environment variable attached to the deploy.
 
-This method always leaves me feeling a little uneasy, as now I have to securely get this to my browser. I might shove it in a password manager, but if I'm deploying to a shared-origin host like Cloudflare or Netlify, I might accidentally autofill that on a different project.
+This method always leaves me feeling a little uneasy, as now I have to securely get that password to my browser. I might shove it in a password manager, but if I'm deploying to a shared-origin host like Cloudflare or Netlify, I might accidentally autofill that on a different project.
 
-Enter passkeys. They're easier to set up than you might be thinking, and with the setup described in this article, we can retain just a single environment variable, but this time its information isn't sensitive at all.
+Enter passkeys. They're easier to set up than you might think, and with the setup described in this article, we can retain just a single environment variable, but this time its information isn't sensitive at all.
 
-The best part about implementing this is we'll learn how passkeys actually work together.
+The best part about implementing this is we'll learn together how passkeys actually work.
 
 ## Show me the money
 
@@ -21,11 +21,11 @@ Before we begin, let's explore what this looks like in practice. We'll add a pas
 
 So at a high level, what just happened?
 
-1. We had the browser present a button to create a passkey, which ultimately presents a browser or OS-level creation screen.
+1. We had the browser present a button to create a passkey, which ultimately presents a browser-level creation screen.
 2. Once the passkey is created, we told the browser to output the public part of its generated credential so that it could be copied.
-3. Once copied to the server's environment variables, the server restarts.
-4. Then we can visit the page once again, now seeing a login button.
-5. Logging in uses a challenge provided by the server to prove that the public credential it now knows of was indeed created by us.
+3. Once we copied it to the server's environment variables, the server restarted.
+4. Then we visited the page once again, now seeing a login button.
+5. Logging in used a challenge provided by the server to prove that the public key it now knew of was indeed created by us.
 
 For those of us familiar with generating and using SSH keys, this process probably looks fairly familiar as it's also a form of asymmetric cryptography.
 
@@ -33,7 +33,7 @@ For those of us familiar with generating and using SSH keys, this process probab
 
 ### Passkey creation
 
-Typically, our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we're saving the public credential by hand, we won't need this protection.
+Typically, our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we're saving the public key by hand, we won't need this protection.
 
 Instead, we can start by initiating the passkey creation process in the browser.
 
@@ -67,7 +67,7 @@ const credential = await navigator.credentials.create({
 });
 ```
 
-Now we must extract the public portion of `credential` so it can be copied to the server. A reasonable way is to print it in Base64URL format, but this is up to the implementor.
+Now we must extract the public portion of `credential` so it can be copied to the server. A reasonable way is to print it in Base64URL format, but this is up to the implementer.
 
 ```js
 const publicKey = credential.response.getPublicKey();
@@ -96,7 +96,7 @@ Let's look at the code for verification.
 
 #### Server
 
-This time we'll start off on our server side. Let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private credential for our saved `PASSKEY` public credential.
+This time we'll start off on our server side. Let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private key for our saved `PASSKEY` public key.
 
 ```js
 const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
@@ -147,12 +147,12 @@ return Response.json({
 
 #### Browser
 
-For step 2, the browser will show its passkey interface so that we can prove we're the passkey owner via biometrics or similar. It's then signed and sent back to our server.
+For step 2, the browser will show its passkey interface so that we can prove we're the passkey owner via biometrics or similar. The challenge is then signed and sent back to our server.
 
 ```js
-const { challenge, expires, mac } = await fetch(
-  "/challenge",
-).then((res) => res.json());
+const { challenge, expires, mac } = await fetch("/challenge",).then((res) => {
+  return res.json()
+});
 
 const credential = await navigator.credentials.get({
   publicKey: {
@@ -169,10 +169,10 @@ await fetch("/login", {
 
 #### Server
 
-For step 3, let's create a handler for `POST` `/login`. Before verifying the public key,
+For step 3, let's create a handler for `POST` `/login`. Before verifying the signature,
 we must make sure our challenge was what we originally generated.
 
-We can restore the secret the same way we had earlier.
+We can restore the secret the same way we did earlier.
 
 ```js
 const secret = await crypto.subtle.importKey(
@@ -219,7 +219,7 @@ if (!issued || Date.now() > Number(expires)) {
 
 The origin check is worth hardcoding rather than reading from the request. A passkey can also be used by subdomains of the site it was created on, and some hosts serve preview deployments from exactly those subdomains. Without this check, a preview deployment could fetch a challenge from our real site, ask us to sign it, and log in on our behalf.
 
-Now we can move on to verifying that public key from the provided client data.
+Now we can move on to verifying the signature using our public key.
 
 For the sake of keeping complexity low, we'll use the `node:crypto` package here, but this can be done with standard cryptography tools in any backend.
 
