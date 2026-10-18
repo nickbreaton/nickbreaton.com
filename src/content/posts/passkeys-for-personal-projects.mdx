@@ -9,7 +9,7 @@ We've all been there: building a personal project that just requires a little bi
 
 This method always leaves me feeling a little uneasy, as now I have to securely get this to my browser. I might shove it in a password manager, but if I'm deploying to a shared-origin host like Cloudflare or Netlify, I might accidentally autofill that on a different project.
 
-Enter passkeys. This is a lot easier to set up than you might be thinking, and we can retain just a single environment variable, but this time its information isn't sensitive at all.
+Enter passkeys. They're easier to set up than you might be thinking, and with the setup described in this article, we can retain just a single environment variable, but this time its information isn't sensitive at all.
 
 The best part about implementing this is we'll learn how passkeys actually work together.
 
@@ -29,15 +29,13 @@ So at a high level, what just happened?
 
 For those of us familiar with generating and using SSH keys, this process probably looks fairly familiar as it's also a form of asymmetric cryptography.
 
-Before we continue further, let's clean up the passkeys above so we can feel at ease as we take in the details.
-
 ## Let's zoom in
 
 ### Passkey creation
 
-Typically, our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we are saving the public credential by hand, we will not need this protection.
+Typically, our passkey creation story would start on the server by generating a challenge to prevent [replay attacks](https://developer.mozilla.org/en-US/docs/Glossary/Replay_attack), but since we're saving the public credential by hand, we won't need this protection.
 
-Instead, we can start by initiating the passkey creation process.
+Instead, we can start by initiating the passkey creation process in the browser.
 
 ```js
 const credential = await navigator.credentials.create({
@@ -80,9 +78,9 @@ element.textContent = new Uint8Array(publicKey).toBase64({
 });
 ```
 
-Finally, once this value is visible to the project owner, it's up to them to add it to their server's environment variable store.
+Finally, once this value is visible, it's up to us to add it to our server's environment variable store.
 
-It's good to know that the contents of this value are indeed public, and as such do not need to be treated as a secret.
+It's good to know that the contents of this value are indeed public, and as such don't need to be treated as a secret, so we can just email it to ourselves, or even post it online.
 
 ### Passkey verification
 
@@ -94,13 +92,11 @@ This consists of three parts:
 2. The browser signs the challenge using its stored private key, after user verification.
 3. The server verifies the signed challenge.
 
-Let's look at the code for this half.
+Let's look at the code for verification.
 
 #### Server
 
-Let's talk about step 1.
-
-On our server side, let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private credential for our saved `PASSKEY` public credential.
+This time we'll start off on our server side. Let's assume we have a `GET` `/challenge` endpoint. Here we'll generate a challenge that the browser will use to prove it has the private credential for our saved `PASSKEY` public credential.
 
 ```js
 const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
@@ -109,7 +105,7 @@ const challenge = crypto.getRandomValues(new Uint8Array(32)).toBase64({
 });
 ```
 
-We will need to retain this challenge for step 3 above.
+We'll need to retain this challenge for step 3 above.
 
 If we've got a persistent store like Redis, we could save it in there and ensure it's only used a single time, but given we're avoiding a lot of backend complexity, we can also use cryptography to handle this.
 
@@ -151,7 +147,7 @@ return Response.json({
 
 #### Browser
 
-For step 2, the browser will show its passkey interface so that we can prove we are the passkey owner via biometrics or similar. It's then signed and sent back to our server.
+For step 2, the browser will show its passkey interface so that we can prove we're the passkey owner via biometrics or similar. It's then signed and sent back to our server.
 
 ```js
 const { challenge, expires, mac } = await fetch(
@@ -188,7 +184,7 @@ const secret = await crypto.subtle.importKey(
 );
 ```
 
-Then we'll check that the browser produced this on our own site, and use that secret to verify the challenge has not been tampered with.
+Then we'll check that the browser produced this on our own site, and use that secret to verify the challenge hasn't been tampered with.
 
 ```js
 const { credential, expires, mac } = await request.json();
