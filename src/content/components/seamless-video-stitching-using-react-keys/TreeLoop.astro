@@ -1,4 +1,12 @@
 ---
+// ==========================================================================
+// TODO: TEMPORARY — DO NOT PUBLISH THIS POST WITH THIS COMPONENT AS-IS.
+//
+// This vanilla JS version only exists to prove that stacking all clips and
+// swapping their visibility *can* produce seamless transitions.
+//
+// It MUST be replaced with an actual React solution before posting.
+// ==========================================================================
 import Figure from "../../../components/Figure.astro";
 import fallHevc from "./tree-fall.mp4";
 import fallWebm from "./tree-fall.webm";
@@ -9,39 +17,63 @@ import summerWebm from "./tree-summer.webm";
 import winterHevc from "./tree-winter.mp4";
 import winterWebm from "./tree-winter.webm";
 
-const sources = {
-	webm: [springWebm, summerWebm, fallWebm, winterWebm],
-	hevc: [springHevc, summerHevc, fallHevc, winterHevc],
-};
+const clips = [
+	{ webm: springWebm, hevc: springHevc },
+	{ webm: summerWebm, hevc: summerHevc },
+	{ webm: fallWebm, hevc: fallHevc },
+	{ webm: winterWebm, hevc: winterHevc },
+];
 ---
 
 <Figure center>
-	<video
-		data-tree-loop
-		data-sources={JSON.stringify(sources)}
-		class="size-72"
-		autoplay
-		muted
-		playsinline
-	/>
+	<div data-tree-loop class="grid size-72">
+		{
+			clips.map((clip, i) => (
+				<video
+					data-webm={clip.webm}
+					data-hevc={clip.hevc}
+					class:list={["col-start-1 row-start-1 size-full", i !== 0 && "opacity-0"]}
+					preload="auto"
+					muted
+					playsinline
+				/>
+			))
+		}
+	</div>
 </Figure>
 
 <script>
-	const video = document.querySelector<HTMLVideoElement>("[data-tree-loop]");
-	const { webm, hevc }: Record<"webm" | "hevc", string[]> = JSON.parse(
-		video!.dataset.sources!,
-	);
+	const videos = [
+		...document.querySelectorAll<HTMLVideoElement>("[data-tree-loop] video"),
+	];
 
 	const ua = navigator.userAgent;
 	const webkit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
-	const sources = webkit ? hevc : webm;
+
+	for (const video of videos) {
+		video.src = webkit ? video.dataset.hevc! : video.dataset.webm!;
+	}
+
+	for (const video of videos.slice(1)) {
+		video.play().then(() => {
+			video.pause();
+			video.currentTime = 0;
+		});
+	}
 
 	let index = 0;
-	video!.src = sources[index]!;
+	videos[index]!.play();
 
-	video!.addEventListener("ended", () => {
-		index = (index + 1) % sources.length;
-		video!.src = sources[index]!;
-		video!.play();
-	});
+	for (const video of videos) {
+		video.addEventListener("ended", () => {
+			const next = videos[(index + 1) % videos.length]!;
+			if (next.currentTime !== 0) next.currentTime = 0;
+			next.play();
+			next.requestVideoFrameCallback(() => {
+				next.classList.remove("opacity-0");
+				video.classList.add("opacity-0");
+			});
+			index = (index + 1) % videos.length;
+		});
+	}
 </script>
