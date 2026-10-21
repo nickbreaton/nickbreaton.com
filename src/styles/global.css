@@ -20,7 +20,7 @@
 
 	--text-title: var(--text-3xl);
 	--text-title--line-height: 1.05;
-	--text-title--letter-spacing: var(--tracking-tight);
+	--text-title--letter-spacing: -0.0375em;
 	--text-title--font-weight: var(--font-weight-medium);
 
 	--text-heading: var(--text-2xl);
