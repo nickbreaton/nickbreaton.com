@@ -1,0 +1,49 @@
+---
+import Figure from "../../../components/Figure.astro";
+import bunnyHevc from "./balloon-bunny.mp4";
+import bunnyWebm from "./balloon-bunny.webm";
+import dogHevc from "./balloon-dog.mp4";
+import dogWebm from "./balloon-dog.webm";
+import giraffeHevc from "./balloon-giraffe.mp4";
+import giraffeWebm from "./balloon-giraffe.webm";
+import mouseHevc from "./balloon-mouse.mp4";
+import mouseWebm from "./balloon-mouse.webm";
+import swanHevc from "./balloon-swan.mp4";
+import swanWebm from "./balloon-swan.webm";
+
+const sources = {
+	webm: [dogWebm, giraffeWebm, bunnyWebm, swanWebm, mouseWebm],
+	hevc: [dogHevc, giraffeHevc, bunnyHevc, swanHevc, mouseHevc],
+};
+---
+
+<Figure center>
+	<video
+		data-balloon-loop
+		data-sources={JSON.stringify(sources)}
+		class="size-72"
+		autoplay
+		muted
+		playsinline
+	/>
+</Figure>
+
+<script>
+	const video = document.querySelector<HTMLVideoElement>("[data-balloon-loop]");
+	const { webm, hevc }: Record<"webm" | "hevc", string[]> = JSON.parse(
+		video!.dataset.sources!,
+	);
+
+	const ua = navigator.userAgent;
+	const webkit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
+	const sources = webkit ? hevc : webm;
+
+	let index = 0;
+	video!.src = sources[index]!;
+
+	video!.addEventListener("ended", () => {
+		index = (index + 1) % sources.length;
+		video!.src = sources[index]!;
+		video!.play();
+	});
+</script>
