@@ -1,25 +1,23 @@
 ---
 import Figure from "../../../components/Figure.astro";
-import bunnyHevc from "./balloon-bunny.mp4";
-import bunnyWebm from "./balloon-bunny.webm";
-import dogHevc from "./balloon-dog.mp4";
-import dogWebm from "./balloon-dog.webm";
-import giraffeHevc from "./balloon-giraffe.mp4";
-import giraffeWebm from "./balloon-giraffe.webm";
-import mouseHevc from "./balloon-mouse.mp4";
-import mouseWebm from "./balloon-mouse.webm";
-import swanHevc from "./balloon-swan.mp4";
-import swanWebm from "./balloon-swan.webm";
+import fallHevc from "./tree-fall.mp4";
+import fallWebm from "./tree-fall.webm";
+import springHevc from "./tree-spring.mp4";
+import springWebm from "./tree-spring.webm";
+import summerHevc from "./tree-summer.mp4";
+import summerWebm from "./tree-summer.webm";
+import winterHevc from "./tree-winter.mp4";
+import winterWebm from "./tree-winter.webm";
 
 const sources = {
-	webm: [dogWebm, giraffeWebm, bunnyWebm, swanWebm, mouseWebm],
-	hevc: [dogHevc, giraffeHevc, bunnyHevc, swanHevc, mouseHevc],
+	webm: [springWebm, summerWebm, fallWebm, winterWebm],
+	hevc: [springHevc, summerHevc, fallHevc, winterHevc],
 };
 ---
 
 <Figure center>
 	<video
-		data-balloon-loop
+		data-tree-loop
 		data-sources={JSON.stringify(sources)}
 		class="size-72"
 		autoplay
@@ -29,7 +27,7 @@ const sources = {
 </Figure>
 
 <script>
-	const video = document.querySelector<HTMLVideoElement>("[data-balloon-loop]");
+	const video = document.querySelector<HTMLVideoElement>("[data-tree-loop]");
 	const { webm, hevc }: Record<"webm" | "hevc", string[]> = JSON.parse(
 		video!.dataset.sources!,
 	);
