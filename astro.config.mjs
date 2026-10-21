@@ -11,6 +11,11 @@ export default defineConfig({
 
   integrations: [mdx()],
 
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
+
   markdown: {
     syntaxHighlight: "prism",
   },
