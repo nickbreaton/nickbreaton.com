@@ -40,6 +40,20 @@ const clips = [
 			))
 		}
 	</div>
+	<button
+		data-tree-toggle
+		type="button"
+		aria-label="Pause"
+		class="absolute top-3 right-3 grid size-8 cursor-pointer place-items-center rounded-full text-neutral-500 transition-colors [-webkit-tap-highlight-color:transparent] hover:bg-neutral-100 hover:text-neutral-900 focus-visible:outline-2 focus-visible:outline-neutral-500 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+	>
+		<svg data-icon="pause" viewBox="0 0 16 16" class="size-4" fill="currentColor" aria-hidden="true">
+			<rect x="3.5" y="2.5" width="3" height="11" rx="1" />
+			<rect x="9.5" y="2.5" width="3" height="11" rx="1" />
+		</svg>
+		<svg data-icon="play" viewBox="0 0 16 16" class="hidden size-4" fill="currentColor" aria-hidden="true">
+			<path d="M4.5 3.37a1 1 0 0 1 1.5-.86l7.13 4.63a1 1 0 0 1 0 1.72L6 13.49a1 1 0 0 1-1.5-.86Z" />
+		</svg>
+	</button>
 </Figure>
 
 <script>
@@ -61,8 +75,25 @@ const clips = [
 		});
 	}
 
+	const toggle = document.querySelector<HTMLButtonElement>("[data-tree-toggle]")!;
+	let paused = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	const render = () => {
+		toggle.setAttribute("aria-label", paused ? "Play" : "Pause");
+		toggle.querySelector("[data-icon=pause]")!.classList.toggle("hidden", paused);
+		toggle.querySelector("[data-icon=play]")!.classList.toggle("hidden", !paused);
+	};
+
 	let index = 0;
-	videos[index]!.play();
+	if (!paused) videos[index]!.play();
+	render();
+
+	toggle.addEventListener("click", () => {
+		paused = !paused;
+		if (paused) videos[index]!.pause();
+		else videos[index]!.play();
+		render();
+	});
 
 	for (const video of videos) {
 		video.addEventListener("ended", () => {
