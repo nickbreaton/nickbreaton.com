@@ -92,7 +92,7 @@ const { SEGS, TIPS } = (() => {
 
 const DROP = 0.04;
 const GROUND = 0.866;
-const CLIP_SECONDS = [2.6, 2.8, 1.9, 3.2];
+const CLIP_SECONDS = [2.2, 2.8, 1.9, 3.2];
 
 function canopyPoint(r) {
 	const c = CLUMPS[5 + Math.floor(r() * 10)];
@@ -103,7 +103,7 @@ function canopyPoint(r) {
 const PARTICLES = (() => {
 	const r = rng(99);
 	const list = [];
-	for (let i = 0; i < 30; i++) list.push({ kind: "flake", season: 0, born: 0.02 + r() * 0.3, life: 0.3, x: 0.08 + r() * 0.84, y: -0.02 + r() * 0.3, vy: 0.14 + r() * 0.08, sway: r() * 6 });
+	for (let i = 0; i < 30; i++) list.push({ kind: "flake", season: 0, born: 0.02 + r() * 0.2, life: 0.3, x: 0.08 + r() * 0.84, y: -0.02 + r() * 0.3, vy: 0.14 + r() * 0.08, sway: r() * 6 });
 	for (let i = 0; i < 26 * 4; i++) r();
 	for (let i = 0; i < 18; i++) { const [x, y] = canopyPoint(r); list.push({ kind: "petal", season: 2, born: 0.03 + r() * 0.45, life: 0.5, x, y, vy: 0.09 + r() * 0.05, sway: r() * 6, c: BLOSSOM[Math.floor(r() * 3)] }); }
 	for (let i = 0; i < 56; i++) { const [x, y] = canopyPoint(r); list.push({ kind: "leaf", season: 3, born: 0.3 + r() * 0.5, life: 0.6, x, y, vy: 0.2 + r() * 0.14, sway: r() * 6, c: FALL_LEAF[Math.floor(r() * FALL_LEAF.length)] }); }
@@ -117,8 +117,8 @@ function stateAt(tau) {
 	const breeze = (amp) => amp * env * (Math.sin(sec * 2 * Math.PI * 0.9) * 0.8 + Math.sin(sec * 2 * Math.PI * 1.7 + 1) * 0.2);
 	const s = { k, p, D: -1, from: "spring", to: "spring", mix: 0, mixMode: "pixel", blossom: 0, buds: 0, snow: 0, melt: 0, shadow: 0.3, sway: 0 };
 	if (k === 0) {
-		s.snow = ease(p / 0.42);
-		s.melt = ease((p - 0.46) / 0.48);
+		s.snow = ease(p / 0.3);
+		s.melt = clamp((p - 0.34) / 0.62);
 		s.sway = breeze(0.004);
 	} else if (k === 1) {
 		s.buds = ease(p / 0.3) * (1 - ease((p - 0.55) / 0.35));
@@ -202,7 +202,8 @@ function frame(S, tau) {
 				const n = h2(ox, py);
 				if (n > st.snow) continue;
 				const reach = clamp(Math.hypot(ox / S - 0.5, PY(py) - 0.56) / 0.34);
-				const m = clamp(st.melt * 1.5 - 0.5 * (0.6 * (1 - reach) + 0.25 * vnoise(ox / 9, py / 9) + 0.15 * n));
+				const key = clamp((0.6 * (1 - reach) + 0.25 * vnoise(ox / 9, py / 9) + 0.15 * n - 0.1) / 0.6) ** 0.65;
+				const m = clamp(st.melt * 2.5 - 1.5 * key);
 				if (m >= 1) continue;
 				if (m < 0.8) put(px, py - 1, m < 0.55 ? SNOW : SNOW_SOFT);
 				put(px, py, SNOW_SHADE);

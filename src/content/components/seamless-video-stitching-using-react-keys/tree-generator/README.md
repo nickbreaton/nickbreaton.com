@@ -25,7 +25,7 @@ Two rules keep the boundaries pixel-identical:
 - Wind sway is multiplied by `sin²(πp)` (where `p` is progress through the season), so it is zero at every boundary.
 - Every particle (snowflakes, petals, leaves) is born and dies within its own clip.
 
-Clip lengths are set per season in `CLIP_SECONDS` (winter 2.6s, spring 2.8s, summer 1.9s, fall 3.2s) and rendered at 60fps. Durations are deliberately uneven.
+Clip lengths are set per season in `CLIP_SECONDS` (winter 2.2s, spring 2.8s, summer 1.9s, fall 3.2s) and rendered at 60fps. Durations are deliberately uneven.
 
 ### Seasons
 
