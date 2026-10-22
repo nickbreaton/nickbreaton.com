@@ -92,7 +92,7 @@ const { SEGS, TIPS } = (() => {
 
 const DROP = 0.04;
 const GROUND = 0.866;
-const CLIP_SECONDS = [2.2, 2.8, 1.9, 3.2];
+const CLIP_SECONDS = [2.2, 2.8, 2.3, 3.2];
 
 function canopyPoint(r) {
 	const c = CLUMPS[5 + Math.floor(r() * 10)];
@@ -149,6 +149,13 @@ function frame(S, tau) {
 		if (px < 0 || py < 0 || px >= S || py >= S) return;
 		const i = (py * S + px) * 4;
 		out[i] = c[0]; out[i + 1] = c[1]; out[i + 2] = c[2]; out[i + 3] = a;
+	};
+	const over = (px, py, c, a) => {
+		if (px < 0 || py < 0 || px >= S || py >= S) return;
+		const i = (py * S + px) * 4;
+		const da = out[i + 3] / 255, oa = a + da * (1 - a);
+		for (let ch = 0; ch < 3; ch++) out[i + ch] = Math.round((c[ch] * a + out[i + ch] * da * (1 - a)) / oa);
+		out[i + 3] = Math.round(oa * 255);
 	};
 	const has = (px, py) => px >= 0 && py >= 0 && px < S && py < S && out[(py * S + px) * 4 + 3] === 255;
 	const PX = (px) => (px + 0.5) / S;
@@ -275,7 +282,12 @@ function frame(S, tau) {
 		const px = Math.floor(x * S), py = Math.floor((y + DROP) * S);
 		if (q.kind === "flake") put(px, py, FLAKE);
 		else if (q.kind === "petal") { put(px, py, q.c); if (Math.sin(sec * 6 + q.sway) > 0) put(px + 1, py, q.c); }
-		else { const flip = Math.sin(sec * 7 + q.sway) > 0; put(px, py, q.c); put(px + (flip ? 1 : -1), py, q.c); put(px, py - (flip ? 1 : 0), q.c); }
+		else {
+			const a = 1 - ease(age / Math.min(q.life * 0.75, 0.985 - q.born));
+			if (a <= 0) continue;
+			const flip = Math.sin(sec * 7 + q.sway) > 0;
+			over(px, py, q.c, a); over(px + (flip ? 1 : -1), py, q.c, a); over(px, py - (flip ? 1 : 0), q.c, a);
+		}
 	}
 	return out;
 }
