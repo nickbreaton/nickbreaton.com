@@ -23,16 +23,16 @@ This renders raw frames into `out/`, encodes all eight videos into the parent fo
 Two rules keep the boundaries pixel-identical:
 
 - Wind sway is multiplied by `sin²(πp)` (where `p` is progress through the season), so it is zero at every boundary.
-- Every particle (snowflakes, snow clumps, petals, leaves) is born and dies within its own clip.
+- Every particle (snowflakes, petals, leaves) is born and dies within its own clip.
 
-Clip lengths are set per season in `CLIP_SECONDS` (winter 2.2s, spring 2.8s, summer 1.9s, fall 3.2s) and rendered at 60fps. Durations are deliberately uneven.
+Clip lengths are set per season in `CLIP_SECONDS` (winter 2.6s, spring 2.8s, summer 1.9s, fall 3.2s) and rendered at 60fps. Durations are deliberately uneven.
 
 ### Seasons
 
 `stateAt(tau)` returns the parameters for a moment: leaf density, palette mix, buds, blossoms, snow, sway and shadow size.
 
-- **Winter:** bare branches gather snow, then a gust shakes it off as falling clumps with a damped sway.
-- **Spring:** buds appear, then light green leaves grow in and pink blossoms open.
+- **Winter:** bare branches gather snow, then it melts, thinning and shrinking back along the branches from the tips toward the trunk.
+- **Spring:** small buds appear at the branch tips, then light green leaves grow in and pink blossoms open.
 - **Summer:** the canopy fills to full density, shifts to deep greens, and the blossoms fade.
 - **Fall:** clumps turn orange one by one, then the leaves thin out and drop, and the shadow shrinks back.
 

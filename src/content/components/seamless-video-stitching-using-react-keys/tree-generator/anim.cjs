@@ -92,7 +92,7 @@ const { SEGS, TIPS } = (() => {
 
 const DROP = 0.04;
 const GROUND = 0.866;
-const CLIP_SECONDS = [2.2, 2.8, 1.9, 3.2];
+const CLIP_SECONDS = [2.6, 2.8, 1.9, 3.2];
 
 function canopyPoint(r) {
 	const c = CLUMPS[5 + Math.floor(r() * 10)];
@@ -103,8 +103,8 @@ function canopyPoint(r) {
 const PARTICLES = (() => {
 	const r = rng(99);
 	const list = [];
-	for (let i = 0; i < 30; i++) list.push({ kind: "flake", season: 0, born: 0.04 + r() * 0.62, life: 0.3, x: 0.08 + r() * 0.84, y: -0.02 + r() * 0.3, vy: 0.14 + r() * 0.08, sway: r() * 6 });
-	for (let i = 0; i < 26; i++) { const t = TIPS[Math.floor(r() * TIPS.length)]; list.push({ kind: "clump", season: 0, born: 0.63 + r() * 0.1, life: 0.26, x: t[0], y: t[1] - 0.006, vy: 0, g: 1.5 + r() * 0.6, sway: r() * 6 }); }
+	for (let i = 0; i < 30; i++) list.push({ kind: "flake", season: 0, born: 0.02 + r() * 0.3, life: 0.3, x: 0.08 + r() * 0.84, y: -0.02 + r() * 0.3, vy: 0.14 + r() * 0.08, sway: r() * 6 });
+	for (let i = 0; i < 26 * 4; i++) r();
 	for (let i = 0; i < 18; i++) { const [x, y] = canopyPoint(r); list.push({ kind: "petal", season: 2, born: 0.03 + r() * 0.45, life: 0.5, x, y, vy: 0.09 + r() * 0.05, sway: r() * 6, c: BLOSSOM[Math.floor(r() * 3)] }); }
 	for (let i = 0; i < 56; i++) { const [x, y] = canopyPoint(r); list.push({ kind: "leaf", season: 3, born: 0.3 + r() * 0.5, life: 0.6, x, y, vy: 0.2 + r() * 0.14, sway: r() * 6, c: FALL_LEAF[Math.floor(r() * FALL_LEAF.length)] }); }
 	return list;
@@ -115,11 +115,11 @@ function stateAt(tau) {
 	const env = Math.sin(Math.PI * p) ** 2;
 	const sec = p * CLIP_SECONDS[k];
 	const breeze = (amp) => amp * env * (Math.sin(sec * 2 * Math.PI * 0.9) * 0.8 + Math.sin(sec * 2 * Math.PI * 1.7 + 1) * 0.2);
-	const s = { k, p, D: -1, from: "spring", to: "spring", mix: 0, mixMode: "pixel", blossom: 0, buds: 0, snow: 0, shadow: 0.3, sway: 0 };
+	const s = { k, p, D: -1, from: "spring", to: "spring", mix: 0, mixMode: "pixel", blossom: 0, buds: 0, snow: 0, melt: 0, shadow: 0.3, sway: 0 };
 	if (k === 0) {
-		s.snow = p < 0.64 ? ease(p / 0.5) : 1 - ease((p - 0.64) / 0.14);
-		const g = p - 0.62;
-		s.sway = breeze(0.004) + (g > 0 ? 0.028 * Math.exp(-g * 9) * Math.sin(g * 34) * Math.sin(Math.PI * p) : 0);
+		s.snow = ease(p / 0.42);
+		s.melt = ease((p - 0.46) / 0.48);
+		s.sway = breeze(0.004);
 	} else if (k === 1) {
 		s.buds = ease(p / 0.3) * (1 - ease((p - 0.55) / 0.35));
 		s.D = lerp(-0.12, 0.5, ease((p - 0.18) / 0.82));
@@ -201,23 +201,24 @@ function frame(S, tau) {
 				const ox = Math.round((PX(px) - bend(PY(py))) * S);
 				const n = h2(ox, py);
 				if (n > st.snow) continue;
-				put(px, py - 1, SNOW);
+				const reach = clamp(Math.hypot(ox / S - 0.5, PY(py) - 0.56) / 0.34);
+				const m = clamp(st.melt * 1.5 - 0.5 * (0.6 * (1 - reach) + 0.25 * vnoise(ox / 9, py / 9) + 0.15 * n));
+				if (m >= 1) continue;
+				if (m < 0.8) put(px, py - 1, m < 0.55 ? SNOW : SNOW_SOFT);
 				put(px, py, SNOW_SHADE);
-				if (n < st.snow * 0.45 && !bark[(py - 2) * S + px]) put(px, py - 2, SNOW_SOFT);
+				if (m < 0.3 && n < st.snow * 0.45 && !bark[(py - 2) * S + px]) put(px, py - 2, SNOW_SOFT);
 			}
 	}
 
 	if (st.buds > 0) {
-		const rad = st.buds * 1.9;
-		for (const [tx, ty] of TIPS) {
-			const cy = (ty + DROP) * S, cx = (tx + bend(ty)) * S;
-			for (let py = Math.floor(cy - 3); py <= Math.ceil(cy + 3); py++)
-				for (let px = Math.floor(cx - 3); px <= Math.ceil(cx + 3); px++) {
-					const d = Math.hypot(px + 0.5 - cx, py + 0.5 - cy);
-					if (d > rad) continue;
-					put(px, py, BUD[d < rad * 0.45 ? 2 : d < rad * 0.8 ? 1 : 0]);
-				}
-		}
+		TIPS.forEach(([tx, ty], i) => {
+			const g = clamp(st.buds * 1.4 - 0.4 * h2(i, 5));
+			if (g < 0.15) return;
+			const px = Math.floor((tx + bend(ty)) * S), py = Math.floor((ty + DROP) * S);
+			put(px, py, BUD[0]);
+			if (g > 0.5) put(px, py - 1, BUD[g > 0.85 ? 2 : 1]);
+			if (g > 0.85 && h2(i, 6) > 0.5) put(px + (h2(i, 7) > 0.5 ? 1 : -1), py, BUD[1]);
+		});
 	}
 
 	if (st.D > -0.3) {
@@ -267,13 +268,11 @@ function frame(S, tau) {
 		const age = st.p - q.born;
 		if (age <= 0 || age >= q.life || st.p > 0.985) continue;
 		const sec = age * CLIP_SECONDS[st.k];
-		let x = q.x, y = q.y;
-		if (q.kind === "clump") { y += 0.5 * q.g * sec * sec; x += bend(q.y); }
-		else { y += q.vy * sec; x += 0.012 * Math.sin(sec * 4 + q.sway) + (q.kind === "leaf" ? 0.02 * sec : 0); }
+		const y = q.y + q.vy * sec;
+		const x = q.x + 0.012 * Math.sin(sec * 4 + q.sway) + (q.kind === "leaf" ? 0.02 * sec : 0);
 		if (y > GROUND - 0.004) continue;
 		const px = Math.floor(x * S), py = Math.floor((y + DROP) * S);
 		if (q.kind === "flake") put(px, py, FLAKE);
-		else if (q.kind === "clump") { put(px, py, SNOW); put(px + 1, py, SNOW_SOFT); if (q.g > 1.8) put(px, py - 1, SNOW_SOFT); }
 		else if (q.kind === "petal") { put(px, py, q.c); if (Math.sin(sec * 6 + q.sway) > 0) put(px + 1, py, q.c); }
 		else { const flip = Math.sin(sec * 7 + q.sway) > 0; put(px, py, q.c); put(px + (flip ? 1 : -1), py, q.c); put(px, py - (flip ? 1 : 0), q.c); }
 	}
