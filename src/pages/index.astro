@@ -54,7 +54,7 @@ const posts = (await getCollection("posts"))
 		height={photoWidth}
 		alt={`Profile picture of ${name}`}
 		draggable="false"
-		class="w-32 rounded-xl bg-neutral-200 [corner-shape:squircle] select-none sm:w-60 dark:bg-neutral-950 brightness-110"
+		class="w-32 rounded-xl bg-neutral-200 [corner-shape:superellipse(1.5)] select-none sm:w-60 dark:bg-neutral-950 brightness-110"
 	/>
 	<main class="mt-6 mb-10">
 		<h1 class="text-title">{name}</h1>
