@@ -9,9 +9,7 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
   site: "https://nickbreaton.com",
 
-  build: {
-    format: "file",
-  },
+  trailingSlash: "never",
 
   integrations: [mdx()],
 
