@@ -1,5 +1,6 @@
 ---
 import { Font, getImage } from "astro:assets";
+import JsonLd from "../components/JsonLd.astro";
 import mePhoto from "../images/me.jpeg";
 import { name } from "../site";
 import "../styles/global.css";
@@ -53,15 +54,7 @@ const ogImage = await getImage({
 		<meta property="og:image:alt" content={`Profile picture of ${name}`} />
 		<meta name="twitter:card" content="summary" />
 		{Astro.routePattern === "/" && (
-			<script
-				type="application/ld+json"
-				set:html={JSON.stringify({
-					"@context": "https://schema.org",
-					"@type": "WebSite",
-					name,
-					url: Astro.site,
-				}).replace(/</g, "\\u003c")}
-			/>
+			<JsonLd data={{ "@type": "WebSite", name, url: Astro.site }} />
 		)}
 		<Font cssVariable="--font-lexend" preload />
 		<Font cssVariable="--font-ibm-plex-mono" preload />

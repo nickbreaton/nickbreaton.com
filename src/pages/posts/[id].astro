@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import JsonLd from "../../components/JsonLd.astro";
 import Layout from "../../layouts/Layout.astro";
 import { name } from "../../site";
 
@@ -20,10 +21,8 @@ const published = post.data.date.toLocaleDateString("en-US", {
 ---
 
 <Layout title={post.data.title} type="article" publishedTime={post.data.date}>
-	<script
-		type="application/ld+json"
-		set:html={JSON.stringify({
-			"@context": "https://schema.org",
+	<JsonLd
+		data={{
 			"@type": "BlogPosting",
 			headline: post.data.title,
 			datePublished: post.data.date.toISOString(),
@@ -32,7 +31,7 @@ const published = post.data.date.toLocaleDateString("en-US", {
 				name,
 				url: Astro.site,
 			},
-		}).replace(/</g, "\\u003c")}
+		}}
 	/>
 	<article>
 		<h1 class="mb-6 text-title">{post.data.title}</h1>
