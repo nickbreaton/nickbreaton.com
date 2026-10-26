@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import { name } from "../../site";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("posts");
@@ -19,6 +20,20 @@ const published = post.data.date.toLocaleDateString("en-US", {
 ---
 
 <Layout title={post.data.title}>
+	<script
+		type="application/ld+json"
+		set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			headline: post.data.title,
+			datePublished: post.data.date.toISOString(),
+			author: {
+				"@type": "Person",
+				name,
+				url: Astro.site,
+			},
+		}).replace(/</g, "\\u003c")}
+	/>
 	<article>
 		<h1 class="mb-6 text-title">{post.data.title}</h1>
 		<Content />

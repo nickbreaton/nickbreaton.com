@@ -35,6 +35,7 @@ const ogImage = await getImage({
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
 		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={name} />
 		<meta property="og:url" content={url} />
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}
@@ -43,6 +44,17 @@ const ogImage = await getImage({
 		<meta property="og:image:height" content={String(ogImageWidth)} />
 		<meta property="og:image:alt" content={`Profile picture of ${name}`} />
 		<meta name="twitter:card" content="summary" />
+		{Astro.routePattern === "/" && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "WebSite",
+					name,
+					url: Astro.site,
+				}).replace(/</g, "\\u003c")}
+			/>
+		)}
 		<Font cssVariable="--font-lexend" preload />
 		<Font cssVariable="--font-ibm-plex-mono" preload />
 	</head>
