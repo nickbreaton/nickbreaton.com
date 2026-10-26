@@ -1,0 +1,22 @@
+---
+import IconWorldOff from "@tabler/icons/outline/world-off.svg";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Not found">
+	<main class="mt-4 sm:mt-16">
+		<IconWorldOff
+			aria-hidden="true"
+			class="-ml-[5px] size-16 stroke-[1.5] text-neutral-400 dark:text-neutral-600"
+		/>
+		<h1 class="mt-5 text-heading text-pretty">
+			Hmm, this page doesn’t seem to exist.
+		</h1>
+		<a
+			href="/"
+			class="mt-4 inline-block text-sm font-light text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+		>
+			nickbreaton.com
+		</a>
+	</main>
+</Layout>
