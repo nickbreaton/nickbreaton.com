@@ -8,7 +8,7 @@ export default defineConfig({
 		baseURL: `http://localhost:${port}`,
 	},
 	webServer: {
-		command: `npm run build && wrangler dev --port ${port}`,
+		command: `npm run dev -- --port ${port} --ignore-lock`,
 		url: `http://localhost:${port}`,
 	},
 });
