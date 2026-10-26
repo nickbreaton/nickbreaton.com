@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # scratch files
 tmp/
+
+# playwright
+test-results/
+playwright-report/
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
