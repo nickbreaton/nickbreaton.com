@@ -19,7 +19,7 @@ const published = post.data.date.toLocaleDateString("en-US", {
 });
 ---
 
-<Layout title={post.data.title}>
+<Layout title={post.data.title} type="article" publishedTime={post.data.date}>
 	<script
 		type="application/ld+json"
 		set:html={JSON.stringify({

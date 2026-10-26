@@ -7,9 +7,11 @@ import "../styles/global.css";
 interface Props {
 	title: string;
 	description?: string;
+	type?: "website" | "article";
+	publishedTime?: Date;
 }
 
-const { title, description } = Astro.props;
+const { title, description, type = "website", publishedTime } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site);
 
 // Social crawlers can't read data URIs or reliably decode AVIF, so link preview
@@ -34,7 +36,13 @@ const ogImage = await getImage({
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={type} />
+		{publishedTime && (
+			<meta
+				property="article:published_time"
+				content={publishedTime.toISOString()}
+			/>
+		)}
 		<meta property="og:site_name" content={name} />
 		<meta property="og:url" content={url} />
 		<meta property="og:title" content={title} />
