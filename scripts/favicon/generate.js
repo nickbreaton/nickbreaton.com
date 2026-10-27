@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { dev } from "astro";
-import { chromium } from "@playwright/test";
+import { chromium } from "playwright";
 import sharp from "sharp";
 
 const root = fileURLToPath(new URL("../..", import.meta.url));
