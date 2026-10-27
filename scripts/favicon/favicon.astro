@@ -1,0 +1,21 @@
+---
+import { Font } from "astro:assets";
+import IconPrompt from "@tabler/icons/outline/prompt.svg";
+import "../../src/styles/global.css";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="color-scheme" content="light dark" />
+		<Font cssVariable="--font-lexend" preload />
+	</head>
+	<body class="m-0 bg-transparent">
+		<div
+			id="icon"
+			class="flex size-(--size) items-center justify-center rounded-(--radius) [corner-shape:superellipse(1.5)] bg-neutral-300 dark:bg-neutral-600"
+		>
+			<IconPrompt class="size-[85%] [stroke-width:3.5] text-neutral-500 dark:text-white" />
+		</div>
+	</body>
+</html>
