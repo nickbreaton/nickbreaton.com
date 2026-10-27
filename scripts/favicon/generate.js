@@ -46,7 +46,7 @@ try {
 		await page.evaluate((size) => {
 			const icon = document.getElementById("icon");
 			icon.style.setProperty("--size", `${size}px`);
-			icon.style.setProperty("--radius", `${size * 0.25}px`);
+			icon.style.setProperty("--radius", `${size * 0.35}px`);
 			icon.style.setProperty("--font-size", `${size * 0.9}px`);
 			return document.fonts.ready;
 		}, size);
