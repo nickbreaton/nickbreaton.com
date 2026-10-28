@@ -1,5 +1,5 @@
 ---
-import { Font } from "astro:assets";
+import IconLetterN from "@tabler/icons/outline/letter-n.svg";
 import "../../src/styles/global.css";
 ---
 
@@ -7,14 +7,13 @@ import "../../src/styles/global.css";
 	<head>
 		<meta charset="utf-8" />
 		<meta name="color-scheme" content="light dark" />
-		<Font cssVariable="--font-lexend" preload />
 	</head>
 	<body class="m-0 bg-transparent">
 		<div
 			id="icon"
-			class="flex size-(--size) items-center justify-center rounded-(--radius) [corner-shape:superellipse(1.5)] bg-neutral-200 dark:bg-neutral-600"
+			class="flex size-(--size) items-center justify-center rounded-(--radius) [corner-shape:superellipse(1.5)] bg-[oklch(89.5%_0_0)] dark:bg-neutral-600"
 		>
-			<h1 class="font-sans text-(length:--font-size) leading-none font-bold tracking-[-0.1em] text-neutral-500 dark:text-white">//</h1>
+			<IconLetterN aria-hidden="true" class="size-(--icon-size) stroke-[3] text-[oklch(62%_0_0)] dark:text-white" />
 		</div>
 	</body>
 </html>
